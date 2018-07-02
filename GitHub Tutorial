@@ -1,8 +1,8 @@
-##Download GitBash
+## Download GitBash
 
-##Execute GitBash
+## Execute GitBash
 
-##Commands:
+## Commands:
 
 git add .
 git commit -m "Add existing file"
