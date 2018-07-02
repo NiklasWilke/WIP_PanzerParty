@@ -8,5 +8,5 @@
 / = Game Interface
 
 ## Fette Panzer. Fette Party. 
-![alt text](hdwdwttps://image.flaticon.com/icons/svg/790/790526.svg)
+![alt text](https://image.flaticon.com/icons/svg/790/790526.svg)
 
