@@ -12,4 +12,4 @@
 
 
 ## Screenshot 
-![alt text](./screenshot.svg)
+![alt text](./screenshot.png)
