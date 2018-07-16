@@ -8,5 +8,5 @@
 / = Game Interface
 
 ## Fette Panzer. Fette Party. 
-![alt text](https://raw.githubusercontent.com/NiklasWilke/WIP_PanzerParty/master/tank.svg)
+![alt text](https://githubusercontent.com/NiklasWilke/WIP_PanzerParty/master/tank.svg)
 
