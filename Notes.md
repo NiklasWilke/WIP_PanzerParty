@@ -1,5 +1,5 @@
 
-#Powerups
+# Powerups
 ###  + Powerup Collision
 ###  + Powerups verschwinden lassen 
 ###  + Powerup display auf dem Mobile Controller mit Icon
@@ -17,9 +17,9 @@
 ### + (Steuerungsview für bestimmte Powerups (Airstrike etc.)
 ### 
 
-#Map
+# Map
 
-#Mapeditor
+# Mapeditor
 
-#Panzer
+# Panzer
 ### + Panzercollisino (Wall grinding) , Y Bewergung wird nicht blockiert
