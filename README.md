@@ -2,7 +2,7 @@
 
 - erste Demo
 
-/control = Mobile Interface
+/control = Mobile Interface  
 / = Game Interface
 
 ## Fette Panzer. Fette Party. 
