@@ -13,7 +13,6 @@
 ### + Powerup display auf dem Mobile Controller mit Icon
 ####    + Ablauftimer für die Wirkungsdauer des Powerups 
 ### + Rezentrierung des Movement- Joysticks (iOS)
-### +
 ### + (Steuerungsview für bestimmte Powerups (Airstrike etc.)
 ### 
 
