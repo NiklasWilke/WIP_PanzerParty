@@ -1,8 +1,6 @@
 # WIP_PanzerParty
 
 - erste Demo
-- ausschließlich HTML Objekte 
-- Connectivität über localhost:
 
 /control = Mobile Interface
 / = Game Interface
