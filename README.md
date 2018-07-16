@@ -2,8 +2,8 @@
 
 - erste Demo
 
-[ip]:[port] = Mobile Interface (Controls)  
-[ip]:[port]/screen = Game Interface
+&lt;ip&gt;:&lt;port&gt; = Mobile Interface (Controls)  
+&lt;ip&gt;:&lt;port&gt;/screen = Game Interface
 
 ## Fette Panzer. Fette Party. 
 ![alt text](./logo.svg)
