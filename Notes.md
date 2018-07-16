@@ -9,7 +9,7 @@
 ####    + Alle erhalten eigene Symbole
 ####    + 3 "Random" (?) Powerups, seltenere Spawnrate und höherer Impact
 
-#Controller
+# Controller
 ### + Powerup display auf dem Mobile Controller mit Icon
 ####    + Ablauftimer für die Wirkungsdauer des Powerups 
 ### + Rezentrierung des Movement- Joysticks (iOS)
