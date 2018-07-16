@@ -19,7 +19,7 @@
 ### + Skalierung für Beamer prüfen
 ### + different Block types
 ### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ destroyable Blocks | Accelerating Bullet Bouncer | Portale
-### + Kleinere Tiles zum Duschießen aber nicht durchfahren
+### + Kleinere Tiles zum Durchschießen aber nicht durchfahren (Wall gaps)
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Accelerating Bullet Bouncer
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Portale
 
