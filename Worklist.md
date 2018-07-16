@@ -16,9 +16,21 @@
 ### + (Steuerungsview für bestimmte Powerups (Airstrike etc.)
 ### + nach erstem Hit => Red Warning Light
 # Map
+### + Skalierung für Beamer prüfen
+### + different Block types
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ destroyable Blocks | Accelerating Bullet Bouncer | Portale
+### + Kleinere Tiles zum Duschießen aber nicht durchfahren
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Accelerating Bullet Bouncer
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Portale
 
 # Mapeditor
+### + .json File exporter (download)
+
 
 # Panzer
 ### + Panzercollision (Wall grinding) , Y Bewergung wird nicht blockiert
+### + Modifizierung durch Powerups (Override)
+# Server
 
+# Programm
+### + Performance Tests bei fortschreitenden Features und Rendern
