@@ -28,6 +28,24 @@
 ### Duration: 0s
 ### Charges: 3
 
+# Bouncy Bullets
+### Lässt Kugeln 5-Mal abprallen
+### Typ: Bullettype
+### Duration: 0s
+### Charges: 10
+
+# Ghost Bullets
+### Kugeln ignorieren Obstacles
+### Typ: Bulletype
+### Duration: 0s
+### Charges: 5
+
+# Repair Kit
+### Stellt die volle Lebensanzahl des Panzers wieder her
+### Typ: Tank-Enhancement
+### Duration: 0s
+### Charges: 1
+
 # Shield
 ### (Front)-Schild , welches bis zu 3 Hits abblockt
 ### Typ: Tank-Enhancement
