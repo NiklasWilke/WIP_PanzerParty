@@ -1,3 +1,4 @@
+// rounded rectangles
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius, fill, stroke)
 {
 	if (typeof stroke == 'undefined')
@@ -32,6 +33,7 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
 	ctx.quadraticCurveTo(x, y, x + radius.tl, y);
 }
 
+
 function toDegrees(angle)
 {
 	return angle * (180 / Math.PI);
@@ -41,6 +43,8 @@ function toRadians(angle)
 	return angle * (Math.PI / 180);
 }
 
+
+// generates random color
 function getRandomColor()
 {
 	return {
@@ -50,21 +54,28 @@ function getRandomColor()
 	};
 }
 
+
 var socket = io();
 
+//canvas 
 var canvas,
 	ctx,
 	lvl_canvas,
 	lvl_ctx,
 	f;
+
+// map objects
 var tanks = [],
 	bullets = [],
 	powerups = [],
 	level = [[]];
 
+
+// map calor
 var color = getRandomColor();
 
 console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
+
 
 function ini()
 {
@@ -82,6 +93,7 @@ function ini()
 
 document.addEventListener("DOMContentLoaded", ini, false);
 
+// responsive canvas
 function updateSize()
 {
 	f = window.innerHeight / 100;
@@ -112,6 +124,7 @@ window.requestAnimFrame = (function()
 			};
 })();
 
+// update
 socket.on("update", function(data)
 {
 	tanks = data.tanks;
@@ -119,6 +132,8 @@ socket.on("update", function(data)
 	powerups = data.powerups;
 });
 
+
+// render map
 socket.on("renderMap", function(map)
 {
 	console.log("render map > ", map);
@@ -140,7 +155,7 @@ socket.on("shotFired", function(msg)
 });
 
 
-
+// kill feed
 socket.on("kill", function(killer, victim)
 {
 	console.log(killer, " > ", victim);
@@ -158,13 +173,13 @@ socket.on("kill", function(killer, victim)
 		{
 			kill_log.removeChild(elem);
 		}, 400);
-	}, 2000);
+	}, 3500);
 });
 
-
-var w, h;
 function drawLevel(level)
 {
+	var w = h = (100/level.length)*f;
+
 	clear(lvl_canvas);
 	for (var y=0; y<level.length; y++)
 	{
@@ -173,8 +188,7 @@ function drawLevel(level)
 			var tile = level[y][x];
 			//var color = getRandomColor();
 			
-			w = (100/level.length)*f;
-			h = (100/level[y].length)*f;
+			
 			
 			// walls
 			if (tile == 1)
@@ -217,6 +231,8 @@ function drawLevel(level)
 	}
 }
 
+
+// draws tank
 function drawTank(tank)
 {
 	if (tank.health > 0)
