@@ -171,7 +171,7 @@ function drawLevel(level)
 		for (var x=0; x<level[y].length; x++)
 		{
 			var tile = level[y][x];
-			var color = getRandomColor();
+			//var color = getRandomColor();
 			
 			w = (100/level.length)*f;
 			h = (100/level[y].length)*f;

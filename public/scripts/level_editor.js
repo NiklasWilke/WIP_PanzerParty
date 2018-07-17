@@ -72,7 +72,9 @@ function ini()
 	editor.style.color = "hsl("+color.h+", "+color.s+"%, "+color.l+"%)";
 	editor.addEventListener("mousedown", function(e)
 	{
+		e.preventDefault();
 		draw = true;
+		return false;
 	});
 	editor.addEventListener("mouseup", function(e)
 	{
