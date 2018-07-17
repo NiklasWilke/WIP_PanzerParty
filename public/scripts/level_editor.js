@@ -90,7 +90,8 @@ function ini()
 	{
 		console.log("save");
 		
-		exportMap();
+		var json = exportMap();
+		prompt("JSON", json);
 	});
 }
 

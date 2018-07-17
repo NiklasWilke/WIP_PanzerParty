@@ -41,6 +41,15 @@ function toRadians(angle)
 	return angle * (Math.PI / 180);
 }
 
+function getRandomColor()
+{
+	return {
+		h: Math.round(Math.random() * 360),
+		s: Math.round(Math.random() * 10 + 25),
+		l: Math.round(Math.random() * 10 + 55)
+	};
+}
+
 var socket = io();
 
 var canvas,
@@ -53,11 +62,7 @@ var tanks = [],
 	powerups = [],
 	level = [[]];
 
-var color = {
-	h: Math.round(Math.random() * 360),
-	s: Math.round(Math.random() * 10 + 25),
-	l: Math.round(Math.random() * 10 + 55)
-};
+var color = getRandomColor();
 
 console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
 
@@ -166,6 +171,7 @@ function drawLevel(level)
 		for (var x=0; x<level[y].length; x++)
 		{
 			var tile = level[y][x];
+			var color = getRandomColor();
 			
 			w = (100/level.length)*f;
 			h = (100/level[y].length)*f;
