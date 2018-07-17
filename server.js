@@ -5,7 +5,6 @@ String.prototype.trim = function()
 
 const crypto = require("crypto");
 const express = require("express");
-const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const mustacheExpress = require("mustache-express");
 const qr = require("qr-image");  
