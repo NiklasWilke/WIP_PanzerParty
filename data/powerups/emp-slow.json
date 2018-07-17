@@ -5,12 +5,10 @@
 	"duration": 3000,
 	"effect": {
 		"self": {
-		
+			"movement_speed": "2"
 		},
 		"other": {
-			"tank": {
-				"speed": "0.3"
-			}
+			"movement_speed": "0.3"
 		}
 	}
 }
