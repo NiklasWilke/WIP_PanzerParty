@@ -1,2 +1,4 @@
 node_modules
 start.bat
+cmd.bat
+package-lock.json
