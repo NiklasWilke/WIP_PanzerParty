@@ -25,7 +25,7 @@ const game = new GameEngine(io);
 // setup express with mustache view engine
 app.engine("html", mustacheExpress());
 app.set("view engine", "mustache");
-app.set("views", __dirname + "\\views");
+app.set("views", __dirname + "\\public\\views");
 app.use("/", express.static(__dirname + "\\public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
