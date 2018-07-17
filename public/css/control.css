@@ -1,0 +1,141 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+ 
+*::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+ 
+*::-webkit-scrollbar-thumb {
+    background: #d0d0d0;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+body {
+	margin: 0;
+	font-family: "Open Sans", sans-serif;
+	color: #222;
+	font-size: 1.3vw;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+
+
+.clear::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+
+.message {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	color: rgba(255, 0, 0, 0.8);
+	font-size: 7vh;
+	line-height: 1em;
+	font-weight: bold;
+}
+.message span {
+	position: fixed;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	margin-top: -0.5em;
+	text-align: center;
+}
+
+
+#name {
+	position: absolute;
+	top: 4vh;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	color: #fff;
+	font-size: 4vh;
+}
+
+#fire {
+	position: fixed;
+	bottom: 10vh;
+	left: 10vh;
+	width: 40vh;
+	height: 40vh;
+	background: hsl(7, 50%, 50%);
+	border-radius: 50%;
+}
+#fire:active::before {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 50%;
+}
+#fire::after {
+	content: "Fire!";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	font-size: 4vh;
+	line-height: 1em;
+	margin-top: -0.5em;
+	text-align: center;
+	color: #fff;
+}
+
+#joystick {
+	position: fixed;
+	bottom: 10vh;
+	right: 10vh;
+	width: 60vh;
+	height: 60vh;
+	background: #555;
+	border-radius: 50%;
+	box-shadow: inset 0 0 5vh rgba(0, 0, 0, 0.1);
+}
+#joystick .button {
+	position: absolute;
+	top: 20vh;
+	left: 20vh;
+	width: 20vh;
+	height: 20vh;
+	background: #666;
+	border-radius: 50%;
+	box-shadow: 0 0 5vh rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (orientation: portrait) {
+	body::after {
+		content: "";
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		background-image: url("/icons/rotate_phone.svg");
+		background-size: 40% auto;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+}

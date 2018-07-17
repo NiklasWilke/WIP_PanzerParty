@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>Tank Combat</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600" rel="stylesheet">
+		<link rel="stylesheet" href="/css/screen.css">
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/scripts/jquery.js"></script>
+		<script src="/scripts/screen.js"></script>
+	</head>
+	<body>
+		<div class="sidebar left valign">
+			<img id="title" src="panzer_party.svg">
+			<img id="logo" src="tank.svg">
+			<div id="ip">
+				<img class="qr" src="/qr">
+				<div class="info">{{ip}}:{{port}}</div>
+			</div>
+		</div>
+		<div id="battleground">
+			<canvas id="level"></canvas>
+			<canvas id="objects"></canvas>
+		</div>
+		<div class="sidebar right">
+			<ul id="kill_log"></ul>
+		</div>
+	</body>
+</html>

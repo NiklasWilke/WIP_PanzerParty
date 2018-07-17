@@ -1,0 +1,44 @@
+{
+	"name": "panzer_party",
+	"version": "1.0.0",
+	"description": "Fette Panzer. Fette Party.",
+	"main": "server.js",
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"crypto": "^1.0.1",
+		"eventemitter2": "^5.0.1",
+		"express": "^4.16.3",
+		"ip": "^1.1.5",
+		"mustache-express": "^1.2.7",
+		"npm": "^6.1.0",
+		"qr-image": "^3.2.0",
+		"socket.io": "^2.1.1"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/NiklasWilke/WIP_PanzerParty.git"
+	},
+	"keywords": [
+		"tank"
+	],
+	"contributors": [
+		{
+			"name": "Max Meuten",
+			"email": "max.meuten@gmail.com"
+		},
+		{
+			"name": "Niklas Wilke",
+			"email": "wilke-n@gmx.de"
+		}
+	]
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/NiklasWilke/WIP_PanzerParty/issues"
+	},
+	"homepage": "https://github.com/NiklasWilke/WIP_PanzerParty#readme"
+}
