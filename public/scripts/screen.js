@@ -68,7 +68,8 @@ var canvas,
 var tanks = [],
 	bullets = [],
 	powerups = [],
-	level = [[]];
+	level = [[]],
+	beacons = [];
 
 
 // map calor
@@ -147,9 +148,25 @@ socket.on("renderMap", function(map)
 });
 
 
+// powerup activated
+socket.on("powerupActivated", function(tank, powerup)
+{
+	if (powerup.type == "emp")
+	{
+		beacons.push({
+			x: tank.x,
+			y: tank.y,
+			r: 0,
+			max_r: 150,
+			step: 4,
+			color: powerup.color
+		});
+	}
+});
+
 
 // sounds
-socket.on("shotFired", function(msg)
+socket.on("shotFired", function()
 {
 	new Audio("/sounds/shoot.mp3").play();
 });
@@ -402,6 +419,20 @@ function drawPowerup(powerup)
 	ctx.closePath();
 }
 
+function drawBeacon(beacon)
+{
+	console.log("rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", 0.2)");
+	
+	ctx.beginPath();
+	ctx.arc(beacon.x*f, beacon.y*f, beacon.r*f, 0, 2*Math.PI);
+	ctx.lineWidth = 2;
+	ctx.strokeStyle = "rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", 1)";
+	ctx.stroke();
+	ctx.fillStyle = "rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", 0.2)";
+	ctx.fill();
+	ctx.closePath();
+}
+
 function render()
 {
 	for (var p in powerups)
@@ -417,6 +448,22 @@ function render()
 	for (var b in bullets)
 	{
 		drawBullet(bullets[b]);
+	}
+	
+	for (var b in beacons)
+	{
+		if (beacons[b].r < beacons[b].max_r)
+		{
+			beacons[b].r += beacons[b].step;
+		}
+		else
+		{
+			beacons.splice(b, 1);
+		}
+	}
+	for (var b in beacons)
+	{
+		drawBeacon(beacons[b]);
 	}
 }
 

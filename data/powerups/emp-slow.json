@@ -1,11 +1,12 @@
 {
 	"name": "Slow EMP",
+	"drop_rate": 1,
 	"type": "emp",
-	"color": "rgb(204, 72, 65)",
+	"color": {"r": 204, "g": 72, "b": 65},
 	"duration": 3000,
 	"effect": {
 		"self": {
-			"movement_speed": "2"
+			"movement_speed": "1.3"
 		},
 		"other": {
 			"movement_speed": "0.3"
