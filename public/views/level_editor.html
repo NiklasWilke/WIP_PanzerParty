@@ -15,10 +15,15 @@
 		</div>
 		<div id="editor"></div>
 		<div class="sidebar right">
-			<div id="size">
-				<input type="text" id="width" value="25"> <span>x</span> <input type="text" id="height" value="25"> <button id="clear">&#8634;</button>
+			<div>
+				size: <input type="text" id="size" value="50"> <button id="clear">clear</button>
 			</div>
 			<div><button id="save">Speichern</button></div>
+			<div id="levels">
+				{{#levels}}
+					<div class="level" data-id="{{id}}" data-file="{{file}}" onclick="loadLevel('{{id}}')">{{name}}</div>
+				{{/levels}}
+			</div>
 		</div>
 	</body>
 </html>

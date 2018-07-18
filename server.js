@@ -57,8 +57,16 @@ app.get("/", function(req, res)
 // render editor view
 app.get("/editor", function(req, res)
 {
-	var data = {ip: ip.address(), port: port};
+	var data = {ip: ip.address(), port: port, levels: game.getLevels()};
 	res.render("level_editor.html", data);
+});
+
+io.on("connection", function(socket)
+{
+	socket.on("getLevel", function(id, callback)
+	{
+		callback(game.getLevel(id));
+	});
 });
 
 

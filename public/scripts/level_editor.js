@@ -3,7 +3,7 @@ var socket = io();
 
 var editor,
 	save_button,
-	w, h;
+	s;
 var tiles = [];
 
 var color = {
@@ -16,30 +16,44 @@ var draw = false;
 
 console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
 
-function drawEditor()
+function drawEditor(level)
 {
-	w = parseInt(document.getElementById("width").value);
-	h = parseInt(document.getElementById("height").value);
+	s = level ? level.size : parseInt(document.getElementById("size").value);
 	
 	editor.innerHTML = "";
 	
 	var elem;
-	for (var x=0; x<w; x++)
+	for (var y=0; y<s; y++)
 	{
-		for (var y=0; y<h; y++)
+		for (var x=0; x<s; x++)
 		{
 			elem = document.createElement("div");
 			elem.className = "wall";
 			elem.addEventListener("mousedown", function(e)
 			{
-				e.preventDefault();
-				if (!this.hasAttribute("block"))
+				if (e.which == 1)
 				{
-					this.setAttribute("block", e.which == 1 ? 1 : 2);
+					e.preventDefault();
+					if (this.getAttribute("block") != 1)
+					{
+						this.setAttribute("block", 1);
+					}
+					else
+					{
+						this.setAttribute("block", 0);
+					}
+				}
+			});
+			elem.addEventListener("contextmenu", function(e)
+			{
+				e.preventDefault();
+				if (this.getAttribute("block") != 2)
+				{
+					this.setAttribute("block", 2);
 				}
 				else
 				{
-					this.removeAttribute("block");
+					this.setAttribute("block", 0);
 				}
 			});
 			elem.addEventListener("mouseenter", function(e)
@@ -47,21 +61,31 @@ function drawEditor()
 				e.preventDefault();
 				if (!draw) return false;
 				
-				if (!this.hasAttribute("block"))
+				if (this.getAttribute("block") == 0)
 				{
 					this.setAttribute("block", e.which == 1 ? 1 : 2);
 				}
 				else
 				{
-					this.removeAttribute("block");
+					this.setAttribute("block", 0);
 				}
 			});
-			elem.style.width = (100/w)+"vh";
-			elem.style.height = (100/h)+"vh";
-			if (x == 0 || x == w-1 || y == 0 || y == h-1) elem.setAttribute("block", 1);
+			elem.style.width = (100/s)+"vh";
+			elem.style.height = (100/s)+"vh";
+			elem.setAttribute("block", level ? level.tiles[y][x] : ((x == 0 || x == s-1 || y == 0 || y == s-1) ? 1 : 0));
 			editor.appendChild(elem);
 		}
 	}
+}
+
+function loadLevel(id)
+{
+	var tiles = document.querySelectorAll("#editor .wall");
+	socket.emit("getLevel", id, function(level)
+	{
+		console.log("load level > ", level);
+		drawEditor(level);
+	});
 }
 
 function ini()
@@ -102,12 +126,12 @@ function exportMap()
 	var result = [];
 	var tiles = document.querySelectorAll("#editor .wall");
 	
-	for (var y=0; y<h; y++)
+	for (var y=0; y<s; y++)
 	{
 		var row = [];
-		for (var x=0; x<w; x++)
+		for (var x=0; x<s; x++)
 		{
-			row.push(tiles[y*w + x].hasAttribute("block") ? parseInt(tiles[y*w + x].getAttribute("block")) : 0);
+			row.push(tiles[y*s + x].hasAttribute("block") ? parseInt(tiles[y*s + x].getAttribute("block")) : 0);
 		}
 		result.push(row);
 	}

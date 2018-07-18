@@ -74,10 +74,11 @@ body {
 	float: left;
 	border: 1px solid rgba(10, 10, 10, 0.1);
 }
-#editor .wall[block] {
+#editor .wall[block="1"] {
 	background: currentColor;
 }
 #editor .wall[block="2"] {
+	background: currentColor;
 	filter: hue-rotate(180deg);
 }
 #editor::before {
