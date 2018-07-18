@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function()
 	var joystick = document.getElementById("joystick");
 	var joystick_button = document.querySelector("#joystick .button");
 	var fire_button = document.getElementById("fire");
+	var powerup_button = document.getElementById("powerup");
 	
 	
 	var name = generateName();
@@ -43,11 +44,13 @@ document.addEventListener("DOMContentLoaded", function()
 	socket.emit("register", name, function(tank)
 	{
 		document.body.className = "ready";
-		document.body.style.background = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
-		joystick.style.background = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
-		joystick_button.style.background = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
+		document.body.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
+		joystick.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
+		joystick_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
 		
-		fire_button.style.background = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+		fire_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+		
+		powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
 	});
 	
 	var engine_sound = new Audio("/sounds/drive.mp3");

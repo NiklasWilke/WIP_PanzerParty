@@ -74,34 +74,47 @@ body {
 	font-size: 4vh;
 }
 
+
 #fire {
 	position: fixed;
-	bottom: 10vh;
+	bottom: 8vh;
 	left: 10vh;
 	width: 40vh;
 	height: 40vh;
 	background: hsl(7, 50%, 50%);
+	background-image: url("/icons/missile.svg");
+	background-size: 42%;
+	background-repeat: no-repeat;
+     background-position: 50% 49%;
 	border-radius: 50%;
+	transform: rotateZ(24deg);
 }
-#fire:active::before {
+#fire:active::after, #powerup:active::after {
+	content: "";
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
 }
-#fire::after {
-	content: "Fire!";
-	position: absolute;
-	top: 50%;
-	left: 0;
-	width: 100%;
-	font-size: 4vh;
-	line-height: 1em;
-	margin-top: -0.5em;
-	text-align: center;
-	color: #fff;
+
+
+
+#powerup {
+	position: fixed;
+	top: 8vh;
+	left: 10vh;
+	width: 25vh;
+	height: 25vh;
+	background: hsl(7, 50%, 50%);
+	background-image: url("/icons/powerup.svg");
+	background-size: 30%;
+	background-repeat: no-repeat;
+	background-position: center;
+	border-radius: 50%;
 }
+
+
 
 #joystick {
 	position: fixed;
