@@ -153,12 +153,13 @@ socket.on("powerupActivated", function(tank, powerup)
 {
 	if (powerup.type == "emp")
 	{
+		var max_r = Math.sqrt(Math.pow((tank.x > 50 ? tank.x : 100-tank.x), 2) + Math.pow((tank.y > 50 ? tank.y : 100-tank.y), 2));
 		beacons.push({
 			x: tank.x,
 			y: tank.y,
 			r: 0,
-			max_r: 150,
-			step: 4,
+			max_r: max_r * 1.2,
+			step: max_r / (60*0.8),
 			color: powerup.color
 		});
 	}
@@ -421,14 +422,10 @@ function drawPowerup(powerup)
 
 function drawBeacon(beacon)
 {
-	console.log("rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", 0.2)");
-	
 	ctx.beginPath();
 	ctx.arc(beacon.x*f, beacon.y*f, beacon.r*f, 0, 2*Math.PI);
 	ctx.lineWidth = 2;
-	ctx.strokeStyle = "rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", 1)";
-	ctx.stroke();
-	ctx.fillStyle = "rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", 0.2)";
+	ctx.fillStyle = "rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", "+(0.4*Math.min(1, (beacon.max_r - beacon.r) / beacon.max_r * 2))+")";
 	ctx.fill();
 	ctx.closePath();
 }
