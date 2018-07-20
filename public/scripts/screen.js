@@ -181,7 +181,7 @@ socket.on("kill", function(killer, victim)
 	var kill_log = document.getElementById("kill_log");
 	
 	var elem = document.createElement("li");
-	elem.innerHTML = "<span>"+killer.name+"</span><img src='/icons/killed.svg'><span>"+victim.name+"</span>";
+	elem.innerHTML = "<span style='color:hsl("+killer.color.h+", "+killer.color.s+"%, "+killer.color.l+"%)'>"+killer.name+"</span><img src='/icons/killed.svg'><span style='color:hsl("+victim.color.h+", "+victim.color.s+"%, "+victim.color.l+"%)'>"+victim.name+"</span>";
 	kill_log.prepend(elem);
 	
 	window.setTimeout(function()

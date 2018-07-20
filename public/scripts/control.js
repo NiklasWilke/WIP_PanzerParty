@@ -36,12 +36,13 @@ document.addEventListener("DOMContentLoaded", function()
 	var joystick_button = document.querySelector("#joystick .button");
 	var fire_button = document.getElementById("fire");
 	var powerup_button = document.getElementById("powerup");
+	var respawn_button = document.getElementById("respawn");
 	
 	
 	var name = generateName();
 	document.getElementById("name").innerHTML = name;
 	
-	socket.emit("register", name, function(tank)
+	socket.emit("join", name, function(tank)
 	{
 		document.body.className = "ready";
 		document.body.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
@@ -53,10 +54,10 @@ document.addEventListener("DOMContentLoaded", function()
 		powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
 	});
 	
-	var engine_sound = new Audio("/sounds/drive.mp3");
-	engine_sound.loop = true;
-	engine_sound.volume = 0;
-	engine_sound.play();
+	// var engine_sound = new Audio("/sounds/drive.mp3");
+	// engine_sound.loop = true;
+	// engine_sound.volume = 0;
+	// engine_sound.play();
 	
 	var joystickMovement = function(e)
 	{
@@ -73,7 +74,9 @@ document.addEventListener("DOMContentLoaded", function()
 		
 		socket.emit("move", angle, speed);
 		
-		engine_sound.volume = speed;
+		console.log("move", angle, speed);
+		
+		//engine_sound.volume = speed;
 		
 		return false;
 	}
@@ -85,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function()
 		joystick_button.style.top = "20vh";
 		joystick_button.style.left = "20vh";
 		
-		engine_sound.volume = 0;
+		//engine_sound.volume = 0;
 		
 		socket.emit("move", null, null);
 	});
@@ -97,19 +100,27 @@ document.addEventListener("DOMContentLoaded", function()
 	});
 	
 	
+	respawn_button.addEventListener("touchstart", function(e)
+	{
+		var elem = document.getElementById("dead");
+		elem.className = "";
+		socket.emit("respawn");
+	});
+	
+	
 	
 	socket.on("hit", function(msg)
 	{
 		navigator.vibrate([50]);
 	});
 	
-	socket.on("death", function(msg)
+	socket.on("death", function(killer)
 	{
-		var elem = document.createElement("div");
-		elem.innerHTML = "<span>"+msg+"</span>";
-		elem.className = "message death";
-		document.body.appendChild(elem);
+		var msg = killer ? killer.player.name+" hat dich zerstört!" : "Du hast dich selber zerstört";
 		
+		var elem = document.getElementById("dead");
+		elem.getElementsByClassName("message")[0].innerHTML = msg;
+		elem.className = "visible";
 		navigator.vibrate([600]);
 	});
 }, false);
