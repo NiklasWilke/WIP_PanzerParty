@@ -133,6 +133,23 @@ socket.on("update", function(data)
 	powerups = data.powerups;
 });
 
+// update
+socket.on("updateScoreboard", function(players)
+{
+	console.log("updateScoreboard > ", players);
+	
+	var scoreboard = document.querySelector("#scoreboard tbody");
+	scoreboard.innerHTML = "";
+	
+	for (var p in players)
+	{
+		var player = players[p];
+		var tr = document.createElement("tr");
+		tr.innerHTML = "<td style='color:hsl("+player.color.h+", "+player.color.s+"%, "+player.color.l+"%)'>"+player.name+"</td><td>"+player.kills+"</td><td>"+player.deaths+"</td>";
+		scoreboard.appendChild(tr);
+	}
+});
+
 
 // render map
 socket.on("renderMap", function(map)

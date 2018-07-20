@@ -8,6 +8,10 @@
 	clear: both;
 }
 
+.spacer {
+	flex-grow: 1;
+}
+
 .valign {
 	display: flex;
 	flex-direction: column;
@@ -78,10 +82,16 @@ body {
 	width: 100%;
 }
 
+.sidebar.right {
+	display: flex;
+	flex-direction: column;
+	padding: 2vw;
+}
+
 #kill_log {
+	flex-grow: 0;
 	list-style: none;
 	margin: 0;
-	padding: 2vw;
 }
 #kill_log li {
 	transition: opacity 0.4s;
@@ -93,4 +103,15 @@ body {
 	margin: 0 0.6vw;
 	height: 1.4em;
 	vertical-align: -0.45em;
+}
+
+
+#scoreboard {
+	flex-grow: 0;
+	width: 100%;
+	min-height: 50vh;
+}
+#scoreboard td, #scoreboard th {
+	text-align: left;
+	padding-right: 1vw;
 }
