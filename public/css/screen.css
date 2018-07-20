@@ -111,6 +111,9 @@ body {
 	width: 100%;
 	min-height: 50vh;
 }
+#scoreboard h2 {
+	margin: 0 0 0.5vw;
+}
 #scoreboard td, #scoreboard th {
 	text-align: left;
 	padding-right: 1vw;

@@ -145,7 +145,8 @@ socket.on("updateScoreboard", function(players)
 	{
 		var player = players[p];
 		var tr = document.createElement("tr");
-		tr.innerHTML = "<td style='color:hsl("+player.color.h+", "+player.color.s+"%, "+player.color.l+"%)'>"+player.name+"</td><td>"+player.kills+"</td><td>"+player.deaths+"</td>";
+		var kd = (Math.floor(player.kd))+"."+((Math.round((player.kd % 1) * 100) / 100)+"0000").slice(2, 4);
+		tr.innerHTML = "<td style='color:hsl("+player.color.h+", "+player.color.s+"%, "+player.color.l+"%)'>"+player.name+"</td><td>"+player.kills+"</td><td>"+player.deaths+"</td><td>"+kd+"</td>";
 		scoreboard.appendChild(tr);
 	}
 });
