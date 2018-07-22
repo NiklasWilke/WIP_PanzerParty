@@ -116,7 +116,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 			
 			this.beginPath();
 			this.rect(x*w, y*h, w, h);
-			this.fillStyle = "hsla("+((color.h + 360 * ((s+1) / shapes.length)) % 360)+", "+color.s+"%, "+color.l+"%, 0.2)";
+			this.fillStyle = "hsla("+((color.h + 360 * ((s+1) / shapes.length)) % 360)+", "+color.s+"%, "+color.l+"%, 0.8)";
 			this.fill();
 			//this.strokeStyle = "hsl("+((color.h + 360 * ((s+1) / shapes.length)) % 360)+", "+color.s+"%, "+(color.l*0.9)+"%)";
 			//this.lineWidth = 2;
@@ -372,7 +372,7 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	this.fillStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(powerup_color.l)+"%)";
 	this.fill();
 	this.lineWidth = 2;
-	this.strokeStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(100-(100-powerup_color.l)*0.6)+"%)";
+	this.strokeStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(powerup_color.l*0.9)+"%)";
 	this.stroke();
 	this.closePath();
 	
