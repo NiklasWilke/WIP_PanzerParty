@@ -1,7 +1,3 @@
-*, *::before, *::after {
-	box-sizing: border-box;
-}
-
 .clear::after {
 	content: "";
 	display: block;
@@ -24,13 +20,10 @@
 
 
 html {
-	font-size: 1vw;
+	font-size: 1.25vw;
 }
 body {
 	display: flex;
-	margin: 0;
-	font-family: "Source Code Pro";
-	color: #222;
 }
 
 
@@ -61,7 +54,7 @@ body {
 #logo {
     position: absolute;
 	bottom: 0;
-	left: 20%;
+	left: 12%;
 	width: 60%;
 }
 
@@ -92,6 +85,9 @@ body {
 	flex-grow: 0;
 	list-style: none;
 	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	height: 30%;
 }
 #kill_log li {
 	transition: opacity 0.4s;
@@ -100,9 +96,14 @@ body {
 	opacity: 0;
 }
 #kill_log li img {
-	margin: 0 0.6vw;
-	height: 1.4em;
-	vertical-align: -0.45em;
+	margin: 0 0.75vw 0 0.9vw;
+	height: 1.2em;
+	vertical-align: -0.36em;
+}
+#kill_log li.suicide img {
+	margin: 0 0 0 0.65vw;
+	height: 0.8em;
+	vertical-align: -0.1em;
 }
 
 
@@ -112,9 +113,124 @@ body {
 	min-height: 50vh;
 }
 #scoreboard h2 {
-	margin: 0 0 0.5vw;
+	margin: 0;
+	padding-left: 0.3vw;
+	background-image: url(/graphics/line.svg);
+	background-size: 100% 15%;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+#scoreboard table {
+	border-spacing: 0;
+	width: 100%;
+	margin-top: -1.5em;
+}
+#scoreboard tr th {
+	padding-bottom: 0.5em;
+}
+#scoreboard tr td:not(:first-child), #scoreboard tr th:not(:first-child) {
+	width: 1px
 }
 #scoreboard td, #scoreboard th {
 	text-align: left;
 	padding-right: 1vw;
+}
+#scoreboard tr td:last-child, #scoreboard tr th:last-child {
+	padding-right: 0.5vw;
+}
+#scoreboard tr td:first-child, #scoreboard tr th:first-child {
+	padding-left: 0.4vw;
+}
+
+
+#select_level {
+	position: fixed;
+	width: 80vh;
+	top: 50%;
+	left: 50%;
+	margin: 0 -40vh;
+	transform: translateY(-50%);
+}
+#select_level .title {
+	text-align: center;
+}
+#select_level .title h2 {
+	display: inline-block;
+	margin: 0 0 1em;
+	font-size: 2rem;
+	line-height: 0.9em;
+	
+	background-image: url(/graphics/line.svg);
+	background-size: 100% 15%;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+#select_level #levels {
+	
+}
+#levels .level {
+	position: relative;
+	float: left;
+	width: 31%;
+}
+#levels .level:nth-child(3n+2) {
+	margin: 0 3.5%;
+}
+#levels .level .map {
+	position: relative;
+	width: 100%;
+	border: 0.6vh solid transparent;
+	cursor: pointer;
+}
+#levels .level .map:hover {
+    animation: border_animation 5s;
+    -moz-animation: border_animation 5s infinite; /* Firefox */
+    -webkit-animation: border_animation 5s infinite; /* Safari and Chrome */
+}
+#levels .level .map:hover + .name {
+    animation: text_animation 5s;
+    -moz-animation: text_animation 5s infinite; /* Firefox */
+    -webkit-animation: text_animation 5s infinite; /* Safari and Chrome */
+}
+#levels .level .map canvas {
+	display: block;
+	width: 100%;
+}
+#levels .level .name {
+	margin: 0.2em 0 0.9em;
+	text-align: center;
+}
+
+
+@-moz-keyframes border_animation /* Firefox */ {
+    0% {border-color:#06ab86;}
+    25% {border-color:#f46cdb;}
+    50% {border-color:#00bee1;}
+    75% {border-color:#ff9e4c;}
+    100% {border-color:#06ab86;}
+}
+
+@-webkit-keyframes border_animation /* Safari and Chrome */ {
+    0% {border-color:#06ab86;}
+    25% {border-color:#f46cdb;}
+    50% {border-color:#00bee1;}
+    75% {border-color:#ff9e4c;}
+    100% {border-color:#06ab86;}
+}
+
+
+@-moz-keyframes text_animation /* Firefox */ {
+    0% {color:#06ab86;}
+    25% {color:#f46cdb;}
+    50% {color:#00bee1;}
+    75% {color:#ff9e4c;}
+    100% {color:#06ab86;}
+}
+
+@-webkit-keyframes text_animation /* Safari and Chrome */ {
+    0% {color:#06ab86;}
+    25% {color:#f46cdb;}
+    50% {color:#00bee1;}
+    75% {color:#ff9e4c;}
+    100% {color:#06ab86;}
 }

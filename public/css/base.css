@@ -1,0 +1,42 @@
+@font-face {
+	font-family: "Gaegu";
+	font-style: normal;
+	font-weight: normal;
+	src: url("/fonts/Gaegu_uml-Regular.ttf");
+}
+/* @font-face { */
+	/* font-family: "Gaegu"; */
+	/* font-style: normal; */
+	/* font-weight: lighter; */
+	/* src: url("/fonts/Gaegu-Light.ttf"); */
+/* } */
+@font-face {
+	font-family: "Gaegu";
+	font-style: normal;
+	font-weight: bold;
+	src: url("/fonts/Gaegu_uml-Bold.ttf");
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 1.3vw;
+}
+body {
+	margin: 0;
+	font-family: "Gaegu";
+	color: #222;
+}
+
+
+.clear::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.hidden {
+	display: none;
+}

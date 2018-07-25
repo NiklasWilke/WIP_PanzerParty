@@ -1,0 +1,21 @@
+h1 {
+	width: 80%;
+	margin: 10% auto 1em;
+	font-size: 2rem;
+}
+.inner {
+	width: 80%;
+	margin: 0 auto 10%;
+}
+table tr td:first-child
+{
+	padding-right: 0.4vw;
+}
+
+h3 {
+	font-size: 1rem;
+	margin: 2.5em auto 0.75em;
+}
+h3:first-child {
+	margin-top: 0px;
+}

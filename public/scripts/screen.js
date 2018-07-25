@@ -100,9 +100,56 @@ socket.on("updateScoreboard", function(players)
 	{
 		var player = players[p];
 		var tr = document.createElement("tr");
+		tr.style.color = "hsl("+player.color.h+", "+player.color.s+"%, "+player.color.l+"%)";
 		var kd = (Math.floor(player.kd))+"."+((Math.round((player.kd % 1) * 100) / 100)+"0000").slice(2, 4);
-		tr.innerHTML = "<td style='color:hsl("+player.color.h+", "+player.color.s+"%, "+player.color.l+"%)'>"+player.name+"</td><td>"+player.kills+"</td><td>"+player.deaths+"</td><td>"+kd+"</td>";
+		tr.innerHTML = "<td>"+player.name+"</td><td>"+player.kills+"</td><td>"+player.deaths+"</td><td>"+kd+"</td>";
 		scoreboard.appendChild(tr);
+	}
+});
+
+
+// render map
+socket.on("setLevels", function(levels)
+{
+	console.log("setLevels", levels);
+	
+	var color = getRandomColor();
+	
+	var wrapper = document.getElementById("levels");
+	wrapper.innerHTML = "";
+	for (var l in levels)
+	{
+		var level = levels[l];
+		level.color = color;
+		
+		var elem = document.createElement("div");
+		elem.className = "level";
+		elem.setAttribute("data-id", level.id);
+		
+		var map = document.createElement("div");
+		map.className = "map";
+		map.addEventListener("click", function(e)
+		{
+			var id = this.parentNode.getAttribute("data-id");
+			socket.emit("selectLevel", id);
+		});
+		
+		var canvas = document.createElement("canvas");
+		canvas.className = "canvas";
+		canvas.width = 500;
+		canvas.height = 500;
+		
+		var ctx = canvas.getContext("2d");
+		ctx.drawLevel(level);
+		
+		var name = document.createElement("div");
+		name.className = "name";
+		name.innerHTML = level.name;
+		
+		map.appendChild(canvas);
+		elem.appendChild(map);
+		elem.appendChild(name);
+		wrapper.appendChild(elem);
 	}
 });
 
@@ -110,6 +157,9 @@ socket.on("updateScoreboard", function(players)
 // render map
 socket.on("renderMap", function(m)
 {
+	console.log("renderMap > ", m);
+	document.getElementById("select_level").className = "hidden";
+	
 	m.color = getRandomColor();
 	map = m;
 	
@@ -156,17 +206,25 @@ socket.on("kill", function(killer, victim)
 	var kill_log = document.getElementById("kill_log");
 	
 	var elem = document.createElement("li");
-	elem.innerHTML = "<span style='color:hsl("+killer.color.h+", "+killer.color.s+"%, "+killer.color.l+"%)'>"+killer.name+"</span><img src='/icons/killed.svg'><span style='color:hsl("+victim.color.h+", "+victim.color.s+"%, "+victim.color.l+"%)'>"+victim.name+"</span>";
+	if (killer.id != victim.id)
+	{
+		elem.innerHTML = "<span style='color:hsl("+killer.color.h+", "+killer.color.s+"%, "+killer.color.l+"%)'>"+killer.name+"</span><img src='/icons/killed.svg'><span style='color:hsl("+victim.color.h+", "+victim.color.s+"%, "+victim.color.l+"%)'>"+victim.name+"</span>";
+	}
+	else
+	{
+		elem.className = "suicide";
+		elem.innerHTML = "<span style='color:hsl("+victim.color.h+", "+victim.color.s+"%, "+victim.color.l+"%)'>"+victim.name+"</span><img src='/icons/skull.svg'>";
+	}
 	kill_log.prepend(elem);
 	
-	window.setTimeout(function()
-	{
-		elem.className = "hide";
-		window.setTimeout(function()
-		{
-			kill_log.removeChild(elem);
-		}, 400);
-	}, 3500);
+	// window.setTimeout(function()
+	// {
+		// elem.className = "hide";
+		// window.setTimeout(function()
+		// {
+			// kill_log.removeChild(elem);
+		// }, 400);
+	// }, 3500);
 });
 
 

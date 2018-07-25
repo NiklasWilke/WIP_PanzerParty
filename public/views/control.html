@@ -1,36 +1,53 @@
-<!DOCTYP	E html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Panzer Party</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Slabo+27px" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Gaegu:400,700" rel="stylesheet">
+		<link rel="stylesheet" href="/css/base.css">
 		<link rel="stylesheet" href="/css/control.css">
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="/scripts/cookies.js"></script>
 		<script src="/scripts/control.js"></script>
+		
+		{{> favicon}}
 	</head>
 	<body>
 		<div id="name"></div>
 		<div id="powerup"></div>
 		<div id="fire"></div>
 		<div id="joystick"><div class="button"></div></div>
+		<div id="health">
+			<svg class="heart" viewBox="0 0 510 510">
+				<path d="M255,489.6l-35.7-35.7C86.7,336.6,0,257.55,0,160.65C0,81.6,61.2,20.4,140.25,20.4c43.35,0,86.7,20.4,114.75,53.55 C283.05,40.8,326.4,20.4,369.75,20.4C448.8,20.4,510,81.6,510,160.65c0,96.9-86.7,175.95-219.3,293.25L255,489.6z"/>
+			</svg>
+			<svg class="heart" viewBox="0 0 510 510">
+				<path d="M255,489.6l-35.7-35.7C86.7,336.6,0,257.55,0,160.65C0,81.6,61.2,20.4,140.25,20.4c43.35,0,86.7,20.4,114.75,53.55 C283.05,40.8,326.4,20.4,369.75,20.4C448.8,20.4,510,81.6,510,160.65c0,96.9-86.7,175.95-219.3,293.25L255,489.6z"/>
+			</svg>
+		</div>
+		
 		<div id="dead">
 			<div class="inner">
 				<div class="message"></div>
-				<button id="respawn">Respawn</button>
+				<button id="respawn">Respawn!</button>
 			</div>
 		</div>
 		
 		<div id="login">
-			<img class="logo" src="panzer_party.svg">
-			<div class="input">
-				<input type="color">
-				<input type="text" class="name">
-				<button id="join">Beitreten</button>
+			<img class="logo" src="/graphics/panzer_party.svg">
+			<div class="inner">
+				<div class="input">
+					<input type="color" class="color">
+					<input type="text" class="name" placeholder="Dein Name">
+				</div>
+				<button id="join">Beitreten!</button>
 			</div>
+			
+			<a id="privacy" href="/datenschutz">Datenschutz</a>
 		</div>
 		
 		<div id="rotate">
-			<img class="logo" src="panzer_party.svg">
+			<img class="logo" src="/graphics/panzer_party.svg">
 		</div<
 	</body>
 </html>

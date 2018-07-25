@@ -1,17 +1,21 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Panzer Party</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-		<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600|Gaegu:400" rel="stylesheet">
+		<link rel="stylesheet" href="/css/base.css">
 		<link rel="stylesheet" href="/css/screen.css">
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/scripts/drawing_functions.js"></script>
 		<script src="/scripts/screen.js"></script>
+		
+		{{> favicon}}
 	</head>
 	<body>
 		<div class="sidebar left valign">
-			<img id="title" src="panzer_party.svg">
-			<img id="logo" src="tank.svg">
+			<img id="title" src="/graphics/panzer_party.svg">
+			<img id="logo" src="/graphics/tank.svg">
 			<div id="ip">
 				<img class="qr" src="/qr">
 				<div class="info">{{ip}}:{{port}}</div>
@@ -28,7 +32,7 @@
 				<h2>Scoreboard</h2>
 				<table>
 					<thead>
-						<th>Name</th>
+						<th></th>
 						<th>K</th>
 						<th>D</th>
 						<th>K/D</th>
@@ -36,6 +40,11 @@
 					<tbody></tbody>
 				</table>
 			</div>
+		</div>
+		
+		<div id="select_level">
+			<div class="title"><h2>Party Location wählen</h2></div>
+			<div id="levels"></div>
 		</div>
 	</body>
 </html>

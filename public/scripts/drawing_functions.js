@@ -9,6 +9,15 @@ function toRadians(angle)
 
 
 // clear
+CanvasRenderingContext2D.prototype.prepare = function()
+{
+	this.canvas.width = this.canvas.innerWidth;
+	this.canvas.height = this.canvas.innerHeight;
+	this.clear();
+}
+
+
+// clear
 CanvasRenderingContext2D.prototype.clear = function()
 {
 	this.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -54,7 +63,6 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
 // draw Level
 CanvasRenderingContext2D.prototype.drawLevel = function(map)
 {
-	console.log("drawLevel > ", map);
 	if (map == null) return false;
 	
 	var f = this.canvas.height / 100;

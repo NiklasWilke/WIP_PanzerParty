@@ -30,6 +30,25 @@ function generateName()
 	return name;
 }
 
+function updateHP(hp)
+{
+	if (hp <= 0)
+	{
+		document.querySelector("#health .heart:nth-child(1)").setAttribute("empty", "");
+		document.querySelector("#health .heart:nth-child(2)").setAttribute("empty", "");
+	}
+	else if (hp <= 50)
+	{
+		document.querySelector("#health .heart:nth-child(1)").removeAttribute("empty");
+		document.querySelector("#health .heart:nth-child(2)").setAttribute("empty", "");
+	}
+	else
+	{
+		document.querySelector("#health .heart:nth-child(1)").removeAttribute("empty");
+		document.querySelector("#health .heart:nth-child(2)").removeAttribute("empty");
+	}
+}
+
 document.addEventListener("DOMContentLoaded", function()
 {
 	var joystick = document.getElementById("joystick");
@@ -37,27 +56,35 @@ document.addEventListener("DOMContentLoaded", function()
 	var fire_button = document.getElementById("fire");
 	var powerup_button = document.getElementById("powerup");
 	var respawn_button = document.getElementById("respawn");
+	var join_button = document.getElementById("join");
+	var name_input = document.querySelector("#login .name")
 	
-	
-	var name = generateName();
-	document.getElementById("name").innerHTML = name;
-	
-	socket.emit("join", name, function(tank)
+	name_input.value = Cookies.get("name");
+	name_input.addEventListener("keyup", function(e)
 	{
-		document.body.className = "ready";
-		document.body.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
-		joystick.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
-		joystick_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
-		
-		fire_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
-		
-		powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+		if (e.which == 13) join_button.click();
 	});
 	
-	// var engine_sound = new Audio("/sounds/drive.mp3");
-	// engine_sound.loop = true;
-	// engine_sound.volume = 0;
-	// engine_sound.play();
+	join_button.addEventListener("click", function(e)
+	{
+		var name = name_input.value;
+		
+		if (name == "") return false;
+		Cookies.set("name", name, Infinity, "/"); // (key, val, end, path, domain, secure)
+		
+		socket.emit("join", name, function(tank)
+		{
+			document.body.className = "ready";
+			document.body.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
+			joystick.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
+			joystick_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
+			
+			fire_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+			
+			powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+		});
+	});
+	
 	
 	var joystickMovement = function(e)
 	{
@@ -105,17 +132,21 @@ document.addEventListener("DOMContentLoaded", function()
 		var elem = document.getElementById("dead");
 		elem.className = "";
 		socket.emit("respawn");
+		updateHP(100);
 	});
 	
 	
 	
-	socket.on("hit", function(msg)
+	socket.on("hit", function(hp)
 	{
-		navigator.vibrate([50]);
+		console.log("got hit >> ", hp);
+		navigator.vibrate([200]);
+		updateHP(hp);
 	});
 	
 	socket.on("death", function(killer)
 	{
+		updateHP(0);
 		var msg = killer ? killer.player.name+" hat dich zerstört!" : "Du hast dich selber zerstört";
 		
 		var elem = document.getElementById("dead");
