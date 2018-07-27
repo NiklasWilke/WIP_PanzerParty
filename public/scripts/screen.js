@@ -34,7 +34,35 @@ console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
 
 function ini()
 {
-	document.querySelector("#battleground").style.background = "hsla("+color.h+", "+color.s+"%, "+color.l+"%, 0.1)";
+	/* menu */
+	var menu_buttons = document.querySelectorAll("#menu li span");
+	for (var i=0; i<menu_buttons.length; i++)
+	{
+		menu_buttons[i].addEventListener("click", function(e)
+		{
+			var action = this.getAttribute("action");
+			console.log("MENU:"+action);
+			switch (action)
+			{
+				case "continue":
+					document.getElementById("menu").className = "valign hidden";
+					break;
+				case "stop":
+					socket.emit("stopGame", function()
+					{
+						window.location = "/";
+					});
+					break;
+			}
+		});
+	}
+	
+	var menu_icon = document.getElementById("menu_icon");
+	menu_icon.addEventListener("click", function(e)
+	{
+		document.getElementById("menu").className = "valign";
+	});
+	
 	
 	canvas = document.getElementById("objects");
 	lvl_canvas = document.getElementById("level");
@@ -108,19 +136,20 @@ socket.on("updateScoreboard", function(players)
 });
 
 
+var map_color = getRandomColor();
+
+
 // render map
 socket.on("setLevels", function(levels)
 {
 	console.log("setLevels", levels);
-	
-	var color = getRandomColor();
 	
 	var wrapper = document.getElementById("levels");
 	wrapper.innerHTML = "";
 	for (var l in levels)
 	{
 		var level = levels[l];
-		level.color = color;
+		level.color = map_color;
 		
 		var elem = document.createElement("div");
 		elem.className = "level";
@@ -151,6 +180,7 @@ socket.on("setLevels", function(levels)
 		elem.appendChild(name);
 		wrapper.appendChild(elem);
 	}
+	document.getElementById("select_level").className = "";
 });
 
 
@@ -159,8 +189,11 @@ socket.on("renderMap", function(m)
 {
 	console.log("renderMap > ", m);
 	document.getElementById("select_level").className = "hidden";
+	document.getElementById("battleground").style.borderColor = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l*0.7)+"%)";
+	document.getElementById("battleground").style.background = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l)+"%)";
+	document.getElementById("level").style.background = "hsla("+map_color.h+", "+map_color.s+"%, "+(100-(100-map_color.l)*0.1)+"%)";
 	
-	m.color = getRandomColor();
+	m.color = map_color;
 	map = m;
 	
 	lvl_ctx.clear();
@@ -194,7 +227,14 @@ socket.on("powerupActivated", function(tank, powerup)
 // sounds
 socket.on("shotFired", function()
 {
-	new Audio("/sounds/shoot.mp3").play();
+	var audio = new Audio("/sounds/shoot.wav");
+	audio.play();
+});
+socket.on("bulletBounced", function()
+{
+	var audio = new Audio("/sounds/bounce.wav");
+	audio.volume = 0.3;
+	audio.play();
 });
 
 

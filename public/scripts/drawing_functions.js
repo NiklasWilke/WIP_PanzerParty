@@ -1,3 +1,12 @@
+Array.min = function(array)
+{
+	return Math.min.apply(Math, array);
+};
+Array.max = function(array)
+{
+	return Math.max.apply(Math, array);
+};
+
 function toDegrees(angle)
 {
 	return angle * (180 / Math.PI);
@@ -60,6 +69,113 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
 }
 
 
+function getShapes(blocks)
+{
+	var checked = [];
+	var shapes = [];
+	var check = function(x, y)
+	{
+		var p = x+";"+y;
+		
+		if (blocks.indexOf(p) === -1) return [];
+		if (checked.indexOf(p) !== -1) return [];
+		checked.push(p);
+		
+		var result = [p].concat(
+			check(x, y-1),
+			check(x, y+1),
+			check(x-1, y),
+			check(x+1, y)
+		);
+		
+		return result;
+	}
+	for (var b in blocks)
+	{
+		var block = blocks[b].split(";");
+		var res = check(parseInt(block[0]), parseInt(block[1]));
+		if (res.length > 0)
+		{
+			shapes.push(res);
+		}
+	}
+	return shapes;
+}
+
+function shapeToPath(shape)
+{
+	var tiles = shape.slice(0).map(function(t)
+	{
+		t = t.split(";");
+		return {x: parseInt(t[0]), y: parseInt(t[1])};
+	});
+	tiles.sort(function(a,b)
+	{
+		if (a.y > b.y)
+			return 1;
+		if (a.y < b.y)
+			return -1;
+		else
+			return (a.x > b.x) ? 1 : -1;
+	});
+	
+	// single block?
+	if (tiles.length == 1)
+	{
+		var tile = tiles[0];
+		return [
+			{x: tile.x, y: tile.y},
+			{x: tile.x+1, y: tile.y},
+			{x: tile.x+1, y: tile.y+1},
+			{x: tile.x, y: tile.y+1},
+			{x: tile.x, y: tile.y}
+		];
+	}
+	
+	var start = tiles[0];
+	var helper = function(shape, pos, dir, path)
+	{
+		if (typeof path == "undefined") path = [pos];
+		if (pos.x == start.x && pos.y == start.y && path.length > 1)
+		{
+			path.push(start);
+			return path;
+		}
+		var current = path.length > 0 ? path[path.length-1] : pos;
+		
+		
+		if (shape.indexOf(pos.x+";"+pos.y) !== -1)
+		{
+			for (var i=0; i<4; i++)
+			{
+				var angle = (dir-90) + 90*i;
+				var tmp = {
+					x: pos.x + Math.round(Math.cos(toRadians(angle))),
+					y: pos.y + Math.round(Math.sin(toRadians(angle)))
+				};
+				
+				var _path = helper(shape, tmp, angle, path);
+				if (_path) return _path;
+			
+				path.push({
+					x: current.x + Math.round(Math.cos(toRadians(angle+90))),
+					y: current.y + Math.round(Math.sin(toRadians(angle+90)))
+				});
+				current = path[path.length-1];
+			}
+			
+			return false;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	return helper(shape, start, 0);
+}
+
+
 // draw Level
 CanvasRenderingContext2D.prototype.drawLevel = function(map)
 {
@@ -73,26 +189,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 	this.clear();
 	
 	// get shapes
-	var checked = [];
-	var shapes = [];
-	var check = function(x, y)
-	{
-		var p = x+";"+y;
-		
-		if (y < 0 || y >= tiles.length || x < 0 || x >= tiles[y].length) return [];
-		if (checked.indexOf(p) !== -1) return [];
-		checked.push(p);
-		if (tiles[y][x] !== 1) return [];
-		
-		var result = [p].concat(
-			check(x, y-1),
-			check(x, y+1),
-			check(x-1, y),
-			check(x+1, y)
-		);
-		
-		return result;
-	}
+	var blocks = [];
 	for (var y=0; y<tiles.length; y++)
 	{
 		for (var x=0; x<tiles[y].length; x++)
@@ -101,14 +198,11 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 			
 			if (tile == 1)
 			{
-				var res = check(x, y);
-				if (res.length > 0)
-				{
-					shapes.push(res);
-				}
+				blocks.push(x+";"+y);
 			}
 		}
 	}
+	var shapes = getShapes(blocks);
 	console.log("shapes: ", shapes);
 	
 	// draw wall tiles
@@ -135,8 +229,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 		}
 	}
 	
-	// calculate shape path
-	shapes.splice(0, 1);
+	//shapes.splice(0, 1);
 	for (var s=0; s<shapes.length; s++)
 	{
 		var shape = shapes[s];
@@ -155,68 +248,136 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 				return (a.x > b.x) ? 1 : -1;
 		});
 		
-		//console.log("shape #"+(s+1), tiles[0], " x ", tiles[tiles.length-1]);
+	
+		// get holes in path
+		var empty_blocks = [];
 		
-		var start = tiles[0];
+		var y_range = tiles.slice(0).map(function(t){return t.y});
+		var min_y = Array.min(y_range);
+		var max_y = Array.max(y_range);
 		
-		var helper = function(pos, dir, path)
+		var x_range = tiles.slice(0).map(function(t){return t.x});
+		var min_x = Array.min(x_range);
+		var max_x = Array.max(x_range);
+		
+		//console.log("shape #"+s+" ["+tiles.length+"] "+min_x+","+min_y+" to "+max_x+","+max_y);
+		for (var y=min_y; y<=max_y; y++)
 		{
-			if (typeof path == "undefined") path = [];
-			if (pos.x == start.x && pos.y == start.y && path.length > 0)
+			var row = tiles.filter(function(t)
 			{
-				path.push(start);
-				return path;
-			}
-			var current = path.length > 0 ? path[path.length-1] : pos;
-			
-			
-			if (shape.indexOf(pos.x+";"+pos.y) !== -1)
+				return (t.y == y);
+			});
+			row.sort(function(a, b)
 			{
-				//console.log("at ", pos);
-				//console.log(pos, dir+"°");
+				return a.x < b.x ? 1 : -1
+			});
+			
+			var x_range = row.slice(0).map(function(t){return t.x});
+			var min_x = Array.min(x_range);
+			var max_x = Array.max(x_range);
+			
+			//console.log("checking Y"+y, row, " > X ", min_x+" to "+max_x);
+			for (var x=min_x; x<=max_x; x++)
+			{
+				//console.log("checking ", x, y);
 				
-				for (var i=0; i<4; i++)
+				if (shape.indexOf(x+";"+y) === -1)
 				{
-					var angle = (dir-90) + 90*i;
-					var tmp = {
-						x: pos.x + Math.round(Math.cos(toRadians(angle))),
-						y: pos.y + Math.round(Math.sin(toRadians(angle)))
-					};
+					var column = tiles.filter(function(t)
+					{
+						return (t.x == x);
+					}).map(function(t){return t.y});
 					
-					var _path = helper(tmp, angle, path);
-					if (_path) return _path;
-				
-					path.push({
-						x: current.x + Math.round(Math.cos(toRadians(angle+90))),
-						y: current.y + Math.round(Math.sin(toRadians(angle+90)))
-					});
-					current = path[path.length-1];
+					if (Array.min(column) < y && Array.max(column) > y)
+					{
+						empty_blocks.push(x+";"+y);
+					}
 				}
-				
-				return false;
-			}
-			else
-			{
-				return false;
 			}
 		}
 		
-		var path = helper(start, 0);
 		
 		
+		console.log("shape #"+s+" ["+tiles.length+"] Y "+min_y+" to "+max_y+" >", empty_blocks);
+		
+		// calculate shape path
+		var path = shapeToPath(shape);
+		var empty_spaces = getShapes(empty_blocks);
+		empty_spaces = empty_spaces.map(function(s)
+		{
+			return shapeToPath(s);
+		});
+		
+		console.log(path, " > ", empty_spaces);
+		
+		
+		// draw shape
 		this.beginPath();
-		this.moveTo(start.x*w, start.y*h);
 		for (var p in path)
 		{
 			var pos = path[p];
-			this.lineTo(pos.x*w, pos.y*h);
+			if (p == 0)
+			{
+				this.moveTo(pos.x*w, pos.y*h);
+			}
+			else
+			{
+				this.lineTo(pos.x*w, pos.y*h);
+			}
 		}
-		
-		this.fillStyle = "hsl("+((color.h + 360 * ((s+1) / shapes.length)) % 360)+", "+color.s+"%, "+color.l+"%)";
+		this.fillStyle = "hsl("+((color.h + 360 * (s / shapes.length)) % 360)+", "+color.s+"%, "+color.l+"%)";
 		this.fill();
 		
 		this.lineWidth = 2;
-		this.strokeStyle = "hsl("+((color.h + 360 * ((s+1) / shapes.length)) % 360)+", "+color.s+"%, "+(color.l*0.7)+"%)";
+		this.strokeStyle = "hsl("+((color.h + 360 * (s / shapes.length)) % 360)+", "+color.s+"%, "+(color.l*0.7)+"%)";
+		if (s > 0) this.stroke();
+		this.closePath();
+		
+		
+		// erase free spaces
+		this.beginPath();
+		this.globalCompositeOperation = "xor";
+		for (var e in empty_spaces)
+		{
+			for (var p in empty_spaces[e])
+			{
+				var pos = empty_spaces[e][p];
+				if (p == 0)
+				{
+					this.moveTo(pos.x*w, pos.y*h);
+				}
+				else
+				{
+					this.lineTo(pos.x*w, pos.y*h);
+				}
+			}
+		}
+		this.fillStyle = "#fff";
+		this.fill();
+		
+		
+		this.globalCompositeOperation = "source-over";
+		
+		// draw outline
+		this.beginPath();
+		for (var e in empty_spaces)
+		{
+			for (var p in empty_spaces[e])
+			{
+				var pos = empty_spaces[e][p];
+				if (p == 0)
+				{
+					this.moveTo(pos.x*w, pos.y*h);
+				}
+				else
+				{
+					this.lineTo(pos.x*w, pos.y*h);
+				}
+			}
+		}
+		
+		this.lineWidth = 2;
+		this.strokeStyle = "hsl("+((color.h + 360 * (s / shapes.length)) % 360)+", "+color.s+"%, "+(color.l*0.7)+"%)";
 		this.stroke();
 		this.closePath();
 	}

@@ -38,5 +38,17 @@ body {
 }
 
 .hidden {
-	display: none;
+	opacity: 0;
+	visibility: hidden;
+}
+
+
+.valign {
+	display: flex;
+	flex-direction: column;
+}
+.valign::before, .valign::after {
+	content: "";
+	display: block;
+	flex-grow: 1;
 }
