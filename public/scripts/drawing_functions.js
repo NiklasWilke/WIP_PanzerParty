@@ -111,11 +111,6 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		}
 		this.fillStyle = "hsl("+shape.color.h+", "+shape.color.s+"%, "+shape.color.l+"%)";
 		
-		// var grd=ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-		// grd.addColorStop(0, "hsl("+shape.color.h+", "+shape.color.s+"%, "+shape.color.l+"%)");
-		// grd.addColorStop(1, "hsl("+shape.color.h+", "+shape.color.s+"%, "+(shape.color.l*0.9)+"%)");
-		// this.fillStyle = grd;
-		
 		this.fill();
 		
 		this.lineWidth = 2;
@@ -174,22 +169,23 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 	}
 	
 	
-	for (var y=0; y<tiles.length; y++)
-	{
-		for (var x=0; x<tiles.length; x++)
-		{
-			this.beginPath();
-			this.rect(x*w, y*h, w, h);
-			this.strokeStyle = "rgba(0, 0, 0, 0.1)";
-			this.stroke();
+	// DEV
+	// for (var y=0; y<tiles.length; y++)
+	// {
+		// for (var x=0; x<tiles.length; x++)
+		// {
+			// this.beginPath();
+			// this.rect(x*w, y*h, w, h);
+			// this.strokeStyle = "rgba(0, 0, 0, 0.1)";
+			// this.stroke();
 			
-			this.font = "7px Arial";
-			this.textAlign = "center";
-			this.textBaseline = "middle";
-			this.fillStyle = "rgba(0, 0, 0, 1)";
-			this.fillText(x+"/"+y, (x+0.5)*w, (y+0.5)*h);
-		}
-	}
+			// this.font = "7px Arial";
+			// this.textAlign = "center";
+			// this.textBaseline = "middle";
+			// this.fillStyle = "rgba(0, 0, 0, 1)";
+			// this.fillText(x+"/"+y, (x+0.5)*w, (y+0.5)*h);
+		// }
+	// }
 	
 	
 	// draw powerup spawn locations
