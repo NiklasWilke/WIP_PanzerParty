@@ -103,8 +103,6 @@ document.addEventListener("DOMContentLoaded", function()
 		
 		console.log("move", angle, speed);
 		
-		//engine_sound.volume = speed;
-		
 		return false;
 	}
 	
@@ -114,8 +112,6 @@ document.addEventListener("DOMContentLoaded", function()
 	{
 		joystick_button.style.top = "20vh";
 		joystick_button.style.left = "20vh";
-		
-		//engine_sound.volume = 0;
 		
 		socket.emit("move", null, null);
 	});
@@ -129,6 +125,8 @@ document.addEventListener("DOMContentLoaded", function()
 	
 	respawn_button.addEventListener("touchstart", function(e)
 	{
+		if (this.disabled) return false;
+		
 		var elem = document.getElementById("dead");
 		elem.className = "";
 		socket.emit("respawn");
@@ -137,21 +135,49 @@ document.addEventListener("DOMContentLoaded", function()
 	
 	
 	
+	/* socket events */
+
+	// game state changed
+	socket.on("updateGameState", function(state)
+	{
+		console.log("updateGameState > ", state);
+		
+		document.body.setAttribute("state", state);
+	});
+
 	socket.on("hit", function(hp)
 	{
 		console.log("got hit >> ", hp);
 		navigator.vibrate([200]);
 		updateHP(hp);
 	});
-	
+
 	socket.on("death", function(killer)
 	{
 		updateHP(0);
 		var msg = killer ? killer.player.name+" hat dich zerstört!" : "Du hast dich selber zerstört";
 		
+		var s = 5;
+		respawn_button.disabled = true;
+		respawn_button.innerHTML = "Respawn in "+s+"s";
+		
 		var elem = document.getElementById("dead");
 		elem.getElementsByClassName("message")[0].innerHTML = msg;
 		elem.className = "visible";
 		navigator.vibrate([600]);
+		
+		var interval = window.setInterval(function()
+		{
+			if (--s > 0)
+			{
+				respawn_button.innerHTML = "Respawn in "+s+"s";
+			}
+			else
+			{
+				clearInterval(interval);
+				respawn_button.innerHTML = "Respawn!";
+				respawn_button.disabled = false;
+			}
+		}, 1000);
 	});
 }, false);
