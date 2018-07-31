@@ -3,9 +3,69 @@ function getRandomColor()
 {
 	return {
 		h: Math.round(Math.random() * 360),
-		s: Math.round(Math.random() * 10 + 25),
-		l: Math.round(Math.random() * 10 + 55)
+		s: Math.round(Math.random() * 5 + 40),
+		l: Math.round(Math.random() * 10 + 60)
 	};
+}
+
+class Particle
+{
+	constructor(x, y, dir, range, color)
+	{
+		this.x = x;
+		this.y = y;
+		this.angle = dir;
+		this.speed = 0.08 + Math.random() * 0.04;
+		this.r = (Math.random() * (range/4*0.5) + (range/4*0.6)) / 2;
+		this.dist = 0;
+		this.max_dist = range;
+		this.color = color;
+		this.color.l += Math.round(5 - Math.random() * 10);
+		this.opacity = 1;
+		
+		this.x += Math.cos(toRadians(this.angle)) * 0.05;
+		this.y += Math.sin(toRadians(this.angle)) * 0.05;
+	}
+	
+	update()
+	{
+		this.x += Math.cos(toRadians(this.angle)) * this.speed;
+		this.y += Math.sin(toRadians(this.angle)) * this.speed;
+		this.dist += this.speed;
+		this.opacity = Math.min(1, 2 - (this.dist / this.max_dist * 2));
+	}
+}
+
+class Explosion
+{
+	constructor(x, y, size, n, color)
+	{
+		this.x = x;
+		this.y = y;
+		this.r = 0;
+		this.max_r = size;
+		this.step = this.max_r / (60*0.5);
+		if (color.l > 70) color.l *= 0.8;
+		this.color = color;
+		this.particles = [];
+		this.done = false;
+		
+		var tolerance = 10;
+		for (var i=0; i<n; i++)
+		{
+			this.particles.push(new Particle(0, 0, (i/(n+1) * 360 + (tolerance/2 - tolerance/2*Math.random())), this.max_r, this.color));
+		}
+	}
+	
+	update()
+	{
+		this.done = true;
+		for (var p in this.particles)
+		{
+			this.particles[p].update();
+			this.done = (this.done && this.particles[p].dist >= this.max_r);
+		}
+	}
 }
 
 
@@ -16,14 +76,18 @@ var canvas,
 	ctx,
 	lvl_canvas,
 	lvl_ctx,
+	effect_canvas,
+	effect_ctx,
 	f;
 
 // map objects
 var tanks = [],
 	bullets = [],
 	powerups = [],
+	gravestones = [],
 	map = null,
-	beacons = [];
+	beacons = [],
+	explosions = [];
 
 
 // map calor
@@ -63,12 +127,13 @@ function ini()
 		document.getElementById("menu").className = "valign";
 	});
 	
-	
 	canvas = document.getElementById("objects");
 	lvl_canvas = document.getElementById("level");
+	effect_canvas = document.getElementById("effects");
 	
 	ctx = canvas.getContext("2d");
 	lvl_ctx = lvl_canvas.getContext("2d");
+	effect_ctx = effect_canvas.getContext("2d");
 	
 	updateSize();
 	loop();
@@ -86,6 +151,9 @@ function updateSize()
 	
 	lvl_canvas.width = window.innerHeight;
 	lvl_canvas.height = window.innerHeight;
+	
+	effect_canvas.width = window.innerHeight;
+	effect_canvas.height = window.innerHeight;
 	
 	lvl_ctx.clear();
 	lvl_ctx.drawLevel(map);
@@ -108,15 +176,25 @@ window.requestAnimFrame = (function()
 			};
 })();
 
-// update
+// game state changed
+socket.on("updateGameState", function(state)
+{
+	console.log("updateGameState > ", state);
+	
+	document.body.setAttribute("state", state);
+});
+
+// update battleground
 socket.on("update", function(data)
 {
+	//console.log("update >> ", data);
 	tanks = data.tanks;
 	bullets = data.bullets;
 	powerups = data.powerups;
+	gravestones = data.graveyard;
 });
 
-// update
+// update scoreboard
 socket.on("updateScoreboard", function(players)
 {
 	console.log("updateScoreboard > ", players);
@@ -194,10 +272,11 @@ socket.on("renderMap", function(m)
 	document.getElementById("level").style.background = "hsla("+map_color.h+", "+map_color.s+"%, "+(100-(100-map_color.l)*0.1)+"%)";
 	
 	m.color = map_color;
+	m.level.color = map_color;
 	map = m;
 	
 	lvl_ctx.clear();
-	lvl_ctx.drawLevel(map);
+	lvl_ctx.drawLevel(map.level);
 	
 	for (var p in map.powerups)
 	{
@@ -228,19 +307,42 @@ socket.on("powerupActivated", function(tank, powerup)
 socket.on("shotFired", function()
 {
 	var audio = new Audio("/sounds/shoot.wav");
+	audio.volume = 0.8;
 	audio.play();
 });
-socket.on("bulletBounced", function()
+socket.on("bulletBounced", function(bullet)
 {
 	var audio = new Audio("/sounds/bounce.wav");
 	audio.volume = 0.3;
 	audio.play();
+	
+	var expl = new Explosion(bullet.x, bullet.y, 1, 10, bullet.color);
+	explosions.push(expl);
+});
+socket.on("bulletDespawned", function(bullet)
+{
+	var expl = new Explosion(bullet.x, bullet.y, 2, 10, bullet.color);
+	explosions.push(expl);
+});
+socket.on("kill", function(killer, victim)
+{
+	var audio = new Audio("/sounds/party_horn.wav");
+	audio.volume = 0.4;
+	audio.play();
+	
+	console.log(killer, victim);
+	
+	var expl = new Explosion(victim.x, victim.y, 4, 24, victim.color);
+	explosions.push(expl);
 });
 
 
 // kill feed
 socket.on("kill", function(killer, victim)
 {
+	if (killer) killer = killer.player;
+	if (victim) victim = victim.player;
+	
 	console.log(killer, " > ", victim);
 	
 	var kill_log = document.getElementById("kill_log");
@@ -270,9 +372,37 @@ socket.on("kill", function(killer, victim)
 
 var powerup_color = {
 	h: 0,
-	s: 70,
-	l: 60
+	s: 60,
+	l: 45
 };
+
+function update()
+{
+	for (var b in beacons)
+	{
+		if (beacons[b].r < beacons[b].max_r)
+		{
+			beacons[b].r += beacons[b].step;
+		}
+		else
+		{
+			beacons.splice(b, 1);
+		}
+	}
+	
+	for (var e in explosions)
+	{
+		if (!explosions[e].done)
+		{
+			explosions[e].update();
+		}
+		else
+		{
+			console.log(explosions[e], "ended");
+			explosions.splice(e, 1);
+		}
+	}
+}
 
 function render()
 {
@@ -282,6 +412,11 @@ function render()
 		powerups[p].color = powerup_color;
 		
 		ctx.drawPowerup(powerups[p]);
+	}
+	
+	for (var g in gravestones)
+	{
+		ctx.drawGravestone(gravestones[g]);
 	}
 	
 	for (var t in tanks)
@@ -294,27 +429,26 @@ function render()
 		ctx.drawBullet(bullets[b]);
 	}
 	
-	for (var b in beacons)
+	for (var e in explosions)
 	{
-		if (beacons[b].r < beacons[b].max_r)
-		{
-			beacons[b].r += beacons[b].step;
-		}
-		else
-		{
-			beacons.splice(b, 1);
-		}
+		effect_ctx.drawExplosion(explosions[e]);
 	}
+	
 	for (var b in beacons)
 	{
-		ctx.drawBeacon(beacons[b]);
+		effect_ctx.drawBeacon(beacons[b]);
 	}
 }
 
+var stop = false;
 function loop()
 {
 	ctx.clear();
+	effect_ctx.clear();
+	
+	update();
+	
 	render();
 	
-	requestAnimFrame(loop);
+	if (!stop) requestAnimFrame(loop);
 }

@@ -55,6 +55,12 @@ body {
     -moz-animation: button_animation 5s infinite; /* Firefox */
     -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */
 }
+#dead .inner #respawn[disabled] {
+    animation: none;
+    -moz-animation: none;
+    -webkit-animation: none;
+	color: rgba(255, 255, 255, 0.3);
+}
 
 
 #name {
