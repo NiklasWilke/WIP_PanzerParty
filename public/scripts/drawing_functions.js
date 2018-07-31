@@ -69,253 +69,37 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, rad
 }
 
 
-function getShapes(blocks)
-{
-	var checked = [];
-	var shapes = [];
-	var check = function(x, y)
-	{
-		var p = x+";"+y;
-		
-		if (blocks.indexOf(p) === -1) return [];
-		if (checked.indexOf(p) !== -1) return [];
-		checked.push(p);
-		
-		var result = [p].concat(
-			check(x, y-1),
-			check(x, y+1),
-			check(x-1, y),
-			check(x+1, y)
-		);
-		
-		return result;
-	}
-	for (var b in blocks)
-	{
-		var block = blocks[b].split(";");
-		var res = check(parseInt(block[0]), parseInt(block[1]));
-		if (res.length > 0)
-		{
-			shapes.push(res);
-		}
-	}
-	return shapes;
-}
-
-function shapeToPath(shape)
-{
-	var tiles = shape.slice(0).map(function(t)
-	{
-		t = t.split(";");
-		return {x: parseInt(t[0]), y: parseInt(t[1])};
-	});
-	tiles.sort(function(a,b)
-	{
-		if (a.y > b.y)
-			return 1;
-		if (a.y < b.y)
-			return -1;
-		else
-			return (a.x > b.x) ? 1 : -1;
-	});
-	
-	// single block?
-	if (tiles.length == 1)
-	{
-		var tile = tiles[0];
-		return [
-			{x: tile.x, y: tile.y},
-			{x: tile.x+1, y: tile.y},
-			{x: tile.x+1, y: tile.y+1},
-			{x: tile.x, y: tile.y+1},
-			{x: tile.x, y: tile.y}
-		];
-	}
-	
-	var start = tiles[0];
-	var helper = function(shape, pos, dir, path)
-	{
-		if (typeof path == "undefined") path = [pos];
-		if (pos.x == start.x && pos.y == start.y && path.length > 1)
-		{
-			path.push(start);
-			return path;
-		}
-		var current = path.length > 0 ? path[path.length-1] : pos;
-		
-		
-		if (shape.indexOf(pos.x+";"+pos.y) !== -1)
-		{
-			for (var i=0; i<4; i++)
-			{
-				var angle = (dir-90) + 90*i;
-				var tmp = {
-					x: pos.x + Math.round(Math.cos(toRadians(angle))),
-					y: pos.y + Math.round(Math.sin(toRadians(angle)))
-				};
-				
-				var _path = helper(shape, tmp, angle, path);
-				if (_path) return _path;
-			
-				path.push({
-					x: current.x + Math.round(Math.cos(toRadians(angle+90))),
-					y: current.y + Math.round(Math.sin(toRadians(angle+90)))
-				});
-				current = path[path.length-1];
-			}
-			
-			return false;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	return helper(shape, start, 0);
-}
-
-
 // draw Level
-CanvasRenderingContext2D.prototype.drawLevel = function(map)
+CanvasRenderingContext2D.prototype.drawLevel = function(level)
 {
-	if (map == null) return false;
+	if (level == null) return false;
+	
+	console.log("drawLevel >> ", level);
 	
 	var f = this.canvas.height / 100;
-	var tiles = map.tiles;
-	var color = map.color;
+	var tiles = level.tiles;
+	var color = level.color;
+	var shapes = level.shapes;
 	var w = h = (100/tiles.length)*f;
+	var color_range = 22.5;
 	
 	this.clear();
 	
-	// get shapes
-	var blocks = [];
-	for (var y=0; y<tiles.length; y++)
-	{
-		for (var x=0; x<tiles[y].length; x++)
-		{
-			var tile = tiles[y][x];
-			
-			if (tile == 1)
-			{
-				blocks.push(x+";"+y);
-			}
-		}
-	}
-	var shapes = getShapes(blocks);
-	console.log("shapes: ", shapes);
 	
-	// draw wall tiles
-	for (var s=0; s<shapes.length; s++)
-	{
-		if (s > 1) break;
-		var shape = shapes[s];
-		for (var p in shape)
-		{
-			var pos = shape[p].split(";");
-			var x = pos[0];
-			var y = pos[1];
-			
-			this.beginPath();
-			this.rect(x*w, y*h, w, h);
-			this.fillStyle = "hsla("+((color.h + 360 * ((s+1) / shapes.length)) % 360)+", "+color.s+"%, "+color.l+"%, 0.8)";
-			this.fill();
-			//this.strokeStyle = "hsl("+((color.h + 360 * ((s+1) / shapes.length)) % 360)+", "+color.s+"%, "+(color.l*0.9)+"%)";
-			//this.lineWidth = 2;
-			//this.stroke();
-			this.closePath();
-			
-			this.lineWidth = 1;
-		}
-	}
-	
-	//shapes.splice(0, 1);
+	// draw shapes
 	for (var s=0; s<shapes.length; s++)
 	{
 		var shape = shapes[s];
-		var tiles = shape.slice(0).map(function(t)
-		{
-			t = t.split(";");
-			return {x: parseInt(t[0]), y: parseInt(t[1])};
-		});
-		tiles.sort(function(a,b)
-		{
-			if (a.y > b.y)
-				return 1;
-			if (a.y < b.y)
-				return -1;
-			else
-				return (a.x > b.x) ? 1 : -1;
-		});
+		shape.color = color;
+		shape.color.h = Math.round((color.h + (s%2==0 ? 1 : -1) * color_range * (s / shapes.length)) % 360);
 		
-	
-		// get holes in path
-		var empty_blocks = [];
-		
-		var y_range = tiles.slice(0).map(function(t){return t.y});
-		var min_y = Array.min(y_range);
-		var max_y = Array.max(y_range);
-		
-		var x_range = tiles.slice(0).map(function(t){return t.x});
-		var min_x = Array.min(x_range);
-		var max_x = Array.max(x_range);
-		
-		//console.log("shape #"+s+" ["+tiles.length+"] "+min_x+","+min_y+" to "+max_x+","+max_y);
-		for (var y=min_y; y<=max_y; y++)
-		{
-			var row = tiles.filter(function(t)
-			{
-				return (t.y == y);
-			});
-			row.sort(function(a, b)
-			{
-				return a.x < b.x ? 1 : -1
-			});
-			
-			var x_range = row.slice(0).map(function(t){return t.x});
-			var min_x = Array.min(x_range);
-			var max_x = Array.max(x_range);
-			
-			//console.log("checking Y"+y, row, " > X ", min_x+" to "+max_x);
-			for (var x=min_x; x<=max_x; x++)
-			{
-				//console.log("checking ", x, y);
-				
-				if (shape.indexOf(x+";"+y) === -1)
-				{
-					var column = tiles.filter(function(t)
-					{
-						return (t.x == x);
-					}).map(function(t){return t.y});
-					
-					if (Array.min(column) < y && Array.max(column) > y)
-					{
-						empty_blocks.push(x+";"+y);
-					}
-				}
-			}
-		}
+		console.log("shape#"+s+" >> ", shape.color);
 		
 		
-		
-		console.log("shape #"+s+" ["+tiles.length+"] Y "+min_y+" to "+max_y+" >", empty_blocks);
-		
-		// calculate shape path
-		var path = shapeToPath(shape);
-		var empty_spaces = getShapes(empty_blocks);
-		empty_spaces = empty_spaces.map(function(s)
-		{
-			return shapeToPath(s);
-		});
-		
-		console.log(path, " > ", empty_spaces);
-		
-		
-		// draw shape
 		this.beginPath();
-		for (var p in path)
+		for (var p in shape.path)
 		{
-			var pos = path[p];
+			var pos = shape.path[p];
 			if (p == 0)
 			{
 				this.moveTo(pos.x*w, pos.y*h);
@@ -325,23 +109,24 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 				this.lineTo(pos.x*w, pos.y*h);
 			}
 		}
-		this.fillStyle = "hsl("+((color.h + 360 * (s / shapes.length)) % 360)+", "+color.s+"%, "+color.l+"%)";
+		this.fillStyle = "hsl("+shape.color.h+", "+shape.color.s+"%, "+shape.color.l+"%)";
+		
 		this.fill();
 		
 		this.lineWidth = 2;
-		this.strokeStyle = "hsl("+((color.h + 360 * (s / shapes.length)) % 360)+", "+color.s+"%, "+(color.l*0.7)+"%)";
+		this.strokeStyle = "hsl("+shape.color.h+", "+shape.color.s+"%, "+(shape.color.l*0.7)+"%)";
 		if (s > 0) this.stroke();
 		this.closePath();
 		
 		
 		// erase free spaces
-		this.beginPath();
 		this.globalCompositeOperation = "xor";
-		for (var e in empty_spaces)
+		this.beginPath();
+		for (var c in shape.cutouts)
 		{
-			for (var p in empty_spaces[e])
+			for (var p in shape.cutouts[c])
 			{
-				var pos = empty_spaces[e][p];
+				var pos = shape.cutouts[c][p];
 				if (p == 0)
 				{
 					this.moveTo(pos.x*w, pos.y*h);
@@ -354,17 +139,18 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 		}
 		this.fillStyle = "#fff";
 		this.fill();
-		
-		
+		this.closePath();
 		this.globalCompositeOperation = "source-over";
+		
+		
 		
 		// draw outline
 		this.beginPath();
-		for (var e in empty_spaces)
+		for (var c in shape.cutouts)
 		{
-			for (var p in empty_spaces[e])
+			for (var p in shape.cutouts[c])
 			{
-				var pos = empty_spaces[e][p];
+				var pos = shape.cutouts[c][p];
 				if (p == 0)
 				{
 					this.moveTo(pos.x*w, pos.y*h);
@@ -377,16 +163,35 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 		}
 		
 		this.lineWidth = 2;
-		this.strokeStyle = "hsl("+((color.h + 360 * (s / shapes.length)) % 360)+", "+color.s+"%, "+(color.l*0.7)+"%)";
+		this.strokeStyle = "hsl("+shape.color.h+", "+shape.color.s+"%, "+(shape.color.l*0.7)+"%)";
 		this.stroke();
 		this.closePath();
 	}
 	
 	
+	// DEV
+	// for (var y=0; y<tiles.length; y++)
+	// {
+		// for (var x=0; x<tiles.length; x++)
+		// {
+			// this.beginPath();
+			// this.rect(x*w, y*h, w, h);
+			// this.strokeStyle = "rgba(0, 0, 0, 0.1)";
+			// this.stroke();
+			
+			// this.font = "7px Arial";
+			// this.textAlign = "center";
+			// this.textBaseline = "middle";
+			// this.fillStyle = "rgba(0, 0, 0, 1)";
+			// this.fillText(x+"/"+y, (x+0.5)*w, (y+0.5)*h);
+		// }
+	// }
+	
+	
 	// draw powerup spawn locations
-	for (var p in map.powerup_locations)
+	for (var p in level.powerup_locations)
 	{
-		var pos = map.powerup_locations[p];
+		var pos = level.powerup_locations[p];
 		
 		this.beginPath();
 		this.arc(pos.x*f, pos.y*f, 0.24*w, 0, 2*Math.PI);
@@ -409,89 +214,95 @@ CanvasRenderingContext2D.prototype.drawLevel = function(map)
 CanvasRenderingContext2D.prototype.drawTank = function(tank)
 {
 	var f = this.canvas.height / 100;
-	if (tank.health > 0)
-	{
-		this.translate(tank.x*f, tank.y*f);
-		this.rotate(tank.angle * Math.PI/180);
-		
-		var w = tank.width*f;
-		var h = tank.height*f;
-		
-		// body
-		this.beginPath();
-		this.roundRect(-h/2, -w/2, h, w, w*0.15);
-		this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*1)+"%)";
-		this.fill();
-		//this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
-		//this.stroke();
-		this.closePath();
-		
-		
-		// front lights
-		this.beginPath();
-		this.roundRect(h/2 - h*0.1, -w/2 + 0.15*w, h*0.1, w*0.18, {tl: w*0.1, tr: 0, br: 0, bl: w*0.1});
-		this.roundRect(h/2 - h*0.1, w/2 - 0.15*w - 0.18*w, h*0.1, w*0.18, {tl: w*0.1, tr: 0, br: 0, bl: w*0.1});
-		this.fillStyle = tank.speed > 0 ? "hsl(48, 89%, 50%)" : "hsl(48, 30%, 50%)";
-		this.fill();
-		this.closePath();
-		
-		// back lights
-		this.beginPath();
-		this.roundRect(-h/2, -w/2 + 0.18*w, h*0.06, w*0.18, {tl: 0, tr: w*0.1, br: w*0.1, bl: 0});
-		this.roundRect(-h/2, w/2 - 0.18*w - 0.18*w, h*0.06, w*0.18, {tl: 0, tr: w*0.1, br: w*0.1, bl: 0});
-		this.fillStyle = tank.speed == 0 ? "hsl(350, 82%, 61%)" : "hsl(350, 30%, 61%)";
-		this.fill();
-		this.closePath();
-		
-		
-		// pipe
-		this.beginPath();
-		this.roundRect(h*0.3/2, -w*0.2/2, h*0.45, w*0.2, w*0.05);
-		this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.7)+"%)";
-		this.fill();
-		this.closePath();
-		
-		// head
-		this.beginPath();
-		this.roundRect(-h*0.38, -w*0.7/2, h*0.6, w*0.7, w*0.15);
-		this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.75)+"%)";
-		this.fill();
-		this.closePath();
-		
-		// details
-		this.beginPath();
-		this.arc(-h*0.15, -w*0.07, w*0.16, 0, 2*Math.PI);
-		this.rect(h*0.02, -w*0.26, h*0.1, w*0.3);
-		this.rect(-h*0.28, w*0.14, h*0.4, w*0.1);
-		this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.65)+"%)";
-		this.fill();
-		this.closePath();
-		
-		// hitbox
-		// this.beginPath();
-		// this.arc(0, 0, tank.hitbox_r*f, 0, 2*Math.PI);
-		// this.fillStyle = "rgba(0, 0, 0, 0.3)";
-		// this.fill();
-		// this.closePath();
-		
-		this.rotate(-tank.angle * Math.PI/180);
-		this.translate(-tank.x*f, -tank.y*f);
-	}
-	else
-	{
-		var size = tank.width*f * 0.3;
-		this.beginPath();
-		this.moveTo(tank.x*f - size, tank.y*f - size);
-		this.lineTo(tank.x*f + size, tank.y*f + size);
-		this.moveTo(tank.x*f + size, tank.y*f - size);
-		this.lineTo(tank.x*f - size, tank.y*f + size);
-		this.lineWidth = 0.5*f;
-		this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
-		this.stroke();
-		this.closePath();
-		
-		this.lineWidth = 1;
-	}
+	
+	this.translate(tank.x*f, tank.y*f);
+	this.rotate(tank.angle * Math.PI/180);
+	
+	var w = tank.width*f;
+	var h = tank.height*f;
+	
+	// body
+	this.beginPath();
+	this.roundRect(-h/2, -w/2, h, w, w*0.15);
+	this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*1)+"%)";
+	this.fill();
+	//this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
+	//this.stroke();
+	this.closePath();
+	
+	
+	// front lights
+	this.beginPath();
+	this.roundRect(h/2 - h*0.1, -w/2 + 0.15*w, h*0.1, w*0.18, {tl: w*0.1, tr: 0, br: 0, bl: w*0.1});
+	this.roundRect(h/2 - h*0.1, w/2 - 0.15*w - 0.18*w, h*0.1, w*0.18, {tl: w*0.1, tr: 0, br: 0, bl: w*0.1});
+	this.fillStyle = tank.speed > 0 ? "hsl(48, 89%, 50%)" : "hsl(48, 30%, 50%)";
+	this.fill();
+	this.closePath();
+	
+	// back lights
+	this.beginPath();
+	this.roundRect(-h/2, -w/2 + 0.18*w, h*0.06, w*0.18, {tl: 0, tr: w*0.1, br: w*0.1, bl: 0});
+	this.roundRect(-h/2, w/2 - 0.18*w - 0.18*w, h*0.06, w*0.18, {tl: 0, tr: w*0.1, br: w*0.1, bl: 0});
+	this.fillStyle = tank.speed == 0 ? "hsl(350, 82%, 61%)" : "hsl(350, 30%, 61%)";
+	this.fill();
+	this.closePath();
+	
+	
+	// pipe
+	this.beginPath();
+	this.roundRect(h*0.3/2, -w*0.2/2, h*0.45, w*0.2, w*0.05);
+	this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.7)+"%)";
+	this.fill();
+	this.closePath();
+	
+	// head
+	this.beginPath();
+	this.roundRect(-h*0.38, -w*0.7/2, h*0.6, w*0.7, w*0.15);
+	this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.75)+"%)";
+	this.fill();
+	this.closePath();
+	
+	// details
+	this.beginPath();
+	this.arc(-h*0.15, -w*0.07, w*0.16, 0, 2*Math.PI);
+	this.rect(h*0.02, -w*0.26, h*0.1, w*0.3);
+	this.rect(-h*0.28, w*0.14, h*0.4, w*0.1);
+	this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.65)+"%)";
+	this.fill();
+	this.closePath();
+	
+	// hitbox
+	// this.beginPath();
+	// this.arc(0, 0, tank.hitbox_r*f, 0, 2*Math.PI);
+	// this.fillStyle = "rgba(0, 0, 0, 0.3)";
+	// this.fill();
+	// this.closePath();
+	
+	this.rotate(-tank.angle * Math.PI/180);
+	this.translate(-tank.x*f, -tank.y*f);
+}
+
+
+// draws gravestone
+CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
+{
+	var f = this.canvas.height / 100;
+	
+	var w = tank.width*f;
+	var h = tank.height*f;
+	
+	var size = tank.width*f * 0.25;
+	this.beginPath();
+	this.moveTo(tank.x*f - size, tank.y*f - size);
+	this.lineTo(tank.x*f + size, tank.y*f + size);
+	this.moveTo(tank.x*f + size, tank.y*f - size);
+	this.lineTo(tank.x*f - size, tank.y*f + size);
+	this.lineWidth = 0.4*f;
+	this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
+	this.stroke();
+	this.closePath();
+	
+	this.lineWidth = 1;
 }
 
 CanvasRenderingContext2D.prototype.drawBullet = function(bullet)
@@ -551,7 +362,7 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	this.beginPath();
 	this.ellipse(x - 0.08*r, y - 0.21*r, 0.9*r, 0.7*r, toRadians(-20), 1*Math.PI, 2*Math.PI);
 	this.ellipse(x - 0.08*r, y - 0.21*r, 0.9*r, 0.2*r, toRadians(-20), 0*Math.PI, 1*Math.PI);
-	this.fillStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(100-(100-powerup_color.l)*0.85)+"%)";
+	this.fillStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(100-(100-powerup_color.l)*0.9)+"%)";
 	this.fill();
 	this.closePath();
 	
@@ -588,4 +399,17 @@ CanvasRenderingContext2D.prototype.drawBeacon = function(beacon)
 	this.fillStyle = "rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", "+(0.4*Math.min(1, (beacon.max_r - beacon.r) / beacon.max_r * 2))+")";
 	this.fill();
 	this.closePath();
+}
+
+CanvasRenderingContext2D.prototype.drawExplosion = function(explosion)
+{
+	var f = this.canvas.height / 100;
+	for (var p in explosion.particles)
+	{
+		var particle = explosion.particles[p];
+		this.beginPath();
+		this.arc((explosion.x+particle.x)*f, (explosion.y+particle.y)*f, particle.r*f, 0, 2*Math.PI);
+		this.fillStyle = "hsla("+particle.color.h+", "+particle.color.s+"%, "+particle.color.l+"%, "+particle.opacity+")";
+		this.fill();
+	}
 }
