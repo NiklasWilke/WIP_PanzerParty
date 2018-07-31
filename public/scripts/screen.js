@@ -156,7 +156,7 @@ function updateSize()
 	effect_canvas.height = window.innerHeight;
 	
 	lvl_ctx.clear();
-	lvl_ctx.drawLevel(map);
+	if (map) lvl_ctx.drawLevel(map.level);
 }
 
 window.onresize = function(e)
@@ -313,7 +313,7 @@ socket.on("shotFired", function()
 socket.on("bulletBounced", function(bullet)
 {
 	var audio = new Audio("/sounds/bounce.wav");
-	audio.volume = 0.3;
+	audio.volume = 0.2;
 	audio.play();
 	
 	var expl = new Explosion(bullet.x, bullet.y, 1, 10, bullet.color);
@@ -321,6 +321,10 @@ socket.on("bulletBounced", function(bullet)
 });
 socket.on("bulletDespawned", function(bullet)
 {
+	var audio = new Audio("/sounds/bounce.wav");
+	audio.volume = 0.3;
+	audio.play();
+	
 	var expl = new Explosion(bullet.x, bullet.y, 2, 10, bullet.color);
 	explosions.push(expl);
 });
@@ -398,7 +402,6 @@ function update()
 		}
 		else
 		{
-			console.log(explosions[e], "ended");
 			explosions.splice(e, 1);
 		}
 	}
