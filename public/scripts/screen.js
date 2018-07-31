@@ -16,7 +16,7 @@ class Particle
 		this.y = y;
 		this.angle = dir;
 		this.speed = 0.08 + Math.random() * 0.04;
-		this.r = (Math.random() * 0.5 + 0.6) / 2;
+		this.r = (Math.random() * (range/4*0.5) + (range/4*0.6)) / 2;
 		this.dist = 0;
 		this.max_dist = range;
 		this.color = color;
@@ -38,18 +38,18 @@ class Particle
 
 class Explosion
 {
-	constructor(x, y, max_r, color)
+	constructor(x, y, size, n, color)
 	{
 		this.x = x;
 		this.y = y;
 		this.r = 0;
-		this.max_r = max_r;
-		this.step = max_r / (60*0.5);
+		this.max_r = size;
+		this.step = this.max_r / (60*0.5);
+		if (color.l > 70) color.l *= 0.8;
 		this.color = color;
 		this.particles = [];
 		this.done = false;
 		
-		var n = 24;
 		var tolerance = 10;
 		for (var i=0; i<n; i++)
 		{
@@ -310,11 +310,19 @@ socket.on("shotFired", function()
 	audio.volume = 0.8;
 	audio.play();
 });
-socket.on("bulletBounced", function()
+socket.on("bulletBounced", function(bullet)
 {
 	var audio = new Audio("/sounds/bounce.wav");
 	audio.volume = 0.3;
 	audio.play();
+	
+	var expl = new Explosion(bullet.x, bullet.y, 1, 10, bullet.color);
+	explosions.push(expl);
+});
+socket.on("bulletDespawned", function(bullet)
+{
+	var expl = new Explosion(bullet.x, bullet.y, 2, 10, bullet.color);
+	explosions.push(expl);
 });
 socket.on("kill", function(killer, victim)
 {
@@ -324,10 +332,7 @@ socket.on("kill", function(killer, victim)
 	
 	console.log(killer, victim);
 	
-	var color = victim.color;
-	if (color.l > 70) color.l *= 0.8;
-	var expl = new Explosion(victim.x, victim.y, 4, color);
-	console.log("new Explosion > ", expl);
+	var expl = new Explosion(victim.x, victim.y, 4, 24, victim.color);
 	explosions.push(expl);
 });
 
