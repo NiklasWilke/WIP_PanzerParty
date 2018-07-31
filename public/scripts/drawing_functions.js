@@ -169,11 +169,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 	}
 	
 	
-<<<<<<< HEAD
-	// DEV
-=======
 	// DEV grid
->>>>>>> temp
 	// for (var y=0; y<tiles.length; y++)
 	// {
 		// for (var x=0; x<tiles.length; x++)
