@@ -316,7 +316,7 @@ CanvasRenderingContext2D.prototype.drawBullet = function(bullet)
 	
 	// body
 	this.beginPath();
-	this.roundRect(-h, -w/2, h, w, {tl: 0, tr: w*0.5, br: w*0.5, bl: 0});
+	this.roundRect(-h+w/2, -w/2, h, w, {tl: 0, tr: w*0.5, br: w*0.5, bl: 0});
 	this.fillStyle = "hsl("+bullet.color.h+", "+bullet.color.s+"%, "+(bullet.color.l*0.5)+"%)";
 	this.fill();
 	this.closePath();

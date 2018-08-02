@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="/css/control.css">
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/scripts/cookies.js"></script>
+		<script src="/scripts/drawing_functions.js"></script>
 		<script src="/scripts/control.js"></script>
 		
 		{{> favicon}}
@@ -37,13 +38,23 @@
 			<img class="logo" src="/graphics/panzer_party.svg">
 			<div class="inner">
 				<div class="input">
-					<input type="color" class="color">
+					<canvas id="tank_preview" width="100" height="100"></canvas>
 					<input type="text" class="name" placeholder="Dein Name">
 				</div>
 				<button id="join">Beitreten!</button>
 			</div>
 			
 			<a id="privacy" href="/datenschutz">Datenschutz</a>
+			
+			
+			<div id="select_color" class="hidden">
+				<div class="inner">
+					<h2>Farbe wählen</h2>
+{{#available_colors}}
+					<div class="color" style="background:{{hsl}}" value="{{raw}}"></div>
+{{/available_colors}}
+				</div>
+			</div>
 		</div>
 		
 		<div id="rotate">

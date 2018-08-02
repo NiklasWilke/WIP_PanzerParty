@@ -116,8 +116,58 @@ function ini()
 	{
 		console.log("save");
 		
-		var json = exportMap();
-		prompt("JSON", json);
+		var level = exportMap();
+		var name = prompt("Name der Map:");
+		if (name == "") return alert("Ungültiger Name");
+		var file_name = name.toLowerCase().replace(/ +/, "-")+".json";
+		
+		socket.emit("saveLevel", file_name, name, level, function()
+		{
+			alert("Erfolgreich gespeichert!");
+		});
+	});
+	
+	socket.emit("getLevels", function(levels)
+	{
+		console.log("setLevels", levels);
+		
+		var wrapper = document.getElementById("levels");
+		wrapper.innerHTML = "";
+		for (var l in levels)
+		{
+			var level = levels[l];
+			level.color = color;
+			
+			var elem = document.createElement("div");
+			elem.className = "level";
+			elem.style.color = "hsla("+color.h+", "+color.s+"%, "+color.l+"%, 0.1)";
+			elem.setAttribute("data-id", level.id);
+			elem.addEventListener("click", function(e)
+			{
+				var id = this.getAttribute("data-id");
+				loadLevel(id);
+			});
+			
+			var map = document.createElement("div");
+			map.className = "map";
+			
+			var canvas = document.createElement("canvas");
+			canvas.className = "canvas";
+			canvas.width = 500;
+			canvas.height = 500;
+			
+			var ctx = canvas.getContext("2d");
+			ctx.drawLevel(level);
+			
+			var name = document.createElement("div");
+			name.className = "name valign";
+			name.innerHTML = "<span>"+level.name+"</span>";
+			
+			map.appendChild(canvas);
+			elem.appendChild(map);
+			elem.appendChild(name);
+			wrapper.appendChild(elem);
+		}
 	});
 }
 
@@ -137,7 +187,7 @@ function exportMap()
 	}
 	
 	console.log("RESULT:", JSON.stringify(result));
-	return JSON.stringify(result);
+	return result;
 }
 
 document.addEventListener("DOMContentLoaded", ini, false);

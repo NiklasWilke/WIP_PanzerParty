@@ -1,3 +1,13 @@
+Array.prototype.shuffle = function()
+{
+    for (let i = this.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this[i], this[j]] = [this[j], this[i]];
+    }
+    return this;
+}
+
+
 // generates random color
 function getRandomColor()
 {
@@ -45,7 +55,8 @@ class Explosion
 		this.r = 0;
 		this.max_r = size;
 		this.step = this.max_r / (60*0.5);
-		if (color.l > 70) color.l *= 0.8;
+		color.l *= 0.9;
+		color.s *= 1.2;
 		this.color = color;
 		this.particles = [];
 		this.done = false;
@@ -202,7 +213,7 @@ socket.on("updateScoreboard", function(players)
 	var scoreboard = document.querySelector("#scoreboard tbody");
 	scoreboard.innerHTML = "";
 	
-	for (var p in players)
+	for (var p = 0; p < players.length; p++)
 	{
 		var player = players[p];
 		var tr = document.createElement("tr");
@@ -222,9 +233,14 @@ socket.on("setLevels", function(levels)
 {
 	console.log("setLevels", levels);
 	
+	levels = levels.shuffle();
+	levels = levels.slice(0, Math.min(6, levels.length));
+	
+	
+	
 	var wrapper = document.getElementById("levels");
 	wrapper.innerHTML = "";
-	for (var l in levels)
+	for (var l=0; l<levels.length; l++)
 	{
 		var level = levels[l];
 		level.color = map_color;
@@ -394,7 +410,7 @@ function update()
 		}
 	}
 	
-	for (var e in explosions)
+	for (var e = 0; e < explosions.length; e++)
 	{
 		if (!explosions[e].done)
 		{

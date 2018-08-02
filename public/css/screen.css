@@ -1,24 +1,3 @@
-.clear::after {
-	content: "";
-	display: block;
-	clear: both;
-}
-
-.spacer {
-	flex-grow: 1;
-}
-
-.valign {
-	display: flex;
-	flex-direction: column;
-}
-.valign::before, .valign::after {
-	content: "";
-	display: block;
-	flex-grow: 1;
-}
-
-
 html {
 	font-size: 1.25vw;
 }

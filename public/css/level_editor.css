@@ -1,32 +1,8 @@
-*, *::before, *::after {
-	box-sizing: border-box;
-}
-
-.clear::after {
-	content: "";
-	display: block;
-	clear: both;
-}
-
-.valign {
-	display: flex;
-	flex-direction: column;
-}
-.valign::before, .valign::after {
-	content: "";
-	display: block;
-	flex-grow: 1;
-}
-
-
 html {
-	font-size: 1.1vw;
+	font-size: 2.5vh;
 }
 body {
 	display: flex;
-	margin: 0;
-	font-family: "Source Code Pro";
-	color: #222;
 }
 
 
@@ -100,4 +76,82 @@ body {
 	width: 2px;
 	margin-left: -1px;
 	background: rgba(10, 10, 10, 0.2);
+}
+
+
+.sidebar.right {
+	display: flex;
+	flex-direction: column;
+	padding: 2vw;
+}
+h2 {
+    margin: 0;
+    padding-left: 0.3vw;
+    background-image: url(/graphics/line.svg);
+    background-size: 100% 15%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+#levels .level {
+	display: flex;
+	flex-direction: row;
+	margin-top: 1vh;
+	cursor: pointer;
+	background: transparent;
+}
+#levels .level:hover {
+	background: currentColor;
+}
+#levels .level .map {
+	position: relative;
+	height: 6vh;
+	margin-right: 1.5vh;
+	background: #fff;
+}
+#levels .level .map canvas {
+	height: 100%;
+}
+#levels .level .name span {
+	line-height: 1em;
+	color: #222;
+}
+#levels .level:hover .name span {
+	background-image: url(/graphics/line.svg);
+	background-size: 100% 15%;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
+#clear {
+	display: none;
+}
+#save {
+	display: block;
+	width: 100%;
+	background: transparent;
+	padding: 0.25em 0;
+	border: 2px solid currentColor;
+	font: inherit;
+	cursor: pointer;
+
+	animation: button_animation 5s;
+	-moz-animation: button_animation 5s infinite; /* Firefox */
+	-webkit-animation: button_animation 5s infinite; /* Safari and Chrome */
+}
+
+
+@-moz-keyframes button_animation /* Firefox */ {
+    0% {color:#06ab86;}
+    25% {color:#f46cdb;}
+    50% {color:#00bee1;}
+    75% {color:#ff9e4c;}
+    100% {color:#06ab86;}
+}
+
+@-webkit-keyframes button_animation /* Safari and Chrome */ {
+    0% {color:#06ab86;}
+    25% {color:#f46cdb;}
+    50% {color:#00bee1;}
+    75% {color:#ff9e4c;}
+    100% {color:#06ab86;}
 }

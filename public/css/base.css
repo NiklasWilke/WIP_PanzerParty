@@ -30,6 +30,9 @@ body {
 	color: #222;
 }
 
+.spacer {
+	flex-grow: 1;
+}
 
 .clear::after {
 	content: "";

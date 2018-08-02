@@ -51,7 +51,13 @@ app.get("/screen", function(req, res)
 // render control view
 app.get("/control", function(req, res)
 {
-	var data = {ip: ip.address(), port: port};
+	var colors = [];
+	for (var h=0; h<15; h++)
+	{
+		colors.push({hsl: "hsl("+Math.round(h/15*360)+", 60%, 65%)", raw: Math.round(h/15*360)+";60;65"});
+	}
+	
+	var data = {ip: ip.address(), port: port, available_colors: colors};
 	res.render("control.html", data);
 });
 
@@ -95,10 +101,6 @@ app.get("/editor", function(req, res)
 
 io.on("connection", function(socket)
 {
-	socket.on("getLevel", function(id, callback)
-	{
-		callback(game.getLevel(id));
-	});
 });
 
 

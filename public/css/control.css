@@ -186,16 +186,18 @@ body.ready #login {
 	width: 60%;
 	margin: 10vh auto 0;
 }
-#login .inner {
+#login > .inner {
 	width: 50%;
 	margin: 5vh auto 0;
 }
 #login .input {
 	display: flex;
 }
-#login .input .color {
-	display: none;
-	flex-shrink: 0;
+#login .input #tank_preview {
+	height: 10vh;
+	width: 10vh;
+	margin-top: -1vh;
+	margin-right: 3vh;
 }
 #login .input .name {
 	display: block;
@@ -229,7 +231,6 @@ body.ready #login {
     animation: button_animation 5s;
     -moz-animation: button_animation 5s infinite; /* Firefox */
     -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */
-	
 }
 
 #login #privacy {
@@ -242,6 +243,35 @@ body.ready #login {
 	text-decoration: none;
 }
 
+#login #select_color {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.9);
+}
+#login #select_color .inner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 70vh;
+	margin-left: -35vh;
+	margin-top: -26vh;
+}
+#login #select_color .inner h2 {
+	margin: 0;
+	font-size: 7vh;
+	line-height: 1em;
+	margin-bottom: 3vh;
+	text-align: center;
+}
+#login #select_color .color {
+	float: left;
+	width: 12vh;
+	height: 12vh;
+	margin: 1vh;
+}
 
 
 /* color fade animation*/

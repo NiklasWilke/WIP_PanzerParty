@@ -1,13 +1,14 @@
 <html>
 	<head>
-		<title>Tank Combat</title>
+		<title>Level Editor &ndash; Panzer Party</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-		<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600" rel="stylesheet">
 		<link rel="stylesheet" href="/css/base.css">
 		<link rel="stylesheet" href="/css/level_editor.css">
 		<script src="/socket.io/socket.io.js"></script>
-		<script src="/scripts/jquery.js"></script>
+		<script src="/scripts/drawing_functions.js"></script>
 		<script src="/scripts/level_editor.js"></script>
+		
+		{{> favicon}}
 	</head>
 	<body>
 		<div class="sidebar left valign">
@@ -16,14 +17,13 @@
 		</div>
 		<div id="editor"></div>
 		<div class="sidebar right">
-			<div>
-				size: <input type="text" id="size" value="50"> <button id="clear">clear</button>
-			</div>
-			<div><button id="save">Speichern</button></div>
-			<div id="levels">
-				{{#levels}}
-					<div class="level" data-id="{{id}}" data-file="{{file}}" onclick="loadLevel('{{id}}')">{{name}}</div>
-				{{/levels}}
+			<h2>Level Liste</h2>
+			<div id="levels"></div>
+			<div class="spacer"></div>
+			<div id="actions">
+				<input type="hidden" id="size" value="50"> 
+				<button id="clear">clear</button>
+				<button id="save">Level speichern!</button>
 			</div>
 		</div>
 	</body>
