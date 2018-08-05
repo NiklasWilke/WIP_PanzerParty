@@ -164,6 +164,8 @@ body {
 
 /* LOGIN OVERLAY */
 #login {
+	display: flex;
+	flex-direction: column;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -181,25 +183,30 @@ body {
 body.ready #login {
 	display: none;
 }
-#login .logo {
+#login .wrapper {
+	flex-grow: 0;
+}
+#login .wrapper .logo {
 	display: block;
-	width: 60%;
-	margin: 10vh auto 0;
+	height: 21vh;
+     max-width: 60%;
+	margin: -8vh auto 0;
 }
-#login > .inner {
+#login .wrapper > .inner {
 	width: 50%;
-	margin: 5vh auto 0;
+	margin: 4vh auto 0;
 }
-#login .input {
+#login .wrapper .input {
 	display: flex;
+	padding-top: 1vh;
 }
-#login .input #tank_preview {
+#login .wrapper .input #tank_preview {
 	height: 10vh;
 	width: 10vh;
 	margin-top: -1vh;
 	margin-right: 3vh;
 }
-#login .input .name {
+#login .wrapper .input .name {
 	display: block;
 	flex-grow: 1;
 	flex-shrink: 1;
@@ -215,7 +222,7 @@ body.ready #login {
 	background-repeat: no-repeat;
 	background-position: bottom;
 }
-#login .input .name:focus {
+#login .wrapper .input .name:focus {
 	outline: 0;
 }
 #login #join {

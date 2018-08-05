@@ -30,6 +30,10 @@ body {
 	color: #222;
 }
 
+input:focus {
+	outline: none;
+}
+
 .spacer {
 	flex-grow: 1;
 }

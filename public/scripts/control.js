@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function()
 	name_input.value = Cookies.get("name");
 	name_input.addEventListener("keyup", function(e)
 	{
-		if (e.which == 13) join_button.click();
+		if (e.which == 13) join_button.focus();
 	});
 	
 	join_button.addEventListener("click", function(e)
