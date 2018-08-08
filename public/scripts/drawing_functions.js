@@ -189,24 +189,24 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 	
 	
 	// draw powerup spawn locations
-	for (var p in level.powerup_locations)
-	{
-		var pos = level.powerup_locations[p];
+	// for (var p in level.powerup_locations)
+	// {
+		// var pos = level.powerup_locations[p];
 		
-		this.beginPath();
-		this.arc(pos.x*f, pos.y*f, 0.24*w, 0, 2*Math.PI);
-		this.fillStyle = "hsl("+color.h+", "+(color.s*0.2)+"%, "+(100-(100-color.l)*0.5)+"%)";
-		this.fill();
-		this.strokeStyle = "hsl("+color.h+", "+(color.s*0.2)+"%, "+(100-(100-color.l)*0.7)+"%)";
-		this.stroke();
-		this.closePath();
+		// this.beginPath();
+		// this.arc(pos.x*f, pos.y*f, 0.24*w, 0, 2*Math.PI);
+		// this.fillStyle = "hsl("+color.h+", "+(color.s*0.2)+"%, "+(100-(100-color.l)*0.5)+"%)";
+		// this.fill();
+		// this.strokeStyle = "hsl("+color.h+", "+(color.s*0.2)+"%, "+(100-(100-color.l)*0.7)+"%)";
+		// this.stroke();
+		// this.closePath();
 		
-		this.beginPath();
-		this.arc(pos.x*f, pos.y*f, 0.1*w, 0, 2*Math.PI);
-		this.fillStyle = "hsl("+((color.h + 60) % 360)+", "+(color.s)+"%, "+(100-(100-color.l)*1)+"%)"; //"#eee";
-		this.fill();
-		this.closePath();
-	}
+		// this.beginPath();
+		// this.arc(pos.x*f, pos.y*f, 0.1*w, 0, 2*Math.PI);
+		// this.fillStyle = "hsl("+((color.h + 60) % 360)+", "+(color.s)+"%, "+(100-(100-color.l)*1)+"%)"; //"#eee";
+		// this.fill();
+		// this.closePath();
+	// }
 }
 
 
@@ -338,56 +338,71 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	var x = powerup.x*f,
 		y = powerup.y*f,
 		r = powerup.size/2*f;
-		
-	// var powerup_color = {
-		// h: ((color.h + 60) % 360),
-		// s: 70,
-		// l: 50
-	// };
+	
 	var powerup_color = powerup.color;
 	
 	// base
 	this.beginPath();
 	this.arc(x, y, r, 0, 2*Math.PI);
-	this.fillStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(powerup_color.l)+"%)";
+	this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, "+(powerup.color.l)+"%)";
 	this.fill();
-	this.lineWidth = 2;
-	this.strokeStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(powerup_color.l*0.9)+"%)";
+	this.lineWidth = 1;
+	this.strokeStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, "+(powerup.color.l*0.9)+"%)";
 	this.stroke();
 	this.closePath();
 	
-	this.lineWidth = 1;
-	
 	// highlight
-	this.beginPath();
-	this.ellipse(x - 0.08*r, y - 0.21*r, 0.9*r, 0.7*r, toRadians(-20), 1*Math.PI, 2*Math.PI);
-	this.ellipse(x - 0.08*r, y - 0.21*r, 0.9*r, 0.2*r, toRadians(-20), 0*Math.PI, 1*Math.PI);
-	this.fillStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(100-(100-powerup_color.l)*0.9)+"%)";
-	this.fill();
-	this.closePath();
+	// this.beginPath();
+	// this.ellipse(x - 0.08*r, y - 0.21*r, 0.9*r, 0.7*r, toRadians(-20), 1*Math.PI, 2*Math.PI);
+	// this.ellipse(x - 0.08*r, y - 0.21*r, 0.9*r, 0.2*r, toRadians(-20), 0*Math.PI, 1*Math.PI);
+	// this.fillStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(100-(100-powerup_color.l)*0.9)+"%)";
+	// this.fill();
+	// this.closePath();
 	
 	// shadow
-	this.beginPath();
-	this.ellipse(x + 0.08*r, y + 0.22*r, 0.9*r, 0.7*r, toRadians(160), 1*Math.PI, 2*Math.PI);
-	this.ellipse(x + 0.08*r, y + 0.22*r, 0.9*r, 0.2*r, toRadians(160), 0*Math.PI, 1*Math.PI);
-	this.fillStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(powerup_color.l*0.92)+"%)";
-	this.fill();
-	this.closePath();
+	// this.beginPath();
+	// this.ellipse(x + 0.08*r, y + 0.22*r, 0.9*r, 0.7*r, toRadians(160), 1*Math.PI, 2*Math.PI);
+	// this.ellipse(x + 0.08*r, y + 0.22*r, 0.9*r, 0.2*r, toRadians(160), 0*Math.PI, 1*Math.PI);
+	// this.fillStyle = "hsl("+powerup_color.h+", "+powerup_color.s+"%, "+(powerup_color.l*0.92)+"%)";
+	// this.fill();
+	// this.closePath();
 	
-	// lightning
-	var h = Math.sqrt(2*Math.pow(r, 2));
-	var w = h * 0.6;
-	this.beginPath();
-	this.moveTo(x + w*0.3, y-h*0.5);
-	this.lineTo(x + w*0.1, y-h*0.1);
-	this.lineTo(x + w*0.5, y-h*0.1);
-	
-	this.lineTo(x - w*0.3, y+h*0.5);
-	this.lineTo(x - w*0.1, y+h*0.1);
-	this.lineTo(x - w*0.5, y+h*0.1);
-	this.fillStyle = "#fff";
-	this.fill();
-	this.closePath();
+	if (powerup.type == "emp")
+	{
+		// lightning
+		var h = Math.sqrt(2*Math.pow(r, 2));
+		var w = h * 0.6;
+		this.beginPath();
+		this.moveTo(x + w*0.3, y-h*0.5);
+		this.lineTo(x + w*0.1, y-h*0.1);
+		this.lineTo(x + w*0.5, y-h*0.1);
+		
+		this.lineTo(x - w*0.3, y+h*0.5);
+		this.lineTo(x - w*0.1, y+h*0.1);
+		this.lineTo(x - w*0.5, y+h*0.1);
+		this.fillStyle = "#fff";
+		this.fill();
+		this.closePath();
+	}
+	else if (powerup.type == "bullet")
+	{
+		var h = Math.sqrt(2*Math.pow(r, 2)) * 0.85;
+		var w = h * 0.35;
+		
+		// bullet body
+		this.beginPath();
+		this.roundRect(x-w/2, y-h/2, w, h*0.7, {tl: w*0.5, tr: w*0.5, br: 0, bl: 0});
+		this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, 100%)";
+		this.fill();
+		this.closePath();
+		
+		// bullet detail
+		this.beginPath();
+		this.rect(x-w/2, y+h*0.22, w, h*0.3);
+		this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, 90%)";
+		this.fill();
+		this.closePath();
+	}
 }
 
 CanvasRenderingContext2D.prototype.drawBeacon = function(beacon)
@@ -396,7 +411,7 @@ CanvasRenderingContext2D.prototype.drawBeacon = function(beacon)
 	this.beginPath();
 	this.arc(beacon.x*f, beacon.y*f, beacon.r*f, 0, 2*Math.PI);
 	this.lineWidth = 2;
-	this.fillStyle = "rgba("+beacon.color.r+", "+beacon.color.g+", "+beacon.color.b+", "+(0.4*Math.min(1, (beacon.max_r - beacon.r) / beacon.max_r * 2))+")";
+	this.fillStyle = "hsla("+beacon.color.h+", "+beacon.color.s+"%, "+beacon.color.l+"%, "+(0.4*Math.min(1, (beacon.max_r - beacon.r) / beacon.max_r * 2))+")";
 	this.fill();
 	this.closePath();
 }

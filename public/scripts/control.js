@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function()
 			joystick_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
 			
 			fire_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+			fire_button.setAttribute("count", 10);
 			
 			powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
 		});
@@ -80,7 +81,14 @@ document.addEventListener("DOMContentLoaded", function()
 	{
 		e.preventDefault();
 		
-		var touch = e.touches[0];
+		var touches = Array.from(e.touches).filter(function(t)
+		{
+			return t.target.id != "fire";
+		});
+		
+		if (touches.length == 0) return false;
+		
+		var touch = touches[0];
 		var x = (touch.pageX - this.offsetLeft) / this.offsetWidth *2-1;
 		var y = (touch.pageY - this.offsetTop) / this.offsetHeight *2-1;
 		var angle = toDegrees(Math.atan2(y, x));
@@ -107,9 +115,23 @@ document.addEventListener("DOMContentLoaded", function()
 	});
 	
 	
+	powerup_button.addEventListener("touchstart", function(e)
+	{
+		if (!this.disabled)
+		{
+			socket.emit("activatePowerup");
+			if (navigator.vibrate) navigator.vibrate([10]);
+		}
+	});
+	
+	
 	fire_button.addEventListener("touchstart", function(e)
 	{
-		socket.emit("shoot");
+		if (parseInt(this.getAttribute("count")) > 0)
+		{
+			socket.emit("shoot");
+			if (navigator.vibrate) navigator.vibrate([10]);
+		}
 	});
 	
 	
@@ -133,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function()
 	tank.angle = 0;
 	tank.speed = 1;
 	tank.health = 100;
-	tank.color = getRandomColor();
+	tank.color = {h: 0, s: 0, l: 100};
 	
 	window.setInterval(function()
 	{
@@ -146,6 +168,7 @@ document.addEventListener("DOMContentLoaded", function()
 	// tank color selection
 	document.getElementById("tank_preview").addEventListener("click", function(e)
 	{
+		document.querySelector("#login .label").className = "label hidden";
 		document.querySelector("#login #select_color").className = "";
 	});
 	var color_inputs = document.querySelectorAll("#login #select_color .color");
@@ -160,6 +183,38 @@ document.addEventListener("DOMContentLoaded", function()
 	}
 	
 	/* socket events */
+	
+	socket.on("updateAvailableColors", function(colors)
+	{
+		console.log("colors > ", colors);
+		var wrapper = document.querySelector("#select_color .wrapper");
+		wrapper.innerHTML = "";
+		
+		if (tank.color.l == 100)
+		{
+			var available = colors.filter(function(c){return !c.taken;});
+			tank.color = available[Math.floor(Math.random()*available.length)];
+		}
+		
+		for (var c in colors)
+		{
+			var color = colors[c];
+			
+			var elem = document.createElement("button");
+			elem.className = "color";
+			elem.disabled = color.taken;
+			elem.style.backgroundColor = "hsl("+color.h+", "+color.s+"%, "+color.l+"%)";
+			elem.setAttribute("value", color.h+";"+color.s+";"+color.l);
+			elem.addEventListener("click", function(e)
+			{
+				var tmp = this.getAttribute("value").split(";");
+				tank.color = {h: tmp[0], s: tmp[1], l: tmp[2]};
+				document.querySelector("#login #select_color").className = "hidden";
+			});
+			
+			wrapper.appendChild(elem);
+		}
+	});
 
 	// game state changed
 	socket.on("updateGameState", function(state)
@@ -169,10 +224,29 @@ document.addEventListener("DOMContentLoaded", function()
 		document.body.setAttribute("state", state);
 	});
 
+	socket.on("updateBulletCount", function(count)
+	{
+		console.log("updateBulletCount >", count);
+		fire_button.setAttribute("count", count);
+	});
+
+	socket.on("updatePowerup", function(powerup)
+	{
+		powerup_button.disabled = powerup ? false : true;
+		if (powerup)
+		{
+			powerup_button.setAttribute("name", powerup.name);
+		}
+		else
+		{
+			powerup_button.removeAttribute("name");
+		}
+	});
+
 	socket.on("hit", function(hp)
 	{
 		console.log("got hit >> ", hp);
-		navigator.vibrate([200]);
+		if (navigator.vibrate) navigator.vibrate([200]);
 		updateHP(hp);
 	});
 
@@ -188,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function()
 		var elem = document.getElementById("dead");
 		elem.getElementsByClassName("message")[0].innerHTML = msg;
 		elem.className = "visible";
-		navigator.vibrate([600]);
+		if (navigator.vibrate) navigator.vibrate([600]);
 		
 		var interval = window.setInterval(function()
 		{

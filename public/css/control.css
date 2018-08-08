@@ -75,6 +75,7 @@ body {
 
 
 #fire {
+	display: block;
 	position: fixed;
 	bottom: 8vh;
 	left: 10vh;
@@ -84,22 +85,40 @@ body {
 	background-image: url("/icons/missile.svg");
 	background-size: 42%;
 	background-repeat: no-repeat;
-     background-position: 50% 49%;
+	background-position: 50% 49%;
+	border: 0;
 	border-radius: 50%;
 	transform: rotateZ(24deg);
+}
+#fire:focus, #powerup:focus {
+	outline: 0;
 }
 #fire:active::after, #powerup:active::after {
 	content: "";
 	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	background: rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
 }
+#fire::before {
+	content: "x" attr(count);
+	position: absolute;
+	top: 50%;
+	left: 58%;
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	font-size: 4vh;
+	transform: rotateZ(-24deg);
+}
 
 
 
 #powerup {
+	display: block;
 	position: fixed;
 	top: 8vh;
 	left: 10vh;
@@ -110,7 +129,23 @@ body {
 	background-size: 30%;
 	background-repeat: no-repeat;
 	background-position: center;
+	border: 0;
 	border-radius: 50%;
+}
+#powerup[disabled] {
+	opacity: 0.4;
+}
+#powerup[name]::after {
+	content: attr(name);
+	position: absolute;
+	color: #fff;
+	font-weight: bold;
+	font-size: 4vh;
+	white-space: nowrap;
+	transform: translateX(-50%);
+	top: 106%;
+	left: 50%;
+	text-align: center;
 }
 
 
@@ -163,6 +198,31 @@ body {
 
 
 /* LOGIN OVERLAY */
+#waiting {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	
+	font-size: 5vh;
+}
+#waiting .logo {
+	display: block;
+	margin: auto;
+	height: 18vh;
+	margin-top: -6vh;
+}
+#waiting .inner {
+	text-align: center;
+	margin-top: 2vh;
+}
+body[state=running] #waiting {
+	display: none;
+}
+
+/* LOGIN OVERLAY */
 #login {
 	display: flex;
 	flex-direction: column;
@@ -199,6 +259,19 @@ body.ready #login {
 #login .wrapper .input {
 	display: flex;
 	padding-top: 1vh;
+}
+#login .wrapper .input .label {
+	position: absolute;
+	transform: translateX(-100%) translateY(-48%);
+	margin-left: -0.5em;
+	font-size: 0.6em;
+	text-align: right;
+}
+#login .wrapper .input .label div {
+	margin-right: 0.5em;
+}
+#login .wrapper .input .label img {
+	height: 1.6em;
 }
 #login .wrapper .input #tank_preview {
 	height: 10vh;
@@ -274,10 +347,27 @@ body.ready #login {
 	text-align: center;
 }
 #login #select_color .color {
+	position: relative;
+	display: block;
 	float: left;
 	width: 12vh;
 	height: 12vh;
 	margin: 1vh;
+	border: 0;
+	padding: 0;
+}
+#login #select_color .color[disabled]::before {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	background: rgba(255, 255, 255, 0.6);
+	background-image: url("/icons/cross.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 50%;
 }
 
 

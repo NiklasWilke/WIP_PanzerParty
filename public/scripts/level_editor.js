@@ -12,6 +12,7 @@ var color = {
 	l: Math.round(Math.random() * 20 + 50)
 };
 
+var current_tool = "wall";
 var draw = false;
 
 console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
@@ -31,29 +32,19 @@ function drawEditor(level)
 			elem.className = "wall";
 			elem.addEventListener("mousedown", function(e)
 			{
-				if (e.which == 1)
-				{
-					e.preventDefault();
-					if (this.getAttribute("block") != 1)
-					{
-						this.setAttribute("block", 1);
-					}
-					else
-					{
-						this.setAttribute("block", 0);
-					}
-				}
-			});
-			elem.addEventListener("contextmenu", function(e)
-			{
 				e.preventDefault();
-				if (this.getAttribute("block") != 2)
+				
+				switch (current_tool)
 				{
-					this.setAttribute("block", 2);
-				}
-				else
-				{
-					this.setAttribute("block", 0);
+					case "wall":
+						this.setAttribute("block", 1);
+						break;
+					case "powerup":
+						this.setAttribute("block", 2);
+						break;
+					case "eraser":
+						this.setAttribute("block", 0);
+						break;
 				}
 			});
 			elem.addEventListener("mouseenter", function(e)
@@ -61,13 +52,17 @@ function drawEditor(level)
 				e.preventDefault();
 				if (!draw) return false;
 				
-				if (this.getAttribute("block") == 0)
+				switch (current_tool)
 				{
-					this.setAttribute("block", e.which == 1 ? 1 : 2);
-				}
-				else
-				{
-					this.setAttribute("block", 0);
+					case "wall":
+						this.setAttribute("block", 1);
+						break;
+					case "powerup":
+						this.setAttribute("block", 2);
+						break;
+					case "eraser":
+						this.setAttribute("block", 0);
+						break;
 				}
 			});
 			elem.style.width = (100/s)+"vh";
@@ -126,6 +121,18 @@ function ini()
 			alert("Erfolgreich gespeichert!");
 		});
 	});
+	
+	var tools = document.querySelectorAll("#toolbox .tool");
+	for (var i=0; i<tools.length; i++)
+	{
+		var tool = tools[i];
+		tool.addEventListener("click", function()
+		{
+			document.querySelector("#toolbox .tool.active").className = "tool";
+			this.className = "tool active";
+			current_tool = this.getAttribute("name");
+		});
+	}
 	
 	socket.emit("getLevels", function(levels)
 	{

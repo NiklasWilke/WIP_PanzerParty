@@ -14,9 +14,8 @@
 		{{> favicon}}
 	</head>
 	<body>
-		<div id="name"></div>
-		<div id="powerup"></div>
-		<div id="fire"></div>
+		<button id="powerup" disabled></button>
+		<button id="fire"></button>
 		<div id="joystick"><div class="button"></div></div>
 		<div id="health">
 			<svg class="heart" viewBox="0 0 510 510">
@@ -34,12 +33,21 @@
 			</div>
 		</div>
 		
+		<div id="waiting" class="valign">
+			<img class="logo" src="/graphics/panzer_party.svg">
+			<div class="inner">warte auf den Gastgeber...</div>
+		</div>
+		
 		<div id="login">
 			<div class="spacer"></div>
 			<div class="wrapper">
 				<img class="logo" src="/graphics/panzer_party.svg">
 				<div class="inner clear">
 					<div class="input">
+						<div class="label">
+							<div>Farbe wählen</div>
+							<img class="arrow" src="/graphics/arrow_right.svg">
+						</div>
 						<canvas id="tank_preview" width="100" height="100"></canvas>
 						<input type="text" class="name" placeholder="Dein Name">
 					</div>
@@ -54,9 +62,11 @@
 			<div id="select_color" class="hidden">
 				<div class="inner">
 					<h2>Farbe wählen</h2>
+					<div class="wrapper">
 {{#available_colors}}
-					<div class="color" style="background:{{hsl}}" value="{{raw}}"></div>
+						<div class="color" style="background:hsl({{h}}, {{s}}%, {{l}}%)" value="{{h}};{{s}};{{l}}"></div>
 {{/available_colors}}
+					</div>
 				</div>
 			</div>
 		</div>

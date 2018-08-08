@@ -1,8 +1,10 @@
 html {
 	font-size: 1.25vw;
+	background: #fff;
 }
 body {
 	display: flex;
+	width: 100%;
 }
 
 
@@ -67,31 +69,34 @@ body {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	overflow: hidden;
-	height: 30%;
+	margin-top: 4vw;
 }
 #kill_log li {
-	transition: opacity 0.4s;
+	transition: all 0.4s;
 }
 #kill_log li.hide {
 	opacity: 0;
+	margin-left: -0.5vw;
 }
 #kill_log li img {
-	margin: 0 0.75vw 0 0.9vw;
-	height: 1.2em;
-	vertical-align: -0.36em;
+	margin: 0 0.8vw 0 0.9vw;
+	height: 1.1em;
+	vertical-align: -0.34em;
 }
 #kill_log li.suicide img {
-	margin: 0 0 0 0.65vw;
-	height: 0.8em;
-	vertical-align: -0.1em;
+    margin: 0 0.75vw 0 0.9vw;
+    height: 0.9em;
+    vertical-align: -0.18em;
 }
 
+
+.sidebar.right .spacer {
+	flex-grow: 1;
+}
 
 #scoreboard {
 	flex-grow: 0;
 	width: 100%;
-	min-height: 50vh;
 }
 #scoreboard h2 {
 	margin: 0;
@@ -109,18 +114,20 @@ body {
 #scoreboard tr th {
 	padding-bottom: 0.5em;
 }
-#scoreboard tr td:not(:first-child), #scoreboard tr th:not(:first-child) {
-	width: 1px
+#scoreboard tr td:not(:nth-child(2)), #scoreboard tr th:not(:first-child) {
+	width: 1px;
 }
 #scoreboard td, #scoreboard th {
 	text-align: left;
-	padding-right: 1vw;
-}
-#scoreboard tr td:last-child, #scoreboard tr th:last-child {
-	padding-right: 0.5vw;
+	padding-right: 1em;
 }
 #scoreboard tr td:first-child, #scoreboard tr th:first-child {
-	padding-left: 0.4vw;
+	padding-left: 0.4em;
+	padding-right: 0.3em;
+	text-align: right;
+}
+#scoreboard tr td:last-child, #scoreboard tr th:last-child {
+	padding-right: 0.5em;
 }
 
 
@@ -216,13 +223,26 @@ body {
     100% {color:#06ab86;}
 }
 
-#menu_icon  {
+
+#navbar {
 	position: fixed;
-	top: 0;
+	bottom: 0;
 	right: 0;
 	margin: 0.5em 1em;
-	cursor: pointer;
 }
+#navbar > * {
+	display: inline-block;
+	cursor: pointer;
+	margin-left: 0.5em;
+}
+#navbar > img {
+	height: 1em;
+	vertical-align: middle;
+}
+#navbar .muted {
+	opacity: 0.4;
+}
+
 
 #menu {
 	position: fixed;

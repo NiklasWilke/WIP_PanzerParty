@@ -1,10 +1,11 @@
-Array.prototype.shuffle = function()
+function shuffle(arr)
 {
-    for (let i = this.length - 1; i > 0; i--) {
+    for (let i = arr.length - 1; i > 0; i--)
+	{
         const j = Math.floor(Math.random() * (i + 1));
-        [this[i], this[j]] = [this[j], this[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    return this;
+    return arr;
 }
 
 
@@ -82,6 +83,9 @@ class Explosion
 
 var socket = io();
 
+var music_volume = Cookies.has("music_volume") ? Cookies.get("music_volume") : 0.015,
+	game_volume = Cookies.has("game_volume") ? Cookies.get("game_volume") : 1;
+
 //canvas 
 var canvas,
 	ctx,
@@ -98,7 +102,8 @@ var tanks = [],
 	gravestones = [],
 	map = null,
 	beacons = [],
-	explosions = [];
+	explosions = [],
+	engine_sounds = {};
 
 
 // map calor
@@ -109,6 +114,12 @@ console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
 
 function ini()
 {
+	document.getElementById("music").volume = music_volume;
+	
+	if (music_volume == 0) document.getElementById("mute_music").className = "muted";
+	if (game_volume == 0) document.getElementById("mute_sound").className = "muted";
+	
+	
 	/* menu */
 	var menu_buttons = document.querySelectorAll("#menu li span");
 	for (var i=0; i<menu_buttons.length; i++)
@@ -136,6 +147,37 @@ function ini()
 	menu_icon.addEventListener("click", function(e)
 	{
 		document.getElementById("menu").className = "valign";
+	});
+	
+	document.getElementById("mute_music").addEventListener("click", function(e)
+	{
+		var audio = document.getElementById("music");
+		audio.volume = audio.volume == 0 ? 0.015 : 0;
+		this.className = audio.volume == 0 ? "muted" : "";
+		
+		Cookies.set("music_volume", audio.volume, Infinity, "/");
+	});
+	
+	document.getElementById("mute_sound").addEventListener("click", function(e)
+	{
+		game_volume = game_volume == 0 ? 1 : 0;
+		this.className = game_volume == 0 ? "muted" : "";
+		
+		Cookies.set("game_volume", game_volume, Infinity, "/");
+	});
+	
+	document.getElementById("fullscreen").addEventListener("click", function(e)
+	{
+		var elem = document.body;
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.mozRequestFullScreen) { /* Firefox */
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+			elem.webkitRequestFullscreen();
+		} else if (elem.msRequestFullscreen) { /* IE/Edge */
+			elem.msRequestFullscreen();
+		}
 	});
 	
 	canvas = document.getElementById("objects");
@@ -219,7 +261,7 @@ socket.on("updateScoreboard", function(players)
 		var tr = document.createElement("tr");
 		tr.style.color = "hsl("+player.color.h+", "+player.color.s+"%, "+player.color.l+"%)";
 		var kd = (Math.floor(player.kd))+"."+((Math.round((player.kd % 1) * 100) / 100)+"0000").slice(2, 4);
-		tr.innerHTML = "<td>"+player.name+"</td><td>"+player.kills+"</td><td>"+player.deaths+"</td><td>"+kd+"</td>";
+		tr.innerHTML = "<td>"+(p+1)+".</td><td>"+player.name+"</td><td>"+player.kills+"</td><td>"+player.deaths+"</td><td>"+kd+"</td>";
 		scoreboard.appendChild(tr);
 	}
 });
@@ -233,17 +275,15 @@ socket.on("setLevels", function(levels)
 {
 	console.log("setLevels", levels);
 	
-	levels = levels.shuffle();
+	// select 6 random levels
+	levels = shuffle(levels);
 	levels = levels.slice(0, Math.min(6, levels.length));
-	
-	
 	
 	var wrapper = document.getElementById("levels");
 	wrapper.innerHTML = "";
 	for (var l=0; l<levels.length; l++)
 	{
 		var level = levels[l];
-		level.color = map_color;
 		
 		var elem = document.createElement("div");
 		elem.className = "level";
@@ -281,6 +321,8 @@ socket.on("setLevels", function(levels)
 // render map
 socket.on("renderMap", function(m)
 {
+	map_color = m.level.color;
+	
 	console.log("renderMap > ", m);
 	document.getElementById("select_level").className = "hidden";
 	document.getElementById("battleground").style.borderColor = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l*0.7)+"%)";
@@ -288,7 +330,6 @@ socket.on("renderMap", function(m)
 	document.getElementById("level").style.background = "hsla("+map_color.h+", "+map_color.s+"%, "+(100-(100-map_color.l)*0.1)+"%)";
 	
 	m.color = map_color;
-	m.level.color = map_color;
 	map = m;
 	
 	lvl_ctx.clear();
@@ -318,37 +359,35 @@ socket.on("powerupActivated", function(tank, powerup)
 	}
 });
 
+function playSound(src, volume)
+{
+	var audio = new Audio(src);
+	audio.volume = volume * game_volume;
+	audio.play();
+}
 
 // sounds
 socket.on("shotFired", function()
 {
-	var audio = new Audio("/sounds/shoot.wav");
-	audio.volume = 0.8;
-	audio.play();
+	playSound("/sounds/shoot.wav", 0.6);
 });
 socket.on("bulletBounced", function(bullet)
 {
-	var audio = new Audio("/sounds/bounce.wav");
-	audio.volume = 0.2;
-	audio.play();
+	playSound("/sounds/bounce.wav", 0.05);
 	
 	var expl = new Explosion(bullet.x, bullet.y, 1, 10, bullet.color);
 	explosions.push(expl);
 });
 socket.on("bulletDespawned", function(bullet)
 {
-	var audio = new Audio("/sounds/bounce.wav");
-	audio.volume = 0.3;
-	audio.play();
+	playSound("/sounds/bounce.wav", 0.3);
 	
 	var expl = new Explosion(bullet.x, bullet.y, 2, 10, bullet.color);
 	explosions.push(expl);
 });
 socket.on("kill", function(killer, victim)
 {
-	var audio = new Audio("/sounds/party_horn.wav");
-	audio.volume = 0.4;
-	audio.play();
+	playSound("/sounds/party_horn.wav", 0.4);
 	
 	console.log(killer, victim);
 	
@@ -377,23 +416,29 @@ socket.on("kill", function(killer, victim)
 		elem.className = "suicide";
 		elem.innerHTML = "<span style='color:hsl("+victim.color.h+", "+victim.color.s+"%, "+victim.color.l+"%)'>"+victim.name+"</span><img src='/icons/skull.svg'>";
 	}
+	elem.className += " hide";
 	kill_log.prepend(elem);
 	
-	// window.setTimeout(function()
-	// {
-		// elem.className = "hide";
-		// window.setTimeout(function()
-		// {
-			// kill_log.removeChild(elem);
-		// }, 400);
-	// }, 3500);
+	
+	window.setTimeout(function()
+	{
+		elem.className = elem.className.replace(" hide", "");
+		window.setTimeout(function()
+		{
+			elem.className = elem.className+" hide";
+			window.setTimeout(function()
+			{
+				kill_log.removeChild(elem);
+			}, 400);
+		}, 5000);
+	}, 10);
 });
 
 
 var powerup_color = {
 	h: 0,
-	s: 60,
-	l: 45
+	s: 50,
+	l: 55
 };
 
 function update()
@@ -423,24 +468,50 @@ function update()
 	}
 }
 
+var powerup_fade_step = 0,
+	powerup_fade_dir = 1;
 function render()
 {
-	for (var p in powerups)
-	{
-		powerup_color.h = (powerup_color.h + 0.1) % 360,
-		powerups[p].color = powerup_color;
-		
-		ctx.drawPowerup(powerups[p]);
-	}
-	
 	for (var g in gravestones)
 	{
 		ctx.drawGravestone(gravestones[g]);
 	}
 	
+	// draw powerup
+	if (powerup_fade_step <= -5 || powerup_fade_step >= 5) powerup_fade_dir *= -1;
+	powerup_fade_step += 0.3 * powerup_fade_dir;
+	for (var p in powerups)
+	{
+		powerups[p].color.l = powerups[p].color._l + powerup_fade_step;
+		
+		ctx.drawPowerup(powerups[p]);
+	}
+	
 	for (var t in tanks)
 	{
-		ctx.drawTank(tanks[t]);
+		var tank = tanks[t];
+		ctx.drawTank(tank);
+		
+		if (!engine_sounds[tank.id])
+		{
+			var audio = new Audio("/sounds/engine.wav");
+			audio.loop = true;
+			audio.volume = 0;
+			audio.play();
+			
+			engine_sounds[tank.id] = audio;
+		}
+		engine_sounds[tank.id].volume = tank.speed * 0.01 * game_volume;
+	}
+	
+	var temp = tanks.map(function(t){return t.id});
+	for (var e in engine_sounds)
+	{
+		if (temp.indexOf(e) == -1)
+		{
+			engine_sounds[e].pause();
+			delete engine_sounds[e];
+		}
 	}
 	
 	for (var b in bullets)

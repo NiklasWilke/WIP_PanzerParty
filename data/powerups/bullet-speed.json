@@ -1,0 +1,13 @@
+{
+	"name": "Schnelle Kugeln",
+	"drop_rate": 1,
+	"type": "bullet",
+	"color": {"h": 200, "s": 80, "l": 60},
+	"duration": 3000,
+	"effect": {
+		"self": {
+			"bullet_speed": "1.3"
+		},
+		"other": {}
+	}
+}

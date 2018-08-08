@@ -7,12 +7,15 @@
 		<link rel="stylesheet" href="/css/base.css">
 		<link rel="stylesheet" href="/css/screen.css">
 		<script src="/socket.io/socket.io.js"></script>
+		<script src="/scripts/cookies.js"></script>
 		<script src="/scripts/drawing_functions.js"></script>
 		<script src="/scripts/screen.js"></script>
 		
 		{{> favicon}}
 	</head>
 	<body>
+		<audio id="music" src="/music/Hep Cats.mp3" autoplay loop></audio>
+		
 		<div class="sidebar left valign">
 			<img id="title" src="/graphics/panzer_party.svg">
 			<img id="logo" src="/graphics/tank.svg">
@@ -27,13 +30,11 @@
 			<canvas id="effects"></canvas>
 		</div>
 		<div class="sidebar right">
-			<ul id="kill_log"></ul>
-			<div class="spacer"></div>
 			<div id="scoreboard">
 				<h2>Scoreboard</h2>
 				<table>
 					<thead>
-						<th></th>
+						<th colspan="2"></th>
 						<th>K</th>
 						<th>D</th>
 						<th>K/D</th>
@@ -41,6 +42,8 @@
 					<tbody></tbody>
 				</table>
 			</div>
+			<ul id="kill_log"></ul>
+			<div class="spacer"></div>
 		</div>
 		
 		<div id="select_level" class="hidden">
@@ -48,7 +51,12 @@
 			<div id="levels"></div>
 		</div>
 		
-		<div id="menu_icon">menu</diV>
+		<div id="navbar">
+			<img id="mute_music" src="/icons/music.svg">
+			<img id="mute_sound" src="/icons/sound.svg">
+			<img id="menu_icon" src="/icons/menu.svg">
+			<img id="fullscreen" src="/icons/fullscreen.svg">
+		</div>
 		<div id="menu" class="valign hidden">
 			<ul class="inner">
 				<li><span action="continue">Weiter spielen</span></li>

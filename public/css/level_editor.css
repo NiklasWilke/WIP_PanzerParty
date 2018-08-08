@@ -37,6 +37,23 @@ body {
 	width: 60%;
 }
 
+
+#toolbox {
+	position: absolute;
+	right: 4%;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: right;
+}
+#toolbox .tool.active span {
+    background-image: url(/graphics/line.svg);
+    background-size: 100% 15%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+
+
 #editor {
 	flex-grow: 0;
 	flex-shrink: 0;
@@ -47,15 +64,22 @@ body {
 	background: #eee;
 }
 #editor .wall {
+	position: relative;
 	float: left;
 	border: 1px solid rgba(10, 10, 10, 0.1);
 }
 #editor .wall[block="1"] {
 	background: currentColor;
 }
-#editor .wall[block="2"] {
+#editor .wall[block="2"]::before {
+	content: "";
+	display: block;
+	width: 70%;
+	height: 70%;
+	margin: 15%;
+	border-radius: 50%;
 	background: currentColor;
-	filter: hue-rotate(180deg);
+	filter: hue-rotate(180deg);;
 }
 #editor::before {
 	content: "";
