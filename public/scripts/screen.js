@@ -197,16 +197,19 @@ document.addEventListener("DOMContentLoaded", ini, false);
 // responsive canvas
 function updateSize()
 {
-	f = window.innerHeight / 100;
+	var w = document.getElementById("battleground").offsetWidth,
+		h = document.getElementById("battleground").offsetHeight;
 	
-	canvas.width = window.innerHeight;
-	canvas.height = window.innerHeight;
+	f = h / 100;
 	
-	lvl_canvas.width = window.innerHeight;
-	lvl_canvas.height = window.innerHeight;
+	canvas.width = w;
+	canvas.height = h;
 	
-	effect_canvas.width = window.innerHeight;
-	effect_canvas.height = window.innerHeight;
+	lvl_canvas.width = w;
+	lvl_canvas.height = h;
+	
+	effect_canvas.width = w;
+	effect_canvas.height = h;
 	
 	lvl_ctx.clear();
 	if (map) lvl_ctx.drawLevel(map.level);
@@ -328,6 +331,10 @@ socket.on("renderMap", function(m)
 		color_border = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l*0.7)+"%)";
 	
 	console.log("renderMap > ", m);
+	document.getElementById("battleground").style.height = 95 + "vh";
+	document.getElementById("battleground").style.width = (95 / m.height * m.width) + "vh";
+	document.getElementById("battleground").style.margin = "2.5vh 0";
+	
 	document.getElementById("select_level").className = "hidden";
 	
 	document.getElementById("level").style.background = color_background;
@@ -343,6 +350,9 @@ socket.on("renderMap", function(m)
 	
 	map = m;
 	
+	var vh = window.innerHeight;
+	
+	lvl_ctx.setSize(m.width/m.height*vh, vh);
 	lvl_ctx.clear();
 	lvl_ctx.drawLevel(map.level);
 	

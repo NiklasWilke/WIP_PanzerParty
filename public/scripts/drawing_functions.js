@@ -22,7 +22,14 @@ CanvasRenderingContext2D.prototype.prepare = function()
 {
 	this.canvas.width = this.canvas.innerWidth;
 	this.canvas.height = this.canvas.innerHeight;
-	this.clear();
+}
+
+
+// set size
+CanvasRenderingContext2D.prototype.setSize = function(w, h)
+{
+	this.canvas.width = w;
+	this.canvas.height = h;
 }
 
 

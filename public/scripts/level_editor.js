@@ -19,14 +19,17 @@ console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
 
 function drawEditor(level)
 {
-	s = level ? level.size : parseInt(document.getElementById("size").value);
+	w = level ? level.width : parseInt(document.getElementById("width").value);
+	h = level ? level.height : parseInt(document.getElementById("height").value);
 	
 	editor.innerHTML = "";
 	
+	editor.style.width = (100/h * w)+"vh";
+	
 	var elem;
-	for (var y=0; y<s; y++)
+	for (var y=0; y<h; y++)
 	{
-		for (var x=0; x<s; x++)
+		for (var x=0; x<w; x++)
 		{
 			elem = document.createElement("div");
 			elem.className = "wall";
@@ -65,9 +68,9 @@ function drawEditor(level)
 						break;
 				}
 			});
-			elem.style.width = (100/s)+"vh";
-			elem.style.height = (100/s)+"vh";
-			elem.setAttribute("block", level ? level.tiles[y][x] : ((x == 0 || x == s-1 || y == 0 || y == s-1) ? 1 : 0));
+			elem.style.width = (100/h)+"vh";
+			elem.style.height = (100/h)+"vh";
+			elem.setAttribute("block", level ? level.tiles[y][x] : ((x == 0 || x == w-1 || y == 0 || y == h-1) ? 1 : 0));
 			editor.appendChild(elem);
 		}
 	}
@@ -183,12 +186,12 @@ function exportMap()
 	var result = [];
 	var tiles = document.querySelectorAll("#editor .wall");
 	
-	for (var y=0; y<s; y++)
+	for (var y=0; y<h; y++)
 	{
 		var row = [];
-		for (var x=0; x<s; x++)
+		for (var x=0; x<w; x++)
 		{
-			row.push(tiles[y*s + x].hasAttribute("block") ? parseInt(tiles[y*s + x].getAttribute("block")) : 0);
+			row.push(tiles[y*w + x].hasAttribute("block") ? parseInt(tiles[y*w + x].getAttribute("block")) : 0);
 		}
 		result.push(row);
 	}
