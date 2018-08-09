@@ -1,13 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="-49 141 512 512" style="enable-background:new -49 141 512 512;" xml:space="preserve">
-<style type="text/css">
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Capa_1"
+   x="0px"
+   y="0px"
+   viewBox="-49 141 512 512"
+   style="enable-background:new -49 141 512 512;"
+   xml:space="preserve"
+   sodipodi:docname="killed.svg"
+   inkscape:version="0.92.1 r15371"><metadata
+   id="metadata13"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs11" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="640"
+   inkscape:window-height="480"
+   id="namedview9"
+   showgrid="false"
+   inkscape:zoom="0.4609375"
+   inkscape:cx="256"
+   inkscape:cy="256"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Capa_1" />
+<style
+   type="text/css"
+   id="style2">
 	.st0{fill:#222222;}
 </style>
-<g>
-	<path class="st0" d="M-45.9,382.3l10.5-3l5.6-11.7H-37v-38.2c0-5.1,1.9-9.2,4.3-9.2L133,367.6h177c1,0,2.1,0,3.1,0v58.8
-		c-1,0-2.1,0-3.1,0H129.5l-162.1,47.4c-2.4,0-4.3-4.1-4.3-9.2v-38.2h10.4l-8.8-12.2l-10.5-3.1C-52.9,396.1-45.9,382.3-45.9,382.3z
-		 M463,398.5c0-14.7-103.1-28.3-137.4-30.6v58.2C359.9,423.8,463,413.1,463,398.5z"/>
+<g
+   id="g6"
+   style="fill:#ffffff">
+	<path
+   class="st0"
+   d="M-45.9,382.3l10.5-3l5.6-11.7H-37v-38.2c0-5.1,1.9-9.2,4.3-9.2L133,367.6h177c1,0,2.1,0,3.1,0v58.8   c-1,0-2.1,0-3.1,0H129.5l-162.1,47.4c-2.4,0-4.3-4.1-4.3-9.2v-38.2h10.4l-8.8-12.2l-10.5-3.1C-52.9,396.1-45.9,382.3-45.9,382.3z    M463,398.5c0-14.7-103.1-28.3-137.4-30.6v58.2C359.9,423.8,463,413.1,463,398.5z"
+   id="path4"
+   style="fill:#ffffff" />
 </g>
 </svg>

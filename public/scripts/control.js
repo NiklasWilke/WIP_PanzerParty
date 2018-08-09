@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function()
 			joystick_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
 			
 			fire_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
-			fire_button.setAttribute("count", 10);
+			fire_button.setAttribute("count", 6);
 			
 			powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
 		});

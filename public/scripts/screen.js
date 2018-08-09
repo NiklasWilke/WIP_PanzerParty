@@ -83,7 +83,7 @@ class Explosion
 
 var socket = io();
 
-var music_volume = Cookies.has("music_volume") ? Cookies.get("music_volume") : 0.015,
+var music_volume = Cookies.has("music_volume") ? Cookies.get("music_volume") : 0.4,
 	game_volume = Cookies.has("game_volume") ? Cookies.get("game_volume") : 1;
 
 //canvas 
@@ -152,7 +152,7 @@ function ini()
 	document.getElementById("mute_music").addEventListener("click", function(e)
 	{
 		var audio = document.getElementById("music");
-		audio.volume = audio.volume == 0 ? 0.015 : 0;
+		audio.volume = audio.volume == 0 ? 0.4 : 0;
 		this.className = audio.volume == 0 ? "muted" : "";
 		
 		Cookies.set("music_volume", audio.volume, Infinity, "/");
@@ -321,15 +321,26 @@ socket.on("setLevels", function(levels)
 // render map
 socket.on("renderMap", function(m)
 {
-	map_color = m.level.color;
+	var map_color = m.level.color;
+	
+	var color_main = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l)+"%)",
+		color_background = "hsl("+map_color.h+", "+map_color.s+"%, "+95+"%)",
+		color_border = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l*0.7)+"%)";
 	
 	console.log("renderMap > ", m);
 	document.getElementById("select_level").className = "hidden";
-	document.getElementById("battleground").style.borderColor = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l*0.7)+"%)";
-	document.getElementById("battleground").style.background = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l)+"%)";
-	document.getElementById("level").style.background = "hsla("+map_color.h+", "+map_color.s+"%, "+(100-(100-map_color.l)*0.1)+"%)";
 	
-	m.color = map_color;
+	document.getElementById("level").style.background = color_background;
+	
+	document.getElementById("scoreboard").style.background = color_background;
+	document.getElementById("scoreboard").style.borderColor = color_border;
+	
+	document.getElementById("qr").style.background = color_background;
+	document.getElementById("qr").style.borderColor = color_border;
+	
+	document.body.style.background = color_main;
+	document.body.style.borderColor = color_border;
+	
 	map = m;
 	
 	lvl_ctx.clear();
@@ -478,11 +489,11 @@ function render()
 	}
 	
 	// draw powerup
-	if (powerup_fade_step <= -5 || powerup_fade_step >= 5) powerup_fade_dir *= -1;
-	powerup_fade_step += 0.3 * powerup_fade_dir;
+	// if (powerup_fade_step <= -5 || powerup_fade_step >= 5) powerup_fade_dir *= -1;
+	// powerup_fade_step += 0.3 * powerup_fade_dir;
 	for (var p in powerups)
 	{
-		powerups[p].color.l = powerups[p].color._l + powerup_fade_step;
+		//powerups[p].color.l = powerups[p].color._l + powerup_fade_step;
 		
 		ctx.drawPowerup(powerups[p]);
 	}

@@ -78,7 +78,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 	
 	var f = this.canvas.height / 100;
 	var tiles = level.tiles;
-	var color = level.color;
+	var color = {h: level.color.h, s: level.color.s, l: level.color.l};
 	var shapes = level.shapes;
 	var w = h = (100/tiles.length)*f;
 	var color_range = 22.5;
@@ -298,7 +298,7 @@ CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
 	this.moveTo(tank.x*f + size, tank.y*f - size);
 	this.lineTo(tank.x*f - size, tank.y*f + size);
 	this.lineWidth = 0.4*f;
-	this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
+	this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(100-(100-tank.color.l)*0.6)+"%)";
 	this.stroke();
 	this.closePath();
 	
