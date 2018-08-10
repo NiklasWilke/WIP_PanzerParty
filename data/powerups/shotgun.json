@@ -1,0 +1,14 @@
+{
+	"name": "Shotgun",
+	"drop_rate": 1,
+	"icon": "shotgun",
+	"type": "weapon",
+	"animation": "upgrade",
+	"color": {"h": 100, "s": 65, "l": 60},
+	"duration": 3000,
+	"weapon": {
+		"bullets": 3,
+		"bounces": 0,
+		"damge": 50
+	}
+}

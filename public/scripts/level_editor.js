@@ -19,8 +19,8 @@ console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
 
 function drawEditor(level)
 {
-	w = level ? level.width : parseInt(document.getElementById("width").value);
-	h = level ? level.height : parseInt(document.getElementById("height").value);
+	w = parseInt(document.getElementById("width").value);
+	h = parseInt(document.getElementById("height").value);
 	
 	editor.innerHTML = "";
 	
@@ -70,7 +70,7 @@ function drawEditor(level)
 			});
 			elem.style.width = (100/h)+"vh";
 			elem.style.height = (100/h)+"vh";
-			elem.setAttribute("block", level ? level.tiles[y][x] : ((x == 0 || x == w-1 || y == 0 || y == h-1) ? 1 : 0));
+			elem.setAttribute("block", level && level.tiles[y] && level.tiles[y][x] ? level.tiles[y][x] : ((x == 0 || x == w-1 || y == 0 || y == h-1) ? 1 : 0));
 			editor.appendChild(elem);
 		}
 	}

@@ -374,7 +374,7 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	// this.fill();
 	// this.closePath();
 	
-	if (powerup.type == "emp")
+	if (powerup.icon == "lightningbolt")
 	{
 		// lightning
 		var h = Math.sqrt(2*Math.pow(r, 2));
@@ -391,7 +391,7 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 		this.fill();
 		this.closePath();
 	}
-	else if (powerup.type == "bullet")
+	else if (powerup.icon == "bullet")
 	{
 		var h = Math.sqrt(2*Math.pow(r, 2)) * 0.85;
 		var w = h * 0.35;
@@ -409,6 +409,29 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 		this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, 90%)";
 		this.fill();
 		this.closePath();
+	}
+	else if (powerup.icon == "shotgun")
+	{
+		var s = Math.sqrt(2*Math.pow(r, 2));
+		var h = s * 0.85;
+		var w = s * 0.25;
+		
+		for (var i=0; i<=1; i++)
+		{
+			// bullet body
+			this.beginPath();
+			this.roundRect(x-s/2+s*0.15 + i*(s*0.2+w), y-h/2, w, h*0.65, {tl: w*0.5, tr: w*0.5, br: 0, bl: 0});
+			this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, 100%)";
+			this.fill();
+			this.closePath();
+			
+			// bullet detail
+			this.beginPath();
+			this.rect(x-s/2+s*0.15 + i*(s*0.2+w), y-h/2 + h*0.65, w, h*0.25);
+			this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, 90%)";
+			this.fill();
+			this.closePath();
+		}
 	}
 }
 

@@ -8,15 +8,10 @@ body {
 }
 
 
-.sidebar {
-	flex-grow: 1;
-	flex-shrink: 1;
-	position: relative;
-	width: 50%;
-}
 #ip {
 	position: relative;
 	padding: 0 20%;
+	margin-bottom: 20%;
 	text-align: center;
 	color: #fff;
 }
@@ -31,20 +26,18 @@ body:not([state=running]) #ip {
 	font-weight: 600;
 }
 
+
+
 #title {
 	position: absolute;
-	top: 0;
-	left: 0;
-	margin: 8% 10%;
-	width: 80%;
+	z-index: 3;
+	top: -2.5vh;
+	left: 50%;
+	width: 34.6vh;
+	margin-left: -17.2vh;
+	padding: 0.5vh 1.7vh;
 }
 
-#logo {
-    position: absolute;
-	bottom: 0;
-	left: 12%;
-	width: 60%;
-}
 
 #battleground {
 	flex-grow: 0;
@@ -53,21 +46,33 @@ body:not([state=running]) #ip {
 	height: 100vh;
 	width: 100vh;
 	margin: auto;
-	background: #f5f5f5;
-	overflow: hidden;
+}
+#battleground::before {
+	content: "";
+	position: absolute;
+	z-index: 2;
+	border: 2px solid currentColor;
+	width: 100%;
+	height: 100%;
 }
 #battleground canvas {
 	position: absolute;
+	z-index: 1;
 	top: 0;
 	left: 0;
 	height: 100%;
 	width: 100%;
 }
 
+.sidebar {
+	position: relative;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
 .sidebar.right {
 	display: flex;
 	flex-direction: column;
-	padding: 2vh 2vh 2vh 0;
+	padding: 2vh 2.2vh 2vh 0.5vh;
 }
 
 #kill_log {
@@ -108,7 +113,7 @@ body:not([state=running]) #ip {
 
 #scoreboard {
 	flex-grow: 0;
-	width: 100%;
+	min-height: 20vh;
 	padding: 1vh;
 	border: 2px solid #bbb;
 }
@@ -148,18 +153,22 @@ body:not([state=running]) #scoreboard {
 }
 
 
-#select_level {
+#lobby_setup {
 	position: fixed;
-	width: 80vh;
-	top: 50%;
-	left: 50%;
-	margin: 0 -40vh;
-	transform: translateY(-50%);
+	z-index: 5;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: #fff;
 }
-#select_level .title {
+body[state=running] #lobby_setup {
+	display: none;
+}
+#lobby_setup .title {
 	text-align: center;
 }
-#select_level .title h2 {
+#lobby_setup .title h2 {
 	display: inline-block;
 	margin: 0 0 1em;
 	font-size: 2rem;
@@ -170,8 +179,11 @@ body:not([state=running]) #scoreboard {
 	background-repeat: no-repeat;
 	background-position: bottom;
 }
-#select_level #levels {
-	
+
+#levels {
+	position: fixed;
+	width: 60%;
+	left: 20%;
 }
 #levels .level {
 	position: relative;
@@ -263,6 +275,7 @@ body:not([state=running]) #scoreboard {
 
 #menu {
 	position: fixed;
+	z-index: 100;
 	width: 100%;
 	height: 100%;
 	background: rgba(255, 255, 255, 0.94);

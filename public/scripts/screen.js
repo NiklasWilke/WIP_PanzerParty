@@ -302,7 +302,7 @@ socket.on("setLevels", function(levels)
 		
 		var canvas = document.createElement("canvas");
 		canvas.className = "canvas";
-		canvas.width = 500;
+		canvas.width = 500 / level.height * level.width;
 		canvas.height = 500;
 		
 		var ctx = canvas.getContext("2d");
@@ -317,7 +317,6 @@ socket.on("setLevels", function(levels)
 		elem.appendChild(name);
 		wrapper.appendChild(elem);
 	}
-	document.getElementById("select_level").className = "";
 });
 
 
@@ -334,8 +333,7 @@ socket.on("renderMap", function(m)
 	document.getElementById("battleground").style.height = 95 + "vh";
 	document.getElementById("battleground").style.width = (95 / m.height * m.width) + "vh";
 	document.getElementById("battleground").style.margin = "2.5vh 0";
-	
-	document.getElementById("select_level").className = "hidden";
+	document.getElementById("battleground").style.color = color_main;
 	
 	document.getElementById("level").style.background = color_background;
 	
@@ -345,6 +343,8 @@ socket.on("renderMap", function(m)
 	document.getElementById("qr").style.background = color_background;
 	document.getElementById("qr").style.borderColor = color_border;
 	
+	//document.querySelector("h1").style.color = color_border;
+	
 	document.body.style.background = color_main;
 	document.body.style.borderColor = color_border;
 	
@@ -353,6 +353,9 @@ socket.on("renderMap", function(m)
 	var vh = window.innerHeight;
 	
 	lvl_ctx.setSize(m.width/m.height*vh, vh);
+	ctx.setSize(m.width/m.height*vh, vh);
+	effect_ctx.setSize(m.width/m.height*vh, vh);
+	
 	lvl_ctx.clear();
 	lvl_ctx.drawLevel(map.level);
 	
