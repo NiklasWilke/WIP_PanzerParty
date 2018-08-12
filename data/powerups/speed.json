@@ -1,6 +1,6 @@
 {
 	"name": "Turbo",
-	"drop_rate": 1,
+	"droprate": 1,
 	"icon": "lightningbolt",
 	"type": "effect",
 	"animation": "upgrade",

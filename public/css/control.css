@@ -125,17 +125,17 @@ body {
 	width: 25vh;
 	height: 25vh;
 	background: hsl(7, 50%, 50%);
-	background-image: url("/icons/powerup.svg");
-	background-size: 30%;
+	background-size: 50%;
 	background-repeat: no-repeat;
 	background-position: center;
 	border: 0;
 	border-radius: 50%;
 }
 #powerup[disabled] {
-	opacity: 0.4;
+	/*opacity: 0.4;*/
 }
 #powerup[name]::after {
+	display: none;
 	content: attr(name);
 	position: absolute;
 	color: #fff;
@@ -146,6 +146,27 @@ body {
 	top: 106%;
 	left: 50%;
 	text-align: center;
+}
+#powerup svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+#powerup svg circle {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	
+	/*transition: stroke-dashoffset 100ms ease;*/
+	stroke-width: 0.8vh;
+}
+#powerup svg circle#bar {
+	stroke: #fff;
 }
 
 
@@ -196,8 +217,7 @@ body {
 }
 
 
-
-/* LOGIN OVERLAY */
+/* WAIT OVERLAY */
 #waiting {
 	position: fixed;
 	top: 0;
@@ -221,6 +241,45 @@ body {
 body[state=running] #waiting {
 	display: none;
 }
+
+
+/* OFFLINE OVERLAY */
+#offline {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	
+	font-size: 5vh;
+}
+#offline .logo {
+	display: block;
+	margin: auto;
+	height: 18vh;
+	margin-top: -6vh;
+}
+#offline .inner {
+	text-align: center;
+	margin-top: 2vh;
+}
+body:not([offline]) #offline {
+	display: none;
+}
+
+
+/* PING */
+#ping {
+	position: fixed;
+	top: 3vh;
+	right: 4vh;
+	font-size: 4vh;
+}
+body[state=running] #ping {
+	color: #fff;
+}
+
 
 /* LOGIN OVERLAY */
 #login {
@@ -268,7 +327,7 @@ body.ready #login {
 	text-align: right;
 }
 #login .wrapper .input .label div {
-	margin-right: 0.5em;
+	margin-right: 0.9em;
 }
 #login .wrapper .input .label img {
 	height: 1.6em;

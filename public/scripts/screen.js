@@ -143,6 +143,17 @@ function ini()
 		});
 	}
 	
+	document.querySelector("#lobby_setup .level").addEventListener("click", function(e)
+	{
+		document.querySelector("#lobby_setup #levels").className = "";
+	});
+	
+	document.getElementById("start_game").addEventListener("click", function(e)
+	{
+		var id = document.querySelector("#lobby_setup .level").getAttribute("data-id");
+		socket.emit("selectLevel", id);
+	});
+	
 	var menu_icon = document.getElementById("menu_icon");
 	menu_icon.addEventListener("click", function(e)
 	{
@@ -169,6 +180,7 @@ function ini()
 	document.getElementById("fullscreen").addEventListener("click", function(e)
 	{
 		var elem = document.body;
+		elem.setAttribute("fullscreen", true);
 		if (elem.requestFullscreen) {
 			elem.requestFullscreen();
 		} else if (elem.mozRequestFullScreen) { /* Firefox */
@@ -178,6 +190,13 @@ function ini()
 		} else if (elem.msRequestFullscreen) { /* IE/Edge */
 			elem.msRequestFullscreen();
 		}
+		
+		// weird fullscreen/vh fix
+		document.getElementById("sidebar").style.paddingRight = "0";
+		setTimeout(function()
+		{
+			document.getElementById("sidebar").style.paddingRight = "1.9vh";
+		}, 100);
 	});
 	
 	canvas = document.getElementById("objects");
@@ -269,6 +288,52 @@ socket.on("updateScoreboard", function(players)
 	}
 });
 
+// update scoreboard
+socket.on("updatePlayers", function(players)
+{
+	//console.log("updatePlayers > ", players);
+	
+	var player_list = document.querySelector("#player_list");
+	player_list.innerHTML = "";
+	
+	for (var p = 0; p < players.length; p++)
+	{
+		var player = players[p];
+		var tank = {};
+		tank.x = 50;
+		tank.y = 50;
+		tank.width = 22.5*2.5;
+		tank.height = 26.25*2.5;
+		tank.angle = -90;
+		tank.speed = 1;
+		tank.health = 100;
+		tank.color = player.color;
+		
+		var row = document.createElement("div");
+		row.className = "player";
+		row.style.color = "hsl("+player.color.h+", "+player.color.s+"%, "+player.color.l+"%)";
+		
+		var canvas = document.createElement("canvas");
+		canvas.width = 100;
+		canvas.height = 100;
+		canvas.getContext("2d").drawTank(tank);
+		
+		var name = document.createElement("div"); 
+		name.className = "name";
+		name.innerHTML = player.name;
+		
+		var ping = document.createElement("div"); 
+		ping.className = "ping";
+		ping.innerHTML = player.ping+"ms";
+		
+		row.append(canvas);
+		row.append(name);
+		row.append(ping);
+		
+		player_list.appendChild(row);
+	}
+});
+
 
 var map_color = getRandomColor();
 
@@ -282,6 +347,15 @@ socket.on("setLevels", function(levels)
 	levels = shuffle(levels);
 	levels = levels.slice(0, Math.min(6, levels.length));
 	
+	
+	var level = levels[0];
+	document.querySelector("#lobby_setup .level").setAttribute("data-id", level.id);
+	document.querySelector("#lobby_setup .level .name").innerHTML = level.name;
+	document.querySelector("#lobby_setup .level .preview").getContext("2d").setSize(500 / level.height * level.width, 500).drawLevel(level);
+	document.querySelector("#lobby_setup .level .preview").style.borderColor = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
+	
+	
+	// add levels to level selection
 	var wrapper = document.getElementById("levels");
 	wrapper.innerHTML = "";
 	for (var l=0; l<levels.length; l++)
@@ -294,10 +368,16 @@ socket.on("setLevels", function(levels)
 		
 		var map = document.createElement("div");
 		map.className = "map";
+		map.level = level;
 		map.addEventListener("click", function(e)
 		{
-			var id = this.parentNode.getAttribute("data-id");
-			socket.emit("selectLevel", id);
+			var level = this.level;
+			document.querySelector("#lobby_setup .level").setAttribute("data-id", level.id);
+			document.querySelector("#lobby_setup .level .name").innerHTML = level.name;
+			document.querySelector("#lobby_setup .level .preview").getContext("2d").setSize(500 / level.height * level.width, 500).drawLevel(level);
+			document.querySelector("#lobby_setup .level .preview").style.borderColor = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
+			
+			document.querySelector("#lobby_setup #levels").className = "hidden";
 		});
 		
 		var canvas = document.createElement("canvas");
@@ -345,8 +425,8 @@ socket.on("renderMap", function(m)
 	
 	//document.querySelector("h1").style.color = color_border;
 	
-	document.body.style.background = color_main;
-	document.body.style.borderColor = color_border;
+	document.getElementById("game").style.background = color_main;
+	document.getElementById("game").style.borderColor = color_border;
 	
 	map = m;
 	
@@ -369,7 +449,7 @@ socket.on("renderMap", function(m)
 // powerup activated
 socket.on("powerupActivated", function(tank, powerup)
 {
-	if (powerup.type == "emp")
+	if (powerup.animation == "emp")
 	{
 		var max_r = Math.sqrt(Math.pow((tank.x > 50 ? tank.x : 100-tank.x), 2) + Math.pow((tank.y > 50 ? tank.y : 100-tank.y), 2));
 		beacons.push({

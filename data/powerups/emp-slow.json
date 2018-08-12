@@ -1,7 +1,7 @@
 {
 	"name": "EMP",
-	"drop_rate": 1,
-	"icon": "lightningbolt",
+	"droprate": 1,
+	"icon": "slow",
 	"type": "effect",
 	"animation": "emp",
 	"color": {"h": 0, "s": 80, "l": 60},

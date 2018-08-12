@@ -1,6 +1,6 @@
 {
 	"name": "Schnelle Kugeln",
-	"drop_rate": 1,
+	"droprate": 1,
 	"icon": "bullet",
 	"type": "effect",
 	"animation": "upgrade",

@@ -16,37 +16,62 @@
 	<body>
 		<audio id="music" src="/music/Hep Cats.mp3" autoplay loop></audio>
 		
-		<div id="battleground">
-			<canvas id="level"></canvas>
-			<canvas id="objects"></canvas>
-			<canvas id="effects"></canvas>
-			<img id="title" src="/graphics/panzer_party.svg">
-		</div>
-		<div class="sidebar right">
-			<ul id="kill_log"></ul>
-			<div class="spacer"></div>
-			<div id="scoreboard">
-				<h2>Scoreboard</h2>
-				<table>
-					<thead>
-						<th colspan="2"></th>
-						<th>K</th>
-						<th>D</th>
-						<th>K/D</th>
-					</thead>
-					<tbody></tbody>
-				</table>
+		<div id="game">
+			<div id="battleground">
+				<canvas id="level"></canvas>
+				<canvas id="objects"></canvas>
+				<canvas id="effects"></canvas>
+				<img id="title" src="/graphics/panzer_party.svg">
 			</div>
-			<div class="spacer"></div>
-			<div id="ip">
-				<img id="qr" src="/qr">
-				<div class="info">{{ip}}:{{port}}</div>
+			<div id="sidebar">
+				<ul id="kill_log"></ul>
+				<div class="spacer"></div>
+				<div id="scoreboard">
+					<h2>Scoreboard</h2>
+					<table>
+						<thead>
+							<th colspan="2"></th>
+							<th>K</th>
+							<th>D</th>
+							<th>K/D</th>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div class="spacer"></div>
+				<div id="ip">
+					<img id="qr" src="/qr">
+					<div class="info">{{ip}}:{{port}}</div>
+				</div>
 			</div>
 		</div>
 		
 		<div id="lobby_setup">
-			<div class="title"><h2>Party einrichten</h2></div>
-			<div id="levels"></div>
+			<div class="spacer"></div>
+			<div class="wrapper">
+				<div class="flex">
+					<div class="left">
+						<div class="conenction_info">
+							<img class="qr" src="/qr">
+							<div class="ip">{{ip}}:{{port}}</div>
+						</div>
+						<div class="level">
+							<canvas class="preview"></canvas>
+							<div class="name"></div>
+						</div>
+					</div>
+					<div class="right">
+						<div class="title"><img src="/graphics/lobby_title.svg"></div>
+						<div id="player_list"></div>
+						<div class="spacer"></div>
+						<div class="button_wrapper">
+							<button id="start_game">Start!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="spacer"></div>
+			<div id="levels" class="hidden"></div>
 		</div>
 		
 		<div id="navbar">

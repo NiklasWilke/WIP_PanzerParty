@@ -15,8 +15,6 @@ var color = {
 var current_tool = "wall";
 var draw = false;
 
-console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
-
 function drawEditor(level)
 {
 	w = parseInt(document.getElementById("width").value);
@@ -163,8 +161,8 @@ function ini()
 			
 			var canvas = document.createElement("canvas");
 			canvas.className = "canvas";
-			canvas.width = 500;
-			canvas.height = 500;
+			canvas.width = level.width*level.tile_size;
+			canvas.height = level.height*level.tile_size;
 			
 			var ctx = canvas.getContext("2d");
 			ctx.drawLevel(level);

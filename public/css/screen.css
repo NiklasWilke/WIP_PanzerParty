@@ -1,10 +1,15 @@
 html {
+	height: 100%;
 	font-size: 1.25vw;
 	background: #fff;
 }
 body {
+	height: 100%;
+}
+
+.flex {
 	display: flex;
-	width: 100%;
+	flex-direction: row;
 }
 
 
@@ -27,6 +32,15 @@ body:not([state=running]) #ip {
 }
 
 
+#game {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: 2px solid #eee;
+	display: flex;
+}
 
 #title {
 	position: absolute;
@@ -64,15 +78,12 @@ body:not([state=running]) #ip {
 	width: 100%;
 }
 
-.sidebar {
+#sidebar {
 	position: relative;
 	flex-grow: 1;
-	flex-shrink: 1;
-}
-.sidebar.right {
 	display: flex;
 	flex-direction: column;
-	padding: 2vh 2.2vh 2vh 0.5vh;
+	padding-right: 1.9vh;
 }
 
 #kill_log {
@@ -106,10 +117,6 @@ body:not([state=running]) #ip {
     vertical-align: -0.18em;
 }
 
-
-.sidebar.right .spacer {
-	flex-grow: 1;
-}
 
 #scoreboard {
 	flex-grow: 0;
@@ -154,13 +161,15 @@ body:not([state=running]) #scoreboard {
 
 
 #lobby_setup {
+	display: flex;
+	flex-direction: column;
 	position: fixed;
 	z-index: 5;
 	width: 100%;
 	height: 100%;
 	top: 0;
 	left: 0;
-	background: #fff;
+	background: hsl(200, 60%, 80%);
 }
 body[state=running] #lobby_setup {
 	display: none;
@@ -168,22 +177,104 @@ body[state=running] #lobby_setup {
 #lobby_setup .title {
 	text-align: center;
 }
-#lobby_setup .title h2 {
+#lobby_setup .title img {
 	display: inline-block;
-	margin: 0 0 1em;
-	font-size: 2rem;
-	line-height: 0.9em;
+	height: 3em;
+	margin-bottom: 2em;
+}
+#lobby_setup .wrapper {
+	width: 50%;
+	margin: auto;
+}
+#lobby_setup .left {
+	width: 40%;
+}
+#lobby_setup .left .level {
+	width: 100%;
+	text-align: center;
+}
+#lobby_setup .left .level canvas {
+	display: block;
+	width: 100%;
+	background: #fbfbfb;
+	border: 2px solid #fbfbfb;
+	border-radius: 0.4em;
+	box-shadow: 0 0 6em rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+}
+#lobby_setup .left .level .name {
+	display: inline-block;
+	padding: 0 2em;
+	margin: 1em auto 0;
+	background: #fbfbfb;
+	text-align: center;
+	line-height: 2em;
+	border-radius: 1em;
+	box-shadow: 0 0 6em rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+}
+#lobby_setup .conenction_info {
+	position: relative;
+	width: 60%;
+	margin: auto;
+	text-align: center;
+	margin-bottom: 2em;
+}
+#lobby_setup .conenction_info img {
+	width: 100%;
+	background: #fbfbfb;
+}
+#lobby_setup .right {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	padding-left: 2em;
+}
+#lobby_setup .right #player_list {
 	
-	background-image: url(/graphics/line.svg);
-	background-size: 100% 15%;
-	background-repeat: no-repeat;
-	background-position: bottom;
+}
+#lobby_setup .right #player_list .player {
+	display: flex;
+	line-height: 2em;
+	background: #fff;
+	border-radius: 11em;
+	padding: 0.5em 1em;
+	margin-bottom: 0.6em;
+}
+#lobby_setup .right #player_list .player canvas {
+	height: 2em;
+	width: 2em;
+}
+#lobby_setup .right #player_list .player .name {
+	flex-grow: 1;
+	margin-left: 0.5em;
+}
+#lobby_setup .right .button_wrapper {
+	text-align: right;
+}
+#lobby_setup .right .button_wrapper button {
+	display: inline-block;
+	padding: 0 2em;
+	background: #fbfbfb;
+	text-align: center;
+	font: inherit;
+	line-height: 2em;
+	border: 0;
+	border-radius: 1em;
+	box-shadow: 0 0 6em rgba(0, 0, 0, 0.1);
+	cursor: pointer;
 }
 
 #levels {
 	position: fixed;
 	width: 60%;
+	top: 50%;
 	left: 20%;
+	transform: translateY(-50%);
+	background: #fbfbfb;
+	padding: 1em 1em 0;
+	border-radius: 0.2em;
+	box-shadow: 0 0 6em rgba(0, 0, 0, 0.1);
 }
 #levels .level {
 	position: relative;
@@ -255,6 +346,7 @@ body[state=running] #lobby_setup {
 
 #navbar {
 	position: fixed;
+	z-index: 100;
 	bottom: 0;
 	right: 0;
 	margin: 2vh;
@@ -276,6 +368,8 @@ body[state=running] #lobby_setup {
 #menu {
 	position: fixed;
 	z-index: 100;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	background: rgba(255, 255, 255, 0.94);

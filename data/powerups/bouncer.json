@@ -1,0 +1,16 @@
+{
+	"name": "Flummi",
+	"droprate": 1,
+	"icon": "bouncer",
+	"type": "weapon",
+	"color": {"h": 100, "s": 65, "l": 50},
+	"duration": 2,
+	"weapon": {
+		"bullets": 1,
+		"angle": 0,
+		"bounces": 10,
+		"damge": 50,
+		"speed": 0.6,
+		"bulletType": "bouncer"
+	}
+}
