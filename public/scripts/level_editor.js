@@ -1,9 +1,9 @@
-
 var socket = io();
 
-var editor,
-	save_button,
-	w, h;
+var w, h;
+
+var editor;
+var save_button;
 var tiles = [];
 
 var color = {
@@ -117,9 +117,10 @@ function ini()
 		if (name == "") return alert("Ungültiger Name");
 		var file_name = name.toLowerCase().replace(/ +/, "-")+".json";
 		
-		socket.emit("saveLevel", file_name, name, level, function()
+		socket.emit("saveLevel", file_name, name, level, function(lvl)
 		{
-			alert("Erfolgreich gespeichert!");
+			console.log(lvl);
+			alert("'"+lvl.name+"' ("+lvl.width+", "+lvl.height+") erfolgreich gespeichert!");
 		});
 	});
 	
@@ -184,8 +185,10 @@ function exportMap()
 	var result = [];
 	var tiles = document.querySelectorAll("#editor .wall");
 	
+	console.log("EXPORT "+w+" x "+h);
 	for (var y=0; y<h; y++)
 	{
+		console.log("> row "+y);
 		var row = [];
 		for (var x=0; x<w; x++)
 		{
