@@ -24,6 +24,8 @@ body:not([state=running]) #ip {
 	color: #222;
 }
 #ip #qr {
+	width: 100%;
+	padding: 2%;
 	border: 2px solid #fff;
 }
 #ip .info {
@@ -42,14 +44,10 @@ body:not([state=running]) #ip {
 	display: flex;
 }
 
-#title {
-	position: absolute;
+#banner {
 	z-index: 3;
-	top: -2.5vh;
-	left: 50%;
-	width: 34.6vh;
-	margin-left: -17.2vh;
-	padding: 0.5vh 1.7vh;
+	width: 84%;
+	margin: 0 auto -7%;
 }
 
 
