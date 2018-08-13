@@ -3,7 +3,7 @@ var socket = io();
 
 var editor,
 	save_button,
-	s;
+	w, h;
 var tiles = [];
 
 var color = {
