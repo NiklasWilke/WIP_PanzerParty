@@ -270,7 +270,7 @@ body[state=running] #lobby_setup {
 	left: 20%;
 	transform: translateY(-50%);
 	background: #fbfbfb;
-	padding: 1em 1em 0;
+	padding: 2em 2em 1em;
 	border-radius: 0.2em;
 	box-shadow: 0 0 6em rgba(0, 0, 0, 0.1);
 }
