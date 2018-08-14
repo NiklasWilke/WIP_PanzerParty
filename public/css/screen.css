@@ -27,6 +27,7 @@ body:not([state=running]) #ip {
 	width: 100%;
 	padding: 2%;
 	border: 2px solid #fff;
+	background: #fbfbfb;
 }
 #ip .info {
 	margin-top: 0.2em;
@@ -45,10 +46,43 @@ body:not([state=running]) #ip {
 }
 
 #banner {
-	z-index: 3;
-	width: 84%;
-	margin: 0 auto -7%;
+	position: relative;
+	width: 83%;
+	margin: 0 auto 11%;
 }
+#banner svg {
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+#banner svg.main {
+	z-index: 2;
+}
+#banner svg.background {
+	z-index: 0;
+}
+#banner .banner path {
+	stroke-width: 1;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-miterlimit: 10;
+}
+#banner .banner path.shadow {
+	z-index: 0;
+	fill:#C6C6C6;
+}
+#banner .banner path.back {
+	z-index: 0;
+}
+#banner .banner path.main {
+	z-index: 2;
+}
+#banner .font .st2 {fill:#14AD85;}
+#banner .font .st3 {fill:#1DBAE0;}
+#banner .font .st4 {fill:#EA5455;}
+#banner .font .st5 {fill:#C474AE;}
+#banner .font .st6 {fill:#F59D48;}
+
 
 
 #battleground {

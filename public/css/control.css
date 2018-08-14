@@ -63,24 +63,24 @@ body {
 }
 
 
-#name {
-	position: absolute;
-	top: 4vh;
+
+#controls {
+	display: block;
+	position: fixed;
+	top: 0;
 	left: 0;
 	width: 100%;
-	text-align: center;
-	color: #fff;
-	font-size: 4vh;
+	height: 100%;
 }
 
-
-#fire {
+#controls #fire {
 	display: block;
 	position: fixed;
 	bottom: 8vh;
-	left: 10vh;
-	width: 40vh;
+	left: 22vh;
 	height: 40vh;
+	width: 40vh;
+	padding: 0;
 	background: hsl(7, 50%, 50%);
 	background-image: url("/icons/missile.svg");
 	background-size: 42%;
@@ -90,10 +90,15 @@ body {
 	border-radius: 50%;
 	transform: rotateZ(24deg);
 }
-#fire:focus, #powerup:focus {
+#controls #fire .sq {
+	display: none;
+	display: block;
+	height: 100%;
+}
+#controls #fire:focus, #powerup:focus {
 	outline: 0;
 }
-#fire:active::after, #powerup:active::after {
+#controls #fire:active::after, #powerup:active::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -103,7 +108,7 @@ body {
 	background: rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
 }
-#fire::before {
+#controls #fire::before {
 	content: "x" attr(count);
 	position: absolute;
 	top: 50%;
@@ -117,13 +122,14 @@ body {
 
 
 
-#powerup {
+#controls #powerup {
 	display: block;
 	position: fixed;
-	top: 8vh;
+	bottom: 52vh;
 	left: 10vh;
-	width: 25vh;
-	height: 25vh;
+	height: 30vh;
+	width: 30vh;
+	padding: 0;
 	background: hsl(7, 50%, 50%);
 	background-size: 50%;
 	background-repeat: no-repeat;
@@ -131,10 +137,14 @@ body {
 	border: 0;
 	border-radius: 50%;
 }
-#powerup[disabled] {
+#controls #powerup .sq {
+	display: block;
+	height: 100%;
+}
+#controls #powerup[disabled] {
 	/*opacity: 0.4;*/
 }
-#powerup[name]::after {
+#controls #powerup[name]::after {
 	display: none;
 	content: attr(name);
 	position: absolute;
@@ -147,7 +157,7 @@ body {
 	left: 50%;
 	text-align: center;
 }
-#powerup svg {
+#controls #powerup svg {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -155,7 +165,7 @@ body {
 	height: 100%;
 	overflow: visible;
 }
-#powerup svg circle {
+#controls #powerup svg circle {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -165,13 +175,13 @@ body {
 	/*transition: stroke-dashoffset 100ms ease;*/
 	stroke-width: 0.8vh;
 }
-#powerup svg circle#bar {
+#controls #powerup svg circle#bar {
 	stroke: #fff;
 }
 
 
 
-#joystick {
+#controls #joystick {
 	position: fixed;
 	bottom: 10vh;
 	right: 10vh;
@@ -181,7 +191,7 @@ body {
 	border-radius: 50%;
 	box-shadow: inset 0 0 5vh rgba(0, 0, 0, 0.1);
 }
-#joystick .button {
+#controls #joystick .button {
 	position: absolute;
 	top: 20vh;
 	left: 20vh;
@@ -194,24 +204,24 @@ body {
 
 
 
-#health {
+#controls #health {
 	position: fixed;
 	bottom: 4vh;
 	left: 50%;
 	transform: translateX(-50%);
 	margin-left: -8vh;
 }
-#health .heart {
+#controls #health .heart {
 	overflow: visible;
 	height: 7vh;
 	margin: 0 1vh;
 }
-#health .heart path {
+#controls #health .heart path {
 	fill: #fff;
 	stroke-width: 10vh;
 	stroke: #fff;
 }
-#health .heart[empty] path {
+#controls #health .heart[empty] path {
 	fill: transparent;
 	stroke: rgba(255, 255, 255, 0.3);
 }
@@ -272,7 +282,7 @@ body:not([offline]) #offline {
 /* PING */
 #ping {
 	position: fixed;
-	top: 3vh;
+	bottom: 4vh;
 	right: 4vh;
 	font-size: 4vh;
 }
@@ -394,9 +404,9 @@ body.ready #login {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	width: 70vh;
-	margin-left: -35vh;
-	margin-top: -26vh;
+	width: 84vh;
+	margin-left: -42vh;
+	margin-top: -20vh;
 }
 #login #select_color .inner h2 {
 	margin: 0;
@@ -422,11 +432,11 @@ body.ready #login {
 	height: 100%;
 	position: absolute;
 	top: 0;
-	background: rgba(255, 255, 255, 0.6);
+	/*background: rgba(255, 255, 255, 0.6);*/
 	background-image: url("/icons/cross.svg");
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 50%;
+	background-size: 56%;
 }
 
 

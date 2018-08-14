@@ -9,7 +9,7 @@
 		"bullets": 1,
 		"angle": 0,
 		"bounces": 0,
-		"damge": 150,
+		"damage": 150,
 		"speed": 4,
 		"bulletType": "shotgun"
 	}

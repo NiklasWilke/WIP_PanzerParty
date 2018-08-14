@@ -420,8 +420,13 @@ socket.on("renderMap", function(m)
 	document.getElementById("scoreboard").style.background = color_background;
 	document.getElementById("scoreboard").style.borderColor = color_border;
 	
-	document.getElementById("qr").style.background = color_background;
+	//document.getElementById("qr").style.background = color_background;
 	document.getElementById("qr").style.borderColor = color_border;
+	
+	document.querySelector("#banner .main .banner").style.stroke = color_border;
+	document.querySelector("#banner .main .banner").style.fill = color_background;
+	document.querySelector("#banner .background .banner").style.stroke = color_border;
+	document.querySelector("#banner .background .banner").style.fill = color_background;
 	
 	//document.querySelector("h1").style.color = color_border;
 	

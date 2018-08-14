@@ -56,6 +56,30 @@ document.addEventListener("DOMContentLoaded", function()
 		if (e.which == 13) join_button.focus();
 	});
 	
+	
+	document.body.addEventListener("click", function(e)
+	{
+		var elem = document.body;
+		elem.setAttribute("fullscreen", true);
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.mozRequestFullScreen) { /* Firefox */
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+			elem.webkitRequestFullscreen();
+		} else if (elem.msRequestFullscreen) { /* IE/Edge */
+			elem.msRequestFullscreen();
+		}
+		
+		// weird fullscreen/vh fix
+		// document.getElementById("sidebar").style.paddingRight = "0";
+		// setTimeout(function()
+		// {
+			// document.getElementById("sidebar").style.paddingRight = "1.9vh";
+		// }, 100);
+	});
+	
+	
 	join_button.addEventListener("click", function(e)
 	{
 		name = name_input.value;
@@ -64,7 +88,17 @@ document.addEventListener("DOMContentLoaded", function()
 		if (name == "") return false;
 		Cookies.set("name", name, Infinity, "/"); // (key, val, end, path, domain, secure)
 		
-		socket.emit("join", name, color, iniScreen);
+		socket.emit("join", name, color, function(res)
+		{
+			if (res.error)
+			{
+				alert(res.error);
+			}
+			else
+			{
+				iniScreen(res);
+			}
+		});
 	});
 	
 	socket.on("reconnect", function()
@@ -88,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function()
 	var iniScreen = function(tank)
 	{
 		document.body.className = "ready";
-		document.body.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
+		document.getElementById("controls").style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
 		joystick.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
 		joystick_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
 
