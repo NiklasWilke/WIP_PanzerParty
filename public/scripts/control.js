@@ -132,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function()
 		powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
 		
 		document.querySelector("#powerup svg").style.stroke = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
-		//document.querySelector("#powerup svg #bar").style.stroke = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.7)+"%)";
 	};
 	
 	
@@ -338,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function()
 	socket.on("death", function(killer)
 	{
 		updateHP(0);
-		var msg = killer ? killer.player.name+" hat dich zerstört!" : "Du hast dich selber zerstört";
+		var msg = killer ? "<b style='color:"+killer.color.string+"'>"+killer.player.name+"</b> hat dich zerstört!" : "Du hast dich selber zerstört.";
 		
 		var s = 3;
 		respawn_button.disabled = true;

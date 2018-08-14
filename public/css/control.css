@@ -42,24 +42,45 @@ body {
 #dead .inner .message {
 	
 }
+#dead .inner .respawn_wrapper {
+    position: absolute;
+	margin-top: 2vh;
+    width: 100%;
+    text-align: center;
+}
 #dead .inner #respawn {
 	border: none;
 	background: transparent;
 	color: inherit;
 	font: inherit;
+	font-size: 0.8em;
 	line-height: 1em;
-	padding: 0.2em 0.2em;
-	margin-top: 0.5em;
-	
-    animation: button_animation 5s;
-    -moz-animation: button_animation 5s infinite; /* Firefox */
-    -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */
+	padding: 0.4em;
+
+	animation: pulse 700ms infinite;
+	-moz-animation: pulse 700ms infinite; /* Firefox */
+	-webkit-animation: pulse 700ms infinite; /* Safari and Chrome */
+	animation-timing-function: ease-in-out;
+	-moz-animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
 }
 #dead .inner #respawn[disabled] {
     animation: none;
     -moz-animation: none;
     -webkit-animation: none;
 	color: rgba(255, 255, 255, 0.3);
+}
+
+/* button pulse animation*/
+@-moz-keyframes pulse /* Firefox */ {
+    0% {color: rgba(255, 255, 255, 1);}
+    50% {color: rgba(255, 255, 255, 0.5);}
+    100% {color: rgba(255, 255, 255, 1);}
+}
+@-webkit-keyframes pulse /* Safari and Chrome */ {
+    0% {color: rgba(255, 255, 255, 1);}
+    50% {color: rgba(255, 255, 255, 0.5);}
+    100% {color: rgba(255, 255, 255, 1);}
 }
 
 
@@ -239,14 +260,16 @@ body {
 	font-size: 5vh;
 }
 #waiting .logo {
+	position: absolute;
 	display: block;
 	margin: auto;
-	height: 18vh;
-	margin-top: -6vh;
+	height: 21vh;
+	top: 10vh;
+	left: 50%;
+	transform: translateX(-50%);
 }
 #waiting .inner {
 	text-align: center;
-	margin-top: 2vh;
 }
 body[state=running] #waiting {
 	display: none;
@@ -265,14 +288,16 @@ body[state=running] #waiting {
 	font-size: 5vh;
 }
 #offline .logo {
+	position: absolute;
 	display: block;
 	margin: auto;
-	height: 18vh;
-	margin-top: -6vh;
+	height: 21vh;
+	top: 10vh;
+	left: 50%;
+	transform: translateX(-50%);
 }
 #offline .inner {
 	text-align: center;
-	margin-top: 2vh;
 }
 body:not([offline]) #offline {
 	display: none;
@@ -302,10 +327,10 @@ body[state=running] #ping {
 	height: 100%;
 	background: #fff;
 	
-	background-image: url("/graphics/tank.svg");
-	background-size: auto 35%;
-	background-position: 8% bottom;
-	background-repeat: no-repeat;
+	/* background-image: url("/graphics/tank.svg"); */
+	/* background-size: auto 35%; */
+	/* background-position: 8% bottom; */
+	/* background-repeat: no-repeat; */
 	
 	font-size: 7vh;
 }
@@ -317,13 +342,15 @@ body.ready #login {
 }
 #login .wrapper .logo {
 	display: block;
+	position: absolute;
+	top: 13vh;
+	left: 50%;
+	transform: translateX(-50%);
 	height: 21vh;
-     max-width: 60%;
-	margin: -8vh auto 0;
 }
 #login .wrapper > .inner {
 	width: 50%;
-	margin: 4vh auto 0;
+	margin: 20vh auto 0;
 }
 #login .wrapper .input {
 	display: flex;
@@ -474,8 +501,8 @@ body.ready #login {
 }
 #rotate .logo {
 	display: block;
-	width: 80%;
-	margin: 8% auto 0;
+	width: 82%;
+	margin: 11% auto 0;
 }
 
 @media screen and (orientation: portrait) {
