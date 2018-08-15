@@ -107,7 +107,30 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		console.log("shape#"+s+" >> ", shape.color);
 		
 		
+		// shadow
 		this.beginPath();
+		for (var p in shape.path)
+		{
+			var pos = shape.path[p];
+			if (p == 0)
+			{
+				this.moveTo(pos.x*w+2, pos.y*h+2);
+			}
+			else
+			{
+				this.lineTo(pos.x*w+2, pos.y*h+2);
+			}
+		}
+		this.lineJoin = "bevel";
+		this.lineWidth = 6;
+		this.strokeStyle = "rgba(24, 24, 24, 0.08)";
+		if (s > 0) this.stroke();
+		this.closePath();
+		
+		
+		// main shape
+		this.beginPath();
+		this.lineJoin = "miter";
 		for (var p in shape.path)
 		{
 			var pos = shape.path[p];
@@ -178,46 +201,6 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		this.stroke();
 		this.closePath();
 	}
-	
-	
-	// DEV grid
-	// for (var y=0; y<tiles.length; y++)
-	// {
-		// for (var x=0; x<tiles.length; x++)
-		// {
-			// this.beginPath();
-			// this.rect(x*w, y*h, w, h);
-			// this.strokeStyle = "rgba(0, 0, 0, 0.1)";
-			// this.stroke();
-			
-			// this.font = "7px Arial";
-			// this.textAlign = "center";
-			// this.textBaseline = "middle";
-			// this.fillStyle = "rgba(0, 0, 0, 1)";
-			// this.fillText(x+"/"+y, (x+0.5)*w, (y+0.5)*h);
-		// }
-	// }
-	
-	
-	// draw powerup spawn locations
-	// for (var p in level.powerup_locations)
-	// {
-		// var pos = level.powerup_locations[p];
-		
-		// this.beginPath();
-		// this.arc(pos.x*f, pos.y*f, 0.24*w, 0, 2*Math.PI);
-		// this.fillStyle = "hsl("+color.h+", "+(color.s*0.2)+"%, "+(100-(100-color.l)*0.5)+"%)";
-		// this.fill();
-		// this.strokeStyle = "hsl("+color.h+", "+(color.s*0.2)+"%, "+(100-(100-color.l)*0.7)+"%)";
-		// this.stroke();
-		// this.closePath();
-		
-		// this.beginPath();
-		// this.arc(pos.x*f, pos.y*f, 0.1*w, 0, 2*Math.PI);
-		// this.fillStyle = "hsl("+((color.h + 60) % 360)+", "+(color.s)+"%, "+(100-(100-color.l)*1)+"%)"; //"#eee";
-		// this.fill();
-		// this.closePath();
-	// }
 }
 
 

@@ -403,10 +403,11 @@ body.ready #login {
 	font: inherit;
 	font-weight: bold;
 	background: transparent;
+	color: #0dab76;
 	
-    animation: button_animation 5s;
-    -moz-animation: button_animation 5s infinite; /* Firefox */
-    -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */
+    /* animation: button_animation 5s; */
+    /* -moz-animation: button_animation 5s infinite; /* Firefox */ */
+    /* -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */ */
 }
 
 #login #privacy {
