@@ -1,6 +1,6 @@
 {
 	"name": "Shotgun",
-	"droprate": 1,
+	"droprate": 2,
 	"icon": "shotgun",
 	"type": "weapon",
 	"color": {"h": 100, "s": 65, "l": 50},

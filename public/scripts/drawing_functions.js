@@ -411,7 +411,8 @@ var icons = {
 	bullet: img("/powerups/bullet.svg"),
 	slow: img("/powerups/slow.svg"),
 	bouncer: img("/powerups/bouncer.svg"),
-	laser: img("/powerups/laser.svg")
+	laser: img("/powerups/laser.svg"),
+	sniper: img("/powerups/sniper.svg")
 };
 
 CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)

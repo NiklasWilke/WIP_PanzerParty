@@ -1,7 +1,7 @@
 {
 	"name": "Sniper",
-	"droprate": 5,
-	"icon": "bullet",
+	"droprate": 2,
+	"icon": "sniper",
 	"type": "weapon",
 	"color": {"h": 100, "s": 65, "l": 50},
 	"duration": 2,
