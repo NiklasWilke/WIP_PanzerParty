@@ -128,6 +128,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		this.closePath();
 		
 		
+		
 		// main shape
 		this.beginPath();
 		this.lineJoin = "miter";
@@ -173,6 +174,33 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		}
 		this.fillStyle = "#fff";
 		this.fill();
+		this.closePath();
+		this.globalCompositeOperation = "source-over";
+		
+		
+		
+		// shadows in free spaces
+		this.globalCompositeOperation = "destination-over";
+		this.beginPath();
+		for (var c in shape.cutouts)
+		{
+			for (var p in shape.cutouts[c])
+			{
+				var pos = shape.cutouts[c][p];
+				if (p == 0)
+				{
+					this.moveTo(pos.x*w+2, pos.y*h+2);
+				}
+				else
+				{
+					this.lineTo(pos.x*w+2, pos.y*h+2);
+				}
+			}
+		}
+		this.lineJoin = "bevel";
+		this.lineWidth = 6;
+		this.strokeStyle = "rgba(24, 24, 24, 0.08)";
+		this.stroke();
 		this.closePath();
 		this.globalCompositeOperation = "source-over";
 		
