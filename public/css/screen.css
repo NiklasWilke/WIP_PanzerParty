@@ -47,13 +47,14 @@ body:not([state=running]) #ip {
 
 #banner {
 	position: relative;
-	width: 83%;
-	margin: 0 auto 11%;
+	width: 84%;
+	margin: 0 auto 9.7%;
 }
 #banner svg {
 	position: absolute;
 	top: 0;
 	width: 100%;
+	overflow: visible;
 }
 #banner svg.main {
 	z-index: 2;
@@ -67,9 +68,9 @@ body:not([state=running]) #ip {
 	stroke-linejoin: round;
 	stroke-miterlimit: 10;
 }
-#banner .banner path.shadow {
-	z-index: 0;
-	fill:#C6C6C6;
+#banner .shadow {
+	opacity: 0.16;
+	fill: #222222;
 }
 #banner .banner path.back {
 	z-index: 0;
@@ -77,12 +78,19 @@ body:not([state=running]) #ip {
 #banner .banner path.main {
 	z-index: 2;
 }
-#banner .font .st2 {fill:#14AD85;}
-#banner .font .st3 {fill:#1DBAE0;}
-#banner .font .st4 {fill:#EA5455;}
-#banner .font .st5 {fill:#C474AE;}
-#banner .font .st6 {fill:#F59D48;}
+#banner .banner path.corner {
+	fill: rgba(24, 24, 24, 0.3);
+}
 
+#banner .font path {
+	stroke-width: 0.75;
+	stroke-miterlimit: 10;
+}
+#banner .font .st4{fill:#067BC2;stroke:#055575;}
+#banner .font .st5{fill:#FFD72F;stroke:#B29622;}
+#banner .font .st6{fill:#F37748;stroke:#A54D32;}
+#banner .font .st7{fill:#0DAB76;stroke:#086644;}
+#banner .font .st8{fill:#D56062;stroke:#873E42;}
 
 
 #battleground {

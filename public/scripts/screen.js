@@ -406,7 +406,7 @@ socket.on("renderMap", function(m)
 	var map_color = m.level.color;
 	
 	var color_main = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l)+"%)",
-		color_background = "hsl("+map_color.h+", "+map_color.s+"%, "+95+"%)",
+		color_background = "hsl("+map_color.h+", "+map_color.s+"%, "+97+"%)",
 		color_border = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l*0.7)+"%)";
 	
 	console.log("renderMap > ", m);
@@ -423,10 +423,10 @@ socket.on("renderMap", function(m)
 	//document.getElementById("qr").style.background = color_background;
 	document.getElementById("qr").style.borderColor = color_border;
 	
-	document.querySelector("#banner .main .banner").style.stroke = color_border;
-	document.querySelector("#banner .main .banner").style.fill = color_background;
-	document.querySelector("#banner .background .banner").style.stroke = color_border;
-	document.querySelector("#banner .background .banner").style.fill = color_background;
+	document.querySelector("#banner > .main .banner").style.stroke = color_border;
+	document.querySelector("#banner > .main .banner").style.fill = color_background;
+	document.querySelector("#banner > .background .banner").style.stroke = color_border;
+	document.querySelector("#banner > .background .banner").style.fill = color_background;
 	
 	//document.querySelector("h1").style.color = color_border;
 	
