@@ -91,6 +91,8 @@ var canvas,
 	ctx,
 	lvl_canvas,
 	lvl_ctx,
+	powerups_canvas,
+	powerups_ctx,
 	effect_canvas,
 	effect_ctx,
 	f;
@@ -201,10 +203,12 @@ function ini()
 	
 	canvas = document.getElementById("objects");
 	lvl_canvas = document.getElementById("level");
+	powerups_canvas = document.getElementById("powerups");
 	effect_canvas = document.getElementById("effects");
 	
 	ctx = canvas.getContext("2d");
 	lvl_ctx = lvl_canvas.getContext("2d");
+	powerups_ctx = powerups_canvas.getContext("2d");
 	effect_ctx = effect_canvas.getContext("2d");
 	
 	updateSize();
@@ -223,6 +227,9 @@ function updateSize()
 	
 	canvas.width = w;
 	canvas.height = h;
+	
+	powerups_canvas.width = w;
+	powerups_canvas.height = h;
 	
 	lvl_canvas.width = w;
 	lvl_canvas.height = h;
@@ -439,17 +446,27 @@ socket.on("renderMap", function(m)
 	
 	lvl_ctx.setSize(m.width/m.height*vh, vh);
 	ctx.setSize(m.width/m.height*vh, vh);
+	powerups_ctx.setSize(m.width/m.height*vh, vh);
 	effect_ctx.setSize(m.width/m.height*vh, vh);
 	
 	lvl_ctx.clear();
 	lvl_ctx.drawLevel(map.level);
 	
+	powerups_ctx.clear();
 	for (var p in map.powerups)
 	{
-		ctx.drawPowerup(map.powerups[p]);
+		powerups_ctx.drawPowerup(map.powerups[p]);
 	}
 });
 
+
+socket.on("updatePowerups", function(powerups)
+{
+	for (var p in powerups)
+	{
+		powerups_ctx.drawPowerup(powerups[p]);
+	}
+});
 
 // powerup activated
 socket.on("powerupActivated", function(tank, powerup)
@@ -502,6 +519,8 @@ socket.on("kill", function(killer, victim)
 	
 	var expl = new Explosion(victim.x, victim.y, 4, 24, victim.color);
 	explosions.push(expl);
+	
+	lvl_ctx.drawGravestone(victim);
 });
 
 
@@ -581,21 +600,6 @@ var powerup_fade_step = 0,
 	powerup_fade_dir = 1;
 function render()
 {
-	for (var g in gravestones)
-	{
-		ctx.drawGravestone(gravestones[g]);
-	}
-	
-	// draw powerup
-	// if (powerup_fade_step <= -5 || powerup_fade_step >= 5) powerup_fade_dir *= -1;
-	// powerup_fade_step += 0.3 * powerup_fade_dir;
-	for (var p in powerups)
-	{
-		//powerups[p].color.l = powerups[p].color._l + powerup_fade_step;
-		
-		ctx.drawPowerup(powerups[p]);
-	}
-	
 	for (var t in tanks)
 	{
 		var tank = tanks[t];
