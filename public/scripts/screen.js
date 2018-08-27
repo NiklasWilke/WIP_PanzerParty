@@ -462,6 +462,8 @@ socket.on("renderMap", function(m)
 
 socket.on("updatePowerups", function(powerups)
 {
+	console.log("updatePowerups > ", powerups);
+	powerups_ctx.clear();
 	for (var p in powerups)
 	{
 		powerups_ctx.drawPowerup(powerups[p]);

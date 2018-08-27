@@ -107,7 +107,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		console.log("shape#"+s+" >> ", shape.color);
 		
 		
-		// shadow
+		// shadows
 		this.beginPath();
 		for (var p in shape.path)
 		{
@@ -320,7 +320,7 @@ CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
 	this.moveTo(tank.x*f + size, tank.y*f - size);
 	this.lineTo(tank.x*f - size, tank.y*f + size);
 	this.lineWidth = 0.4*f;
-	this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(100-(100-tank.color.l)*0.6)+"%)";
+	this.strokeStyle = "hsla("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%, 0.4)";
 	this.stroke();
 	this.closePath();
 	
@@ -434,6 +434,13 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 		r = powerup.size/2*f;
 	
 	var powerup_color = powerup.color;
+	
+	// shadow
+	this.beginPath();
+	this.arc(x+1, y+1, r+1, 0, 2*Math.PI);
+	this.fillStyle = "rgba(24, 24, 24, 0.08)";
+	this.fill();
+	this.closePath();
 	
 	// base
 	this.beginPath();
