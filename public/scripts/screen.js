@@ -261,7 +261,16 @@ function updateSize()
 	effect_canvas.height = h;
 	
 	lvl_ctx.clear();
-	if (map) lvl_ctx.drawLevel(map.level);
+	if (map)
+	{
+		lvl_ctx.drawLevel(map.level);
+		
+		powerups_ctx.clear();
+		for (var p in map.powerups)
+		{
+			powerups_ctx.drawPowerup(map.powerups[p]);
+		}
+	}
 }
 
 window.onresize = function(e)
