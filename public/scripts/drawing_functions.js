@@ -307,6 +307,41 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 }
 
 
+// draws bot
+CanvasRenderingContext2D.prototype.drawBot = function(bot)
+{
+	console.log("draw bot > ", bot);
+	var f = this.canvas.height / 100;
+	
+	this.translate(bot.x*f, bot.y*f);
+	this.rotate(bot.angle * Math.PI/180);
+	
+	var w = bot.width*f;
+	var h = bot.height*f;
+	
+	
+	this.beginPath();
+	this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
+	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l+"%)";
+	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.7)+"%)";
+	this.fill();
+	this.stroke();
+	this.closePath();
+	
+	// direction
+	this.beginPath();
+	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.2)+"%)";
+	this.moveTo(0, 0);
+	this.lineTo(bot.radius*f, 0);
+	this.stroke();
+	this.closePath();
+	
+	
+	this.rotate(-bot.angle * Math.PI/180);
+	this.translate(-bot.x*f, -bot.y*f);
+}
+
+
 // draws gravestone
 CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
 {

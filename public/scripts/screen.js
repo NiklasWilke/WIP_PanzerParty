@@ -99,6 +99,7 @@ var canvas,
 
 // map objects
 var tanks = [],
+	bots = [],
 	bullets = [],
 	powerups = [],
 	gravestones = [],
@@ -301,8 +302,9 @@ socket.on("updateGameState", function(state)
 // update battleground
 socket.on("update", function(data)
 {
-	//console.log("update >> ", data);
+	console.log("update >> ", data);
 	tanks = data.tanks;
+	bots = data.bots;
 	bullets = data.bullets;
 	powerups = data.powerups;
 	gravestones = data.graveyard;
@@ -659,6 +661,12 @@ function render()
 			engine_sounds[e].pause();
 			delete engine_sounds[e];
 		}
+	}
+	
+	for (var b in bots)
+	{
+		var bot = bots[b];
+		ctx.drawBot(bot);
 	}
 	
 	for (var b in bullets)
