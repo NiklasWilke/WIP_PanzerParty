@@ -102,7 +102,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 	{
 		var shape = shapes[s];
 		shape.color = color;
-		//shape.color.h = Math.round((color.h + (s%2==0 ? 1 : -1) * color_range * (s / shapes.length)) % 360);
+		shape.color.h = Math.round((color.h + (s%2==0 ? 1 : -1) * color_range * (s / shapes.length)) % 360);
 		
 		console.log("shape#"+s+" >> ", shape.color);
 		
