@@ -1,0 +1,16 @@
+{
+	"name": "Sniper",
+	"droprate": 2,
+	"icon": "sniper",
+	"type": "weapon",
+	"color": {"h": 100, "s": 65, "l": 50},
+	"duration": 2,
+	"weapon": {
+		"bullets": 1,
+		"angle": 0,
+		"bounces": 0,
+		"damage": 150,
+		"speed": 4,
+		"bulletType": "shotgun"
+	}
+}

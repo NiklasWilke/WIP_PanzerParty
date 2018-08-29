@@ -91,6 +91,8 @@ var canvas,
 	ctx,
 	lvl_canvas,
 	lvl_ctx,
+	powerups_canvas,
+	powerups_ctx,
 	effect_canvas,
 	effect_ctx,
 	f;
@@ -119,6 +121,29 @@ function ini()
 	if (music_volume == 0) document.getElementById("mute_music").className = "muted";
 	if (game_volume == 0) document.getElementById("mute_sound").className = "muted";
 	
+	/* main menu */
+	var main_menu_buttons = document.querySelectorAll("#main_menu li span");
+	for (var i=0; i<main_menu_buttons.length; i++)
+	{
+		main_menu_buttons[i].addEventListener("click", function(e)
+		{
+			var action = this.getAttribute("action");
+			console.log("MENU:"+action);
+			switch (action)
+			{
+				case "lobby_setup":
+					document.getElementById("lobby_setup").className = "";
+					document.getElementById("main_menu").className = "hidden";
+					break;
+				case "stop":
+					socket.emit("stopServer", function()
+					{
+						window.close();
+					});
+					break;
+			}
+		});
+	}
 	
 	/* menu */
 	var menu_buttons = document.querySelectorAll("#menu li span");
@@ -142,6 +167,17 @@ function ini()
 			}
 		});
 	}
+	
+	document.querySelector("#lobby_setup .level").addEventListener("click", function(e)
+	{
+		document.querySelector("#lobby_setup #levels").className = "";
+	});
+	
+	document.getElementById("start_game").addEventListener("click", function(e)
+	{
+		var id = document.querySelector("#lobby_setup .level").getAttribute("data-id");
+		socket.emit("selectLevel", id);
+	});
 	
 	var menu_icon = document.getElementById("menu_icon");
 	menu_icon.addEventListener("click", function(e)
@@ -169,6 +205,7 @@ function ini()
 	document.getElementById("fullscreen").addEventListener("click", function(e)
 	{
 		var elem = document.body;
+		elem.setAttribute("fullscreen", true);
 		if (elem.requestFullscreen) {
 			elem.requestFullscreen();
 		} else if (elem.mozRequestFullScreen) { /* Firefox */
@@ -178,14 +215,23 @@ function ini()
 		} else if (elem.msRequestFullscreen) { /* IE/Edge */
 			elem.msRequestFullscreen();
 		}
+		
+		// weird fullscreen/vh fix
+		document.getElementById("sidebar").style.paddingRight = "0";
+		setTimeout(function()
+		{
+			document.getElementById("sidebar").style.paddingRight = "1.9vh";
+		}, 100);
 	});
 	
 	canvas = document.getElementById("objects");
 	lvl_canvas = document.getElementById("level");
+	powerups_canvas = document.getElementById("powerups");
 	effect_canvas = document.getElementById("effects");
 	
 	ctx = canvas.getContext("2d");
 	lvl_ctx = lvl_canvas.getContext("2d");
+	powerups_ctx = powerups_canvas.getContext("2d");
 	effect_ctx = effect_canvas.getContext("2d");
 	
 	updateSize();
@@ -197,16 +243,22 @@ document.addEventListener("DOMContentLoaded", ini, false);
 // responsive canvas
 function updateSize()
 {
-	f = window.innerHeight / 100;
+	var w = document.getElementById("battleground").offsetWidth,
+		h = document.getElementById("battleground").offsetHeight;
 	
-	canvas.width = window.innerHeight;
-	canvas.height = window.innerHeight;
+	f = h / 100;
 	
-	lvl_canvas.width = window.innerHeight;
-	lvl_canvas.height = window.innerHeight;
+	canvas.width = w;
+	canvas.height = h;
 	
-	effect_canvas.width = window.innerHeight;
-	effect_canvas.height = window.innerHeight;
+	powerups_canvas.width = w;
+	powerups_canvas.height = h;
+	
+	lvl_canvas.width = w;
+	lvl_canvas.height = h;
+	
+	effect_canvas.width = w;
+	effect_canvas.height = h;
 	
 	lvl_ctx.clear();
 	if (map) lvl_ctx.drawLevel(map.level);
@@ -266,6 +318,52 @@ socket.on("updateScoreboard", function(players)
 	}
 });
 
+// update scoreboard
+socket.on("updatePlayers", function(players)
+{
+	//console.log("updatePlayers > ", players);
+	
+	var player_list = document.querySelector("#player_list");
+	player_list.innerHTML = "";
+	
+	for (var p = 0; p < players.length; p++)
+	{
+		var player = players[p];
+		var tank = {};
+		tank.x = 50;
+		tank.y = 50;
+		tank.width = 22.5*2.5;
+		tank.height = 26.25*2.5;
+		tank.angle = -90;
+		tank.speed = 1;
+		tank.health = 100;
+		tank.color = player.color;
+		
+		var row = document.createElement("div");
+		row.className = "player";
+		row.style.color = "hsl("+player.color.h+", "+player.color.s+"%, "+player.color.l+"%)";
+		
+		var canvas = document.createElement("canvas");
+		canvas.width = 100;
+		canvas.height = 100;
+		canvas.getContext("2d").drawTank(tank);
+		
+		var name = document.createElement("div"); 
+		name.className = "name";
+		name.innerHTML = player.name;
+		
+		var ping = document.createElement("div"); 
+		ping.className = "ping";
+		ping.innerHTML = player.ping+"ms";
+		
+		row.append(canvas);
+		row.append(name);
+		row.append(ping);
+		
+		player_list.appendChild(row);
+	}
+});
+
 
 var map_color = getRandomColor();
 
@@ -279,6 +377,15 @@ socket.on("setLevels", function(levels)
 	levels = shuffle(levels);
 	levels = levels.slice(0, Math.min(6, levels.length));
 	
+	
+	var level = levels[0];
+	document.querySelector("#lobby_setup .level").setAttribute("data-id", level.id);
+	document.querySelector("#lobby_setup .level .name").innerHTML = level.name;
+	document.querySelector("#lobby_setup .level .preview").getContext("2d").setSize(500 / level.height * level.width, 500).drawLevel(level);
+	document.querySelector("#lobby_setup .level .preview").style.borderColor = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
+	
+	
+	// add levels to level selection
 	var wrapper = document.getElementById("levels");
 	wrapper.innerHTML = "";
 	for (var l=0; l<levels.length; l++)
@@ -291,15 +398,21 @@ socket.on("setLevels", function(levels)
 		
 		var map = document.createElement("div");
 		map.className = "map";
+		map.level = level;
 		map.addEventListener("click", function(e)
 		{
-			var id = this.parentNode.getAttribute("data-id");
-			socket.emit("selectLevel", id);
+			var level = this.level;
+			document.querySelector("#lobby_setup .level").setAttribute("data-id", level.id);
+			document.querySelector("#lobby_setup .level .name").innerHTML = level.name;
+			document.querySelector("#lobby_setup .level .preview").getContext("2d").setSize(500 / level.height * level.width, 500).drawLevel(level);
+			document.querySelector("#lobby_setup .level .preview").style.borderColor = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
+			
+			document.querySelector("#lobby_setup #levels").className = "hidden";
 		});
 		
 		var canvas = document.createElement("canvas");
 		canvas.className = "canvas";
-		canvas.width = 500;
+		canvas.width = 500 / level.height * level.width;
 		canvas.height = 500;
 		
 		var ctx = canvas.getContext("2d");
@@ -314,7 +427,6 @@ socket.on("setLevels", function(levels)
 		elem.appendChild(name);
 		wrapper.appendChild(elem);
 	}
-	document.getElementById("select_level").className = "";
 });
 
 
@@ -324,39 +436,67 @@ socket.on("renderMap", function(m)
 	var map_color = m.level.color;
 	
 	var color_main = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l)+"%)",
-		color_background = "hsl("+map_color.h+", "+map_color.s+"%, "+95+"%)",
+		color_background = "hsl("+map_color.h+", "+map_color.s+"%, "+97+"%)",
 		color_border = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l*0.7)+"%)";
 	
 	console.log("renderMap > ", m);
-	document.getElementById("select_level").className = "hidden";
+	document.getElementById("battleground").style.height = 95 + "vh";
+	document.getElementById("battleground").style.width = (95 / m.height * m.width) + "vh";
+	document.getElementById("battleground").style.margin = "2.5vh 0";
+	document.getElementById("battleground").style.color = color_main;
 	
 	document.getElementById("level").style.background = color_background;
 	
 	document.getElementById("scoreboard").style.background = color_background;
 	document.getElementById("scoreboard").style.borderColor = color_border;
 	
-	document.getElementById("qr").style.background = color_background;
+	//document.getElementById("qr").style.background = color_background;
 	document.getElementById("qr").style.borderColor = color_border;
 	
-	document.body.style.background = color_main;
-	document.body.style.borderColor = color_border;
+	document.querySelector("#banner > .main .banner").style.stroke = color_border;
+	document.querySelector("#banner > .main .banner").style.fill = color_background;
+	document.querySelector("#banner > .background .banner").style.stroke = color_border;
+	document.querySelector("#banner > .background .banner").style.fill = color_background;
+	
+	//document.querySelector("h1").style.color = color_border;
+	
+	document.getElementById("game").style.background = color_main;
+	document.getElementById("game").style.borderColor = color_border;
 	
 	map = m;
+	
+	var vh = window.innerHeight;
+	
+	lvl_ctx.setSize(m.width/m.height*vh, vh);
+	ctx.setSize(m.width/m.height*vh, vh);
+	powerups_ctx.setSize(m.width/m.height*vh, vh);
+	effect_ctx.setSize(m.width/m.height*vh, vh);
 	
 	lvl_ctx.clear();
 	lvl_ctx.drawLevel(map.level);
 	
+	powerups_ctx.clear();
 	for (var p in map.powerups)
 	{
-		ctx.drawPowerup(map.powerups[p]);
+		powerups_ctx.drawPowerup(map.powerups[p]);
 	}
 });
 
 
+socket.on("updatePowerups", function(powerups)
+{
+	console.log("updatePowerups > ", powerups);
+	powerups_ctx.clear();
+	for (var p in powerups)
+	{
+		powerups_ctx.drawPowerup(powerups[p]);
+	}
+});
+
 // powerup activated
 socket.on("powerupActivated", function(tank, powerup)
 {
-	if (powerup.type == "emp")
+	if (powerup.animation == "emp")
 	{
 		var max_r = Math.sqrt(Math.pow((tank.x > 50 ? tank.x : 100-tank.x), 2) + Math.pow((tank.y > 50 ? tank.y : 100-tank.y), 2));
 		beacons.push({
@@ -404,6 +544,8 @@ socket.on("kill", function(killer, victim)
 	
 	var expl = new Explosion(victim.x, victim.y, 4, 24, victim.color);
 	explosions.push(expl);
+	
+	lvl_ctx.drawGravestone(victim);
 });
 
 
@@ -483,21 +625,6 @@ var powerup_fade_step = 0,
 	powerup_fade_dir = 1;
 function render()
 {
-	for (var g in gravestones)
-	{
-		ctx.drawGravestone(gravestones[g]);
-	}
-	
-	// draw powerup
-	// if (powerup_fade_step <= -5 || powerup_fade_step >= 5) powerup_fade_dir *= -1;
-	// powerup_fade_step += 0.3 * powerup_fade_dir;
-	for (var p in powerups)
-	{
-		//powerups[p].color.l = powerups[p].color._l + powerup_fade_step;
-		
-		ctx.drawPowerup(powerups[p]);
-	}
-	
 	for (var t in tanks)
 	{
 		var tank = tanks[t];

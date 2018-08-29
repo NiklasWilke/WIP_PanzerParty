@@ -42,18 +42,27 @@ body {
 #dead .inner .message {
 	
 }
+#dead .inner .respawn_wrapper {
+    position: absolute;
+	margin-top: 2vh;
+    width: 100%;
+    text-align: center;
+}
 #dead .inner #respawn {
 	border: none;
 	background: transparent;
 	color: inherit;
 	font: inherit;
+	font-size: 0.8em;
 	line-height: 1em;
-	padding: 0.2em 0.2em;
-	margin-top: 0.5em;
-	
-    animation: button_animation 5s;
-    -moz-animation: button_animation 5s infinite; /* Firefox */
-    -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */
+	padding: 0.4em;
+
+	animation: pulse 700ms infinite;
+	-moz-animation: pulse 700ms infinite; /* Firefox */
+	-webkit-animation: pulse 700ms infinite; /* Safari and Chrome */
+	animation-timing-function: ease-in-out;
+	-moz-animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
 }
 #dead .inner #respawn[disabled] {
     animation: none;
@@ -62,25 +71,37 @@ body {
 	color: rgba(255, 255, 255, 0.3);
 }
 
-
-#name {
-	position: absolute;
-	top: 4vh;
-	left: 0;
-	width: 100%;
-	text-align: center;
-	color: #fff;
-	font-size: 4vh;
+/* button pulse animation*/
+@-moz-keyframes pulse /* Firefox */ {
+    0% {color: rgba(255, 255, 255, 1);}
+    50% {color: rgba(255, 255, 255, 0.5);}
+    100% {color: rgba(255, 255, 255, 1);}
+}
+@-webkit-keyframes pulse /* Safari and Chrome */ {
+    0% {color: rgba(255, 255, 255, 1);}
+    50% {color: rgba(255, 255, 255, 0.5);}
+    100% {color: rgba(255, 255, 255, 1);}
 }
 
 
-#fire {
+
+#controls {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#controls #fire {
 	display: block;
 	position: fixed;
 	bottom: 8vh;
-	left: 10vh;
-	width: 40vh;
+	left: 22vh;
 	height: 40vh;
+	width: 40vh;
+	padding: 0;
 	background: hsl(7, 50%, 50%);
 	background-image: url("/icons/missile.svg");
 	background-size: 42%;
@@ -90,10 +111,15 @@ body {
 	border-radius: 50%;
 	transform: rotateZ(24deg);
 }
-#fire:focus, #powerup:focus {
+#controls #fire .sq {
+	display: none;
+	display: block;
+	height: 100%;
+}
+#controls #fire:focus, #powerup:focus {
 	outline: 0;
 }
-#fire:active::after, #powerup:active::after {
+#controls #fire:active::after, #powerup:active::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -103,7 +129,7 @@ body {
 	background: rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
 }
-#fire::before {
+#controls #fire::before {
 	content: "x" attr(count);
 	position: absolute;
 	top: 50%;
@@ -117,25 +143,30 @@ body {
 
 
 
-#powerup {
+#controls #powerup {
 	display: block;
 	position: fixed;
-	top: 8vh;
+	bottom: 52vh;
 	left: 10vh;
-	width: 25vh;
-	height: 25vh;
+	height: 30vh;
+	width: 30vh;
+	padding: 0;
 	background: hsl(7, 50%, 50%);
-	background-image: url("/icons/powerup.svg");
-	background-size: 30%;
+	background-size: 50%;
 	background-repeat: no-repeat;
 	background-position: center;
 	border: 0;
 	border-radius: 50%;
 }
-#powerup[disabled] {
-	opacity: 0.4;
+#controls #powerup .sq {
+	display: block;
+	height: 100%;
 }
-#powerup[name]::after {
+#controls #powerup[disabled] {
+	/*opacity: 0.4;*/
+}
+#controls #powerup[name]::after {
+	display: none;
 	content: attr(name);
 	position: absolute;
 	color: #fff;
@@ -147,10 +178,31 @@ body {
 	left: 50%;
 	text-align: center;
 }
+#controls #powerup svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+#controls #powerup svg circle {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	
+	/*transition: stroke-dashoffset 100ms ease;*/
+	stroke-width: 0.8vh;
+}
+#controls #powerup svg circle#bar {
+	stroke: #fff;
+}
 
 
 
-#joystick {
+#controls #joystick {
 	position: fixed;
 	bottom: 10vh;
 	right: 10vh;
@@ -160,7 +212,7 @@ body {
 	border-radius: 50%;
 	box-shadow: inset 0 0 5vh rgba(0, 0, 0, 0.1);
 }
-#joystick .button {
+#controls #joystick .button {
 	position: absolute;
 	top: 20vh;
 	left: 20vh;
@@ -173,31 +225,30 @@ body {
 
 
 
-#health {
+#controls #health {
 	position: fixed;
 	bottom: 4vh;
 	left: 50%;
 	transform: translateX(-50%);
 	margin-left: -8vh;
 }
-#health .heart {
+#controls #health .heart {
 	overflow: visible;
 	height: 7vh;
 	margin: 0 1vh;
 }
-#health .heart path {
+#controls #health .heart path {
 	fill: #fff;
 	stroke-width: 10vh;
 	stroke: #fff;
 }
-#health .heart[empty] path {
+#controls #health .heart[empty] path {
 	fill: transparent;
 	stroke: rgba(255, 255, 255, 0.3);
 }
 
 
-
-/* LOGIN OVERLAY */
+/* WAIT OVERLAY */
 #waiting {
 	position: fixed;
 	top: 0;
@@ -209,18 +260,61 @@ body {
 	font-size: 5vh;
 }
 #waiting .logo {
+	position: absolute;
 	display: block;
 	margin: auto;
-	height: 18vh;
-	margin-top: -6vh;
+	height: 21vh;
+	top: 10vh;
+	left: 50%;
+	transform: translateX(-50%);
 }
 #waiting .inner {
 	text-align: center;
-	margin-top: 2vh;
 }
 body[state=running] #waiting {
 	display: none;
 }
+
+
+/* OFFLINE OVERLAY */
+#offline {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	
+	font-size: 5vh;
+}
+#offline .logo {
+	position: absolute;
+	display: block;
+	margin: auto;
+	height: 21vh;
+	top: 10vh;
+	left: 50%;
+	transform: translateX(-50%);
+}
+#offline .inner {
+	text-align: center;
+}
+body:not([offline]) #offline {
+	display: none;
+}
+
+
+/* PING */
+#ping {
+	position: fixed;
+	bottom: 4vh;
+	right: 4vh;
+	font-size: 4vh;
+}
+body[state=running] #ping {
+	color: #fff;
+}
+
 
 /* LOGIN OVERLAY */
 #login {
@@ -233,10 +327,10 @@ body[state=running] #waiting {
 	height: 100%;
 	background: #fff;
 	
-	background-image: url("/graphics/tank.svg");
-	background-size: auto 35%;
-	background-position: 8% bottom;
-	background-repeat: no-repeat;
+	/* background-image: url("/graphics/tank.svg"); */
+	/* background-size: auto 35%; */
+	/* background-position: 8% bottom; */
+	/* background-repeat: no-repeat; */
 	
 	font-size: 7vh;
 }
@@ -248,13 +342,15 @@ body.ready #login {
 }
 #login .wrapper .logo {
 	display: block;
+	position: absolute;
+	top: 13vh;
+	left: 50%;
+	transform: translateX(-50%);
 	height: 21vh;
-     max-width: 60%;
-	margin: -8vh auto 0;
 }
 #login .wrapper > .inner {
 	width: 50%;
-	margin: 4vh auto 0;
+	margin: 20vh auto 0;
 }
 #login .wrapper .input {
 	display: flex;
@@ -268,7 +364,7 @@ body.ready #login {
 	text-align: right;
 }
 #login .wrapper .input .label div {
-	margin-right: 0.5em;
+	margin-right: 0.9em;
 }
 #login .wrapper .input .label img {
 	height: 1.6em;
@@ -307,10 +403,11 @@ body.ready #login {
 	font: inherit;
 	font-weight: bold;
 	background: transparent;
+	color: #0dab76;
 	
-    animation: button_animation 5s;
-    -moz-animation: button_animation 5s infinite; /* Firefox */
-    -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */
+    /* animation: button_animation 5s; */
+    /* -moz-animation: button_animation 5s infinite; /* Firefox */ */
+    /* -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */ */
 }
 
 #login #privacy {
@@ -335,9 +432,9 @@ body.ready #login {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	width: 70vh;
-	margin-left: -35vh;
-	margin-top: -26vh;
+	width: 84vh;
+	margin-left: -42vh;
+	margin-top: -20vh;
 }
 #login #select_color .inner h2 {
 	margin: 0;
@@ -363,11 +460,11 @@ body.ready #login {
 	height: 100%;
 	position: absolute;
 	top: 0;
-	background: rgba(255, 255, 255, 0.6);
+	/*background: rgba(255, 255, 255, 0.6);*/
 	background-image: url("/icons/cross.svg");
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 50%;
+	background-size: 56%;
 }
 
 
@@ -405,8 +502,8 @@ body.ready #login {
 }
 #rotate .logo {
 	display: block;
-	width: 80%;
-	margin: 8% auto 0;
+	width: 82%;
+	margin: 11% auto 0;
 }
 
 @media screen and (orientation: portrait) {

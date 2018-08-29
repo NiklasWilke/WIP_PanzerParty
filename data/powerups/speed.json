@@ -1,14 +1,14 @@
 {
-	"name": "Schnelle Kugeln",
+	"name": "Turbo",
 	"droprate": 1,
-	"icon": "bullet",
+	"icon": "lightningbolt",
 	"type": "effect",
 	"animation": "upgrade",
 	"color": {"h": 200, "s": 80, "l": 60},
 	"duration": 3000,
 	"effect": {
 		"self": {
-			"bullet_speed": "1.3"
+			"movement_speed": "1.6"
 		},
 		"other": {}
 	}

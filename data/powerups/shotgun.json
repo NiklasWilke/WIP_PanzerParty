@@ -1,0 +1,15 @@
+{
+	"name": "Shotgun",
+	"droprate": 2,
+	"icon": "shotgun",
+	"type": "weapon",
+	"color": {"h": 100, "s": 65, "l": 50},
+	"duration": 2,
+	"weapon": {
+		"bullets": 3,
+		"angle": 20,
+		"bounces": 0,
+		"damge": 50,
+		"bulletType": "shotgun"
+	}
+}

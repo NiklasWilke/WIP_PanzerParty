@@ -22,7 +22,16 @@ CanvasRenderingContext2D.prototype.prepare = function()
 {
 	this.canvas.width = this.canvas.innerWidth;
 	this.canvas.height = this.canvas.innerHeight;
-	this.clear();
+	return this;
+}
+
+
+// set size
+CanvasRenderingContext2D.prototype.setSize = function(w, h)
+{
+	this.canvas.width = w;
+	this.canvas.height = h;
+	return this;
 }
 
 
@@ -30,6 +39,7 @@ CanvasRenderingContext2D.prototype.prepare = function()
 CanvasRenderingContext2D.prototype.clear = function()
 {
 	this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	return this;
 }
 
 
@@ -80,7 +90,8 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 	var tiles = level.tiles;
 	var color = {h: level.color.h, s: level.color.s, l: level.color.l};
 	var shapes = level.shapes;
-	var w = h = (100/tiles.length)*f;
+	var w = (100/tiles.length)*f;
+	var h = (100/tiles.length)*f;
 	var color_range = 22.5;
 	
 	this.clear();
@@ -96,7 +107,31 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		console.log("shape#"+s+" >> ", shape.color);
 		
 		
+		// shadow
 		this.beginPath();
+		for (var p in shape.path)
+		{
+			var pos = shape.path[p];
+			if (p == 0)
+			{
+				this.moveTo(pos.x*w+0.2*f, pos.y*h+0.2*f);
+			}
+			else
+			{
+				this.lineTo(pos.x*w+0.2*f, pos.y*h+0.2*f);
+			}
+		}
+		this.lineJoin = "bevel";
+		this.lineWidth = 6;
+		this.strokeStyle = "rgba(24, 24, 24, 0.08)";
+		if (s > 0) this.stroke();
+		this.closePath();
+		
+		
+		
+		// main shape
+		this.beginPath();
+		this.lineJoin = "miter";
 		for (var p in shape.path)
 		{
 			var pos = shape.path[p];
@@ -144,6 +179,33 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		
 		
 		
+		// shadows in free spaces
+		this.globalCompositeOperation = "destination-over";
+		this.beginPath();
+		for (var c in shape.cutouts)
+		{
+			for (var p in shape.cutouts[c])
+			{
+				var pos = shape.cutouts[c][p];
+				if (p == 0)
+				{
+					this.moveTo(pos.x*w+0.2*f, pos.y*h+0.2*f);
+				}
+				else
+				{
+					this.lineTo(pos.x*w+0.2*f, pos.y*h+0.2*f);
+				}
+			}
+		}
+		this.lineJoin = "bevel";
+		this.lineWidth = 6;
+		this.strokeStyle = "rgba(24, 24, 24, 0.08)";
+		this.stroke();
+		this.closePath();
+		this.globalCompositeOperation = "source-over";
+		
+		
+		
 		// draw outline
 		this.beginPath();
 		for (var c in shape.cutouts)
@@ -167,46 +229,6 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		this.stroke();
 		this.closePath();
 	}
-	
-	
-	// DEV grid
-	// for (var y=0; y<tiles.length; y++)
-	// {
-		// for (var x=0; x<tiles.length; x++)
-		// {
-			// this.beginPath();
-			// this.rect(x*w, y*h, w, h);
-			// this.strokeStyle = "rgba(0, 0, 0, 0.1)";
-			// this.stroke();
-			
-			// this.font = "7px Arial";
-			// this.textAlign = "center";
-			// this.textBaseline = "middle";
-			// this.fillStyle = "rgba(0, 0, 0, 1)";
-			// this.fillText(x+"/"+y, (x+0.5)*w, (y+0.5)*h);
-		// }
-	// }
-	
-	
-	// draw powerup spawn locations
-	// for (var p in level.powerup_locations)
-	// {
-		// var pos = level.powerup_locations[p];
-		
-		// this.beginPath();
-		// this.arc(pos.x*f, pos.y*f, 0.24*w, 0, 2*Math.PI);
-		// this.fillStyle = "hsl("+color.h+", "+(color.s*0.2)+"%, "+(100-(100-color.l)*0.5)+"%)";
-		// this.fill();
-		// this.strokeStyle = "hsl("+color.h+", "+(color.s*0.2)+"%, "+(100-(100-color.l)*0.7)+"%)";
-		// this.stroke();
-		// this.closePath();
-		
-		// this.beginPath();
-		// this.arc(pos.x*f, pos.y*f, 0.1*w, 0, 2*Math.PI);
-		// this.fillStyle = "hsl("+((color.h + 60) % 360)+", "+(color.s)+"%, "+(100-(100-color.l)*1)+"%)"; //"#eee";
-		// this.fill();
-		// this.closePath();
-	// }
 }
 
 
@@ -308,32 +330,106 @@ CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
 CanvasRenderingContext2D.prototype.drawBullet = function(bullet)
 {
 	var f = this.canvas.height / 100;
-	var h = 0.8*f;
-	var w = 0.3*f;
 	
-	this.translate(bullet.x*f, bullet.y*f);
-	this.rotate(bullet.angle * Math.PI/180);
+	if (bullet.type == "default")
+	{
+		var h = 0.8*f;
+		var w = 0.3*f;
+		
+		this.translate(bullet.x*f, bullet.y*f);
+		this.rotate(bullet.angle * Math.PI/180);
 	
-	// body
-	this.beginPath();
-	this.roundRect(-h+w/2, -w/2, h, w, {tl: 0, tr: w*0.5, br: w*0.5, bl: 0});
-	this.fillStyle = "hsl("+bullet.color.h+", "+bullet.color.s+"%, "+(bullet.color.l*0.5)+"%)";
-	this.fill();
-	this.closePath();
+		// body
+		this.beginPath();
+		this.roundRect(-h+w/2, -w/2, h, w, {tl: 0, tr: w*0.5, br: w*0.5, bl: 0});
+		this.fillStyle = "hsl("+bullet.color.h+", "+bullet.color.s+"%, "+(bullet.color.l*0.5)+"%)";
+		this.fill();
+		this.closePath();
+		
+		// detail
+		this.beginPath();
+		this.rect(-h, -w/2, h*0.3, w);
+		this.fillStyle = "hsl("+bullet.color.h+", "+(bullet.color.s*0.95)+"%, "+(bullet.color.l*0.75)+"%)";
+		this.fill();
+		this.closePath();
 	
-	// detail
-	this.beginPath();
-	this.rect(-h, -w/2, h*0.3, w);
-	this.fillStyle = "hsl("+bullet.color.h+", "+(bullet.color.s*0.95)+"%, "+(bullet.color.l*0.75)+"%)";
-	this.fill();
-	this.closePath();
+		this.rotate(-bullet.angle * Math.PI/180);
+		this.translate(-bullet.x*f, -bullet.y*f);
+	}
+	else if (bullet.type == "shotgun")
+	{
+		var h = 0.6*f;
+		var w = 0.2*f;
+		
+		this.translate(bullet.x*f, bullet.y*f);
+		this.rotate(bullet.angle * Math.PI/180);
+		
+		// body
+		this.beginPath();
+		this.roundRect(-h+w/2, -w/2, h, w, {tl: 0, tr: w*0.5, br: w*0.5, bl: 0});
+		this.fillStyle = "hsl("+bullet.color.h+", "+bullet.color.s+"%, "+(bullet.color.l*0.5)+"%)";
+		this.fill();
+		this.closePath();
+		
+		// detail
+		this.beginPath();
+		this.rect(-h, -w/2, h*0.3, w);
+		this.fillStyle = "hsl("+bullet.color.h+", "+(bullet.color.s*0.95)+"%, "+(bullet.color.l*0.75)+"%)";
+		this.fill();
+		this.closePath();
 	
-	this.rotate(-bullet.angle * Math.PI/180);
-	this.translate(-bullet.x*f, -bullet.y*f);
+		this.rotate(-bullet.angle * Math.PI/180);
+		this.translate(-bullet.x*f, -bullet.y*f);
+	}
+	else if (bullet.type == "bouncer")
+	{
+		var w = 0.2*f;
+		
+		this.translate(bullet.x*f, bullet.y*f);
+		
+		// body
+		this.beginPath();
+		this.arc(0, 0, w, 0, 2*Math.PI);
+		this.fillStyle = "hsl("+bullet.color.h+", "+bullet.color.s+"%, "+(bullet.color.l*0.5)+"%)";
+		this.fill();
+		this.closePath();
+		
+		this.translate(-bullet.x*f, -bullet.y*f);
+	}
+	else if (bullet.type == "laser")
+	{
+		// laser beam
+		this.beginPath();
+		this.moveTo(bullet.x_start*f, bullet.y_start*f);
+		this.lineTo(bullet.x*f, bullet.y*f);
+		this.strokeStyle = "#EC4846";
+		this.lineWidth = 2;
+		this.stroke();
+		this.closePath();
+	}
 }
+
+function img(src)
+{
+	var img = new Image();
+	img.src = src;
+	return img;
+}
+
+var icons = {
+	shotgun: img("/powerups/shotgun.svg"),
+	lightningbolt: img("/powerups/lightningbolt.svg"),
+	bullet: img("/powerups/bullet.svg"),
+	slow: img("/powerups/slow.svg"),
+	bouncer: img("/powerups/bouncer.svg"),
+	laser: img("/powerups/laser.svg"),
+	sniper: img("/powerups/sniper.svg")
+};
 
 CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 {
+	console.log("drawPowerup > ", powerup);
+	
 	var f = this.canvas.height / 100;
 	var x = powerup.x*f,
 		y = powerup.y*f,
@@ -341,13 +437,20 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	
 	var powerup_color = powerup.color;
 	
+	// shadow
+	this.beginPath();
+	this.arc(x+0.06*f, y+0.06*f, r+0.22*f, 0, 2*Math.PI);
+	this.fillStyle = "rgba(24, 24, 24, 0.1)";
+	this.fill();
+	this.closePath();
+	
 	// base
 	this.beginPath();
 	this.arc(x, y, r, 0, 2*Math.PI);
 	this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, "+(powerup.color.l)+"%)";
 	this.fill();
 	this.lineWidth = 1;
-	this.strokeStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, "+(powerup.color.l*0.9)+"%)";
+	this.strokeStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, "+(powerup.color.l*0.8)+"%)";
 	this.stroke();
 	this.closePath();
 	
@@ -367,42 +470,7 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	// this.fill();
 	// this.closePath();
 	
-	if (powerup.type == "emp")
-	{
-		// lightning
-		var h = Math.sqrt(2*Math.pow(r, 2));
-		var w = h * 0.6;
-		this.beginPath();
-		this.moveTo(x + w*0.3, y-h*0.5);
-		this.lineTo(x + w*0.1, y-h*0.1);
-		this.lineTo(x + w*0.5, y-h*0.1);
-		
-		this.lineTo(x - w*0.3, y+h*0.5);
-		this.lineTo(x - w*0.1, y+h*0.1);
-		this.lineTo(x - w*0.5, y+h*0.1);
-		this.fillStyle = "#fff";
-		this.fill();
-		this.closePath();
-	}
-	else if (powerup.type == "bullet")
-	{
-		var h = Math.sqrt(2*Math.pow(r, 2)) * 0.85;
-		var w = h * 0.35;
-		
-		// bullet body
-		this.beginPath();
-		this.roundRect(x-w/2, y-h/2, w, h*0.7, {tl: w*0.5, tr: w*0.5, br: 0, bl: 0});
-		this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, 100%)";
-		this.fill();
-		this.closePath();
-		
-		// bullet detail
-		this.beginPath();
-		this.rect(x-w/2, y+h*0.22, w, h*0.3);
-		this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, 90%)";
-		this.fill();
-		this.closePath();
-	}
+	this.drawImage(icons[powerup.icon], x-r, y-r, r*2, r*2);
 }
 
 CanvasRenderingContext2D.prototype.drawBeacon = function(beacon)

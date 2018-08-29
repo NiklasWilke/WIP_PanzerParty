@@ -1,9 +1,9 @@
-
 var socket = io();
 
-var editor,
-	save_button,
-	s;
+var w, h;
+
+var editor;
+var save_button;
 var tiles = [];
 
 var color = {
@@ -15,18 +15,19 @@ var color = {
 var current_tool = "wall";
 var draw = false;
 
-console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
-
 function drawEditor(level)
 {
-	s = level ? level.size : parseInt(document.getElementById("size").value);
+	w = parseInt(document.getElementById("width").value);
+	h = parseInt(document.getElementById("height").value);
 	
 	editor.innerHTML = "";
 	
+	editor.style.width = (100/h * w)+"vh";
+	
 	var elem;
-	for (var y=0; y<s; y++)
+	for (var y=0; y<h; y++)
 	{
-		for (var x=0; x<s; x++)
+		for (var x=0; x<w; x++)
 		{
 			elem = document.createElement("div");
 			elem.className = "wall";
@@ -65,9 +66,9 @@ function drawEditor(level)
 						break;
 				}
 			});
-			elem.style.width = (100/s)+"vh";
-			elem.style.height = (100/s)+"vh";
-			elem.setAttribute("block", level ? level.tiles[y][x] : ((x == 0 || x == s-1 || y == 0 || y == s-1) ? 1 : 0));
+			elem.style.width = (100/h)+"vh";
+			elem.style.height = (100/h)+"vh";
+			elem.setAttribute("block", level && level.tiles[y] && level.tiles[y][x] ? level.tiles[y][x] : ((x == 0 || x == w-1 || y == 0 || y == h-1) ? 1 : 0));
 			editor.appendChild(elem);
 		}
 	}
@@ -116,9 +117,10 @@ function ini()
 		if (name == "") return alert("Ungültiger Name");
 		var file_name = name.toLowerCase().replace(/ +/, "-")+".json";
 		
-		socket.emit("saveLevel", file_name, name, level, function()
+		socket.emit("saveLevel", file_name, name, level, function(lvl)
 		{
-			alert("Erfolgreich gespeichert!");
+			console.log(lvl);
+			alert("'"+lvl.name+"' ("+lvl.width+", "+lvl.height+") erfolgreich gespeichert!");
 		});
 	});
 	
@@ -160,8 +162,8 @@ function ini()
 			
 			var canvas = document.createElement("canvas");
 			canvas.className = "canvas";
-			canvas.width = 500;
-			canvas.height = 500;
+			canvas.width = level.width*level.tile_size;
+			canvas.height = level.height*level.tile_size;
 			
 			var ctx = canvas.getContext("2d");
 			ctx.drawLevel(level);
@@ -183,12 +185,14 @@ function exportMap()
 	var result = [];
 	var tiles = document.querySelectorAll("#editor .wall");
 	
-	for (var y=0; y<s; y++)
+	console.log("EXPORT "+w+" x "+h);
+	for (var y=0; y<h; y++)
 	{
+		console.log("> row "+y);
 		var row = [];
-		for (var x=0; x<s; x++)
+		for (var x=0; x<w; x++)
 		{
-			row.push(tiles[y*s + x].hasAttribute("block") ? parseInt(tiles[y*s + x].getAttribute("block")) : 0);
+			row.push(tiles[y*w + x].hasAttribute("block") ? parseInt(tiles[y*w + x].getAttribute("block")) : 0);
 		}
 		result.push(row);
 	}

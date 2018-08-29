@@ -1,10 +1,23 @@
-# WIP_PanzerParty
-http://&lt;ip&gt;:&lt;port&gt; = Mobile Interface (Controls)  
-http://&lt;ip&gt;:&lt;port&gt;/screen = Game Interface
 
+<<<<<<< HEAD
 ## Fette Panzer. Fette Party. 
+=======
+>>>>>>> rectangular_maps
 ![alt text](./public/graphics/banner.svg)
 
+&nbsp;  
+&nbsp;  
 
-## Screenshot 
-![alt text](./public/screenshot.png)
+![alt text](./screenshots/screen_1.png)
+
+&nbsp;  
+
+![alt text](./screenshots/mobile_1mock.png)
+![alt text](./screenshots/mobile_2mock.png)
+
+## Anleitung
+1. NodeJS-Server starten -> **run.bat** ausführen
+2. **http://&lt;*ip-adresse*&gt;:8000** im Browser aufrufen
+3. Map auswählen
+4. Spieler via QR-Code oder IP verbinden
+5. Party!

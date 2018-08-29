@@ -39,6 +39,7 @@ function updateHP(hp)
 	}
 }
 
+var name, color;
 document.addEventListener("DOMContentLoaded", function()
 {
 	var joystick = document.getElementById("joystick");
@@ -55,26 +56,84 @@ document.addEventListener("DOMContentLoaded", function()
 		if (e.which == 13) join_button.focus();
 	});
 	
+	
+	document.body.addEventListener("click", function(e)
+	{
+		var elem = document.body;
+		elem.setAttribute("fullscreen", true);
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.mozRequestFullScreen) { /* Firefox */
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+			elem.webkitRequestFullscreen();
+		} else if (elem.msRequestFullscreen) { /* IE/Edge */
+			elem.msRequestFullscreen();
+		}
+		
+		// weird fullscreen/vh fix
+		// document.getElementById("sidebar").style.paddingRight = "0";
+		// setTimeout(function()
+		// {
+			// document.getElementById("sidebar").style.paddingRight = "1.9vh";
+		// }, 100);
+	});
+	
+	
 	join_button.addEventListener("click", function(e)
 	{
-		var name = name_input.value;
+		name = name_input.value;
+		color = tank.color;
 		
 		if (name == "") return false;
 		Cookies.set("name", name, Infinity, "/"); // (key, val, end, path, domain, secure)
 		
-		socket.emit("join", name, tank.color, function(tank)
+		socket.emit("join", name, color, function(res)
 		{
-			document.body.className = "ready";
-			document.body.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
-			joystick.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
-			joystick_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
-			
-			fire_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
-			fire_button.setAttribute("count", 6);
-			
-			powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+			if (res.error)
+			{
+				alert(res.error);
+			}
+			else
+			{
+				iniScreen(res);
+			}
 		});
 	});
+	
+	socket.on("reconnect", function()
+	{
+		console.log("reconnected");
+		if (name && color) socket.emit("join", name, color, iniScreen);
+		document.body.removeAttribute("offline");
+	});
+	
+	socket.on("connect_timeout", function()
+	{
+		console.log("connect_timeout");
+	});
+	
+	socket.on("disconnect", function()
+	{
+		console.log("disconnect");
+		document.body.setAttribute("offline", true);
+	});
+	
+	var iniScreen = function(tank)
+	{
+		document.body.className = "ready";
+		document.getElementById("controls").style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%)";
+		joystick.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
+		joystick_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l)+"%)";
+
+		fire_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+		fire_button.setAttribute("count", 6);
+
+		powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
+		
+		document.querySelector("#powerup svg").style.stroke = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
+	};
+	
 	
 	
 	var joystickMovement = function(e)
@@ -98,8 +157,6 @@ document.addEventListener("DOMContentLoaded", function()
 		joystick_button.style.left = (20 + Math.cos(toRadians(angle)) * speed * 16) + "vh";
 		
 		socket.emit("move", angle, speed);
-		
-		console.log("move", angle, speed);
 		
 		return false;
 	}
@@ -183,6 +240,14 @@ document.addEventListener("DOMContentLoaded", function()
 	}
 	
 	/* socket events */
+	socket.on("ping", function(callback)
+	{
+		callback();
+	});
+	socket.on("updatePing", function(latency)
+	{
+		document.getElementById("ping").innerHTML = latency+"ms";
+	});
 	
 	socket.on("updateAvailableColors", function(colors)
 	{
@@ -232,14 +297,33 @@ document.addEventListener("DOMContentLoaded", function()
 
 	socket.on("updatePowerup", function(powerup)
 	{
-		powerup_button.disabled = powerup ? false : true;
+		console.log("updatePowerup > ", powerup);
+		
+		var circle = document.querySelector("#powerup svg #bar");
+		var r = circle.getAttributeNS(null, "r");
+		var c = Math.PI*(r*2);
+		
 		if (powerup)
 		{
+			powerup_button.disabled = false;
 			powerup_button.setAttribute("name", powerup.name);
+			powerup_button.style.backgroundImage = "url(/powerups/"+powerup.icon+".svg)";
+			
+			var val = powerup.duration / powerup.total_duration * 100;
+			if (val < 0) { val = 0;}
+			if (val > 100) { val = 100;}
+
+			var pct = ((100-val)/100)*c * -1;
+			circle.style.strokeDashoffset = pct;
 		}
 		else
 		{
+			powerup_button.disabled = true;
 			powerup_button.removeAttribute("name");
+			powerup_button.style.backgroundImage = "none";
+			
+			var pct = ((100-0)/100)*c * -1;
+			circle.style.strokeDashoffset = pct;
 		}
 	});
 
@@ -253,9 +337,9 @@ document.addEventListener("DOMContentLoaded", function()
 	socket.on("death", function(killer)
 	{
 		updateHP(0);
-		var msg = killer ? killer.player.name+" hat dich zerstört!" : "Du hast dich selber zerstört";
+		var msg = killer ? "<b style='color:"+killer.color.string+"'>"+killer.player.name+"</b> hat dich zerstört!" : "Du hast dich selber zerstört.";
 		
-		var s = 5;
+		var s = 3;
 		respawn_button.disabled = true;
 		respawn_button.innerHTML = "Respawn in "+s+"s";
 		
