@@ -43,6 +43,18 @@ CanvasRenderingContext2D.prototype.clear = function()
 }
 
 
+// octagon
+CanvasRenderingContext2D.prototype.octagon = function(size, x, y)
+{
+	var n = 8;
+	this.moveTo (x +  size * Math.cos(0), y +  size *  Math.sin(0));
+	for (var i = 1; i <= n; i += 1) 
+	{
+		this.lineTo(x + size * Math.cos(i * 2 * Math.PI / n), y + size * Math.sin(i * 2 * Math.PI / n));
+	}
+}
+
+
 // rounded rectangles
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius, fill, stroke)
 {
@@ -321,7 +333,8 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	
 	
 	this.beginPath();
-	this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
+	//this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
+	this.octagon(bot.radius*f, 0, 0);
 	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l+"%)";
 	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.7)+"%)";
 	this.fill();
