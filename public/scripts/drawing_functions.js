@@ -102,7 +102,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 	{
 		var shape = shapes[s];
 		shape.color = color;
-		shape.color.h = Math.round((color.h + (s%2==0 ? 1 : -1) * color_range * (s / shapes.length)) % 360);
+		shape.color.l = Math.round((color.l + (s%2==0 ? 1 : -1) * color_range * (s / shapes.length)) % 360);
 		
 		console.log("shape#"+s+" >> ", shape.color);
 		
@@ -441,14 +441,14 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	switch (powerup.type)
 	{
 		case "weapon":
-			powerup.color = {"h": 100, "s": 65, "l": 50};
+			powerup.color = {"h": 46, "s": 100, "l": 50};
 			break;
 		case "effect":
 			powerup.color = {"h": 0, "s": 83, "l": 60};
 			break;
 		case "upgrade":
 		default:
-			powerup.color = {"h": 46, "s": 100, "l": 50};
+			powerup.color = {"h": 100, "s": 65, "l": 50};
 			break;
 		
 
