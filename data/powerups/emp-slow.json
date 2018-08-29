@@ -9,8 +9,8 @@
 	"effect": {
 		"self": {},
 		"other": {
-			"movement_speed": "0.4",
-			"bullet_speed": "0.6"
+			"movement_speed": 0.4,
+			"bullet_speed": 0.6
 		}
 	}
 }

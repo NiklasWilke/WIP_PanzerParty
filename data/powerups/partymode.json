@@ -10,8 +10,10 @@
 		"self": {
 			"movement_speed": 2.5,
 			"bullet_speed": 2.0,
-			"bonus_health": 50
+			"damage_resistance": 50
 		},
-		"other": {}
+		"other": {
+			"movement_speed": 0.4
+		}
 	}
 }
