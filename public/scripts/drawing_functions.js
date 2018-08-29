@@ -271,24 +271,12 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 	
 	
 	// pipe
-	switch (tank.weapontype)
-	{
-		case "test":
-			this.beginPath();
-			this.roundRect(h*0.3/2, -w*0.2/2, h*0.45, w*0.2, w*0.05);
-			this.fillStyle = "hsl(360,100%,50%)";
-			this.fill();
-			this.closePath();
-			break;
-		default:
-		case "default":
-			this.beginPath();
-			this.roundRect(h*0.3/2, -w*0.2/2, h*0.45, w*0.2, w*0.05);
-			this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.7)+"%)";
-			this.fill();
-			this.closePath();
-			break
-	}
+	this.beginPath();
+	this.roundRect(h*0.3/2, -w*0.2/2, h*0.45, w*0.2, w*0.05);
+	this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.7)+"%)";
+	this.fill();
+	this.closePath();
+	
 	
 	
 	// head
