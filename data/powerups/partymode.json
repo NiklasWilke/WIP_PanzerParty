@@ -5,7 +5,7 @@
 	"type": "effect",
 	"animation": "emp",
 	"color": {"h": 46, "s": 100, "l": 50},
-	"duration": 8000,
+	"duration": 6000,
 	"effect": {
 		"self": {
 			"movement_speed": 2,
