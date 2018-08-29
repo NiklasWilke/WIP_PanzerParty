@@ -2,7 +2,7 @@
 	"name": "Partymode",
 	"droprate": 1,
 	"icon": "lightningbolt",
-	"type": "effect",
+	"type": "upgrade",
 	"animation": "upgrade",
 	"color": {"h": 46, "s": 100, "l": 50},
 	"duration": 8000,

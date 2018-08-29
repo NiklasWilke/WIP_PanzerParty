@@ -2,7 +2,7 @@
 	"name": "Schnelle Kugeln",
 	"droprate": 1,
 	"icon": "bullet",
-	"type": "effect",
+	"type": "upgrade",
 	"animation": "upgrade",
 	"color": {"h": 200, "s": 80, "l": 60},
 	"duration": 3000,

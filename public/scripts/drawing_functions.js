@@ -435,7 +435,24 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 		y = powerup.y*f,
 		r = powerup.size/2*f;
 	
-	var powerup_color = powerup.color;
+
+	switch (powerup.type)
+	{
+		case "weapon":
+			powerup.color = {"h": 100, "s": 65, "l": 50};
+			break;
+		case "effect":
+			powerup.color = {"h": 0, "s": 83, "l": 60};
+			break;
+		case "upgrade":
+		default:
+			powerup.color = {"h": 46, "s": 100, "l": 50};
+			break;
+		
+
+		
+	}
+	//var powerup_color = powerup.category;
 	
 	// shadow
 	this.beginPath();
