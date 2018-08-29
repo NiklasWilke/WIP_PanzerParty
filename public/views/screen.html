@@ -178,22 +178,28 @@
 			</div>
 		</div>
 		
-		<div id="lobby_setup">
+		<div id="main_menu" class="valign">
+			<ul class="inner">
+				<img class="logo" src="/graphics/banner_ns.svg">
+				<li><span action="lobby_setup">Party!</span></li>
+				<li><a href="https://github.com/NiklasWilke/WIP_PanzerParty/tree/rectangular_maps" target="_blank">Anleitung</span></li>
+				<li><a href="/editor">Level Editor</a></li>
+				<li><span action="stop">Beenden</span></li>
+			</ul>
+		</div>
+		
+		<div id="lobby_setup" class="hidden">
 			<div class="spacer"></div>
 			<div class="wrapper">
+				<div class="title"><img src="/graphics/banner.svg"></div>
 				<div class="flex">
 					<div class="left">
-						<div class="conenction_info">
-							<img class="qr" src="/qr">
-							<div class="ip">{{ip}}:{{port}}</div>
-						</div>
 						<div class="level">
 							<canvas class="preview"></canvas>
 							<div class="name"></div>
 						</div>
 					</div>
 					<div class="right">
-						<div class="title"><img src="/graphics/lobby_title.svg"></div>
 						<div id="player_list"></div>
 						<div class="spacer"></div>
 						<div class="button_wrapper">
@@ -203,6 +209,10 @@
 				</div>
 			</div>
 			<div class="spacer"></div>
+			<div class="conenction_info">
+				<img class="qr" src="/qr">
+				<div class="ip">{{ip}}:{{port}}</div>
+			</div>
 			<div id="levels" class="hidden"></div>
 		</div>
 		
@@ -215,7 +225,6 @@
 		<div id="menu" class="valign hidden">
 			<ul class="inner">
 				<li><span action="continue">Weiter spielen</span></li>
-				<li><a href="/editor">Level Editor</a></li>
 				<li><span action="stop">Party abbrechen</span></li>
 			</ul>
 		</div>

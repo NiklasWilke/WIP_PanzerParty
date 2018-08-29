@@ -209,7 +209,7 @@ body:not([state=running]) #scoreboard {
 	height: 100%;
 	top: 0;
 	left: 0;
-	background: hsl(200, 60%, 80%);
+	background: hsl(200, 60%, 92%);
 }
 body[state=running] #lobby_setup {
 	display: none;
@@ -219,8 +219,9 @@ body[state=running] #lobby_setup {
 }
 #lobby_setup .title img {
 	display: inline-block;
-	height: 3em;
-	margin-bottom: 2em;
+	height: 5em;
+	margin-top: -5em;
+	margin-bottom: 3em;
 }
 #lobby_setup .wrapper {
 	width: 50%;
@@ -238,8 +239,8 @@ body[state=running] #lobby_setup {
 	width: 100%;
 	background: #fbfbfb;
 	border: 2px solid #fbfbfb;
-	border-radius: 0.4em;
-	box-shadow: 0 0 6em rgba(0, 0, 0, 0.1);
+	border-radius: 0.2em;
+	box-shadow: 0 0 5em rgba(0, 0, 0, 0.08);
 	cursor: pointer;
 }
 #lobby_setup .left .level .name {
@@ -251,18 +252,28 @@ body[state=running] #lobby_setup {
 	line-height: 2em;
 	border-radius: 1em;
 	box-shadow: 0 0 6em rgba(0, 0, 0, 0.1);
+	border: 2px solid hsl(200, 40%, 65%);
 	cursor: pointer;
 }
 #lobby_setup .conenction_info {
-	position: relative;
-	width: 60%;
-	margin: auto;
+	position: absolute;
+	width: 13vw;
+	left: 0;
+	bottom: 0;
+	margin: 3vw;
 	text-align: center;
-	margin-bottom: 2em;
 }
 #lobby_setup .conenction_info img {
+	display: block;
 	width: 100%;
 	background: #fbfbfb;
+	border: 2px solid hsl(200, 40%, 65%);
+	border-radius: 0.2vw;
+}
+#lobby_setup .conenction_info .ip {
+	position: absolute;
+	width: 100%;
+	margin-top: 0.3em;
 }
 #lobby_setup .right {
 	flex-grow: 1;
@@ -275,15 +286,16 @@ body[state=running] #lobby_setup {
 }
 #lobby_setup .right #player_list .player {
 	display: flex;
-	line-height: 2em;
+	line-height: 1.6em;
 	background: #fff;
-	border-radius: 11em;
-	padding: 0.5em 1em;
+	border-radius: 0.2em;
+	padding: 0.5em 0.6em 0.5em 0.4em;
 	margin-bottom: 0.6em;
+	border: 2px solid currentColor;
 }
 #lobby_setup .right #player_list .player canvas {
-	height: 2em;
-	width: 2em;
+	height: 1.6em;
+	width: 1.6em;
 }
 #lobby_setup .right #player_list .player .name {
 	flex-grow: 1;
@@ -295,12 +307,13 @@ body[state=running] #lobby_setup {
 #lobby_setup .right .button_wrapper button {
 	display: inline-block;
 	padding: 0 2em;
-	background: #fbfbfb;
+	background: hsl(160, 86%, 36%);
+	color: #f6f6f6;
 	text-align: center;
 	font: inherit;
 	line-height: 2em;
 	border: 0;
-	border-radius: 1em;
+	border-radius: 0.2em;
 	box-shadow: 0 0 6em rgba(0, 0, 0, 0.1);
 	cursor: pointer;
 }
@@ -403,6 +416,63 @@ body[state=running] #lobby_setup {
 #navbar .muted {
 	opacity: 0.4;
 }
+
+
+#main_menu {
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #dfedef;
+}
+body[state=running] #main_menu, #main_menu.hidden {
+	display: none;
+}
+#main_menu .logo {
+	position: absolute;
+	width: 148%;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -85%);
+}
+#main_menu .inner {
+	position: relative;
+	width: 20vw;
+	margin: auto;
+	margin-top: 0vh;
+	list-style: none;
+	padding: 0.7em 0;
+	text-align: center;
+	transition: all 0.3s;
+	background: #fff;
+	font-size: 1.8rem;
+	line-height: 0.9em;
+	border: 2px solid #777;
+	border-radius: 0.2vw;
+}
+/* #main_menu.hidden .inner { */
+	/* transition: all 0.2s; */
+	/* margin-top: -4vh; */
+/* } */
+#main_menu .inner li {
+	margin: 0.8em 0;
+}
+#main_menu .inner li span {
+	cursor: pointer;
+}
+#main_menu .inner li a {
+	text-decoration: none;
+	color: inherit;
+}
+#main_menu .inner li > *:hover {
+	background-image: url(/graphics/line.svg);
+	background-size: 100% 15%;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
 
 
 #menu {

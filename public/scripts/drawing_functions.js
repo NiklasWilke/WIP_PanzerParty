@@ -107,18 +107,18 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 		console.log("shape#"+s+" >> ", shape.color);
 		
 		
-		// shadows
+		// shadow
 		this.beginPath();
 		for (var p in shape.path)
 		{
 			var pos = shape.path[p];
 			if (p == 0)
 			{
-				this.moveTo(pos.x*w+2, pos.y*h+2);
+				this.moveTo(pos.x*w+0.2*f, pos.y*h+0.2*f);
 			}
 			else
 			{
-				this.lineTo(pos.x*w+2, pos.y*h+2);
+				this.lineTo(pos.x*w+0.2*f, pos.y*h+0.2*f);
 			}
 		}
 		this.lineJoin = "bevel";
@@ -189,11 +189,11 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 				var pos = shape.cutouts[c][p];
 				if (p == 0)
 				{
-					this.moveTo(pos.x*w+2, pos.y*h+2);
+					this.moveTo(pos.x*w+0.2*f, pos.y*h+0.2*f);
 				}
 				else
 				{
-					this.lineTo(pos.x*w+2, pos.y*h+2);
+					this.lineTo(pos.x*w+0.2*f, pos.y*h+0.2*f);
 				}
 			}
 		}
@@ -320,7 +320,7 @@ CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
 	this.moveTo(tank.x*f + size, tank.y*f - size);
 	this.lineTo(tank.x*f - size, tank.y*f + size);
 	this.lineWidth = 0.4*f;
-	this.strokeStyle = "hsla("+tank.color.h+", "+tank.color.s+"%, "+tank.color.l+"%, 0.4)";
+	this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(100-(100-tank.color.l)*0.6)+"%)";
 	this.stroke();
 	this.closePath();
 	
@@ -428,6 +428,8 @@ var icons = {
 
 CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 {
+	console.log("drawPowerup > ", powerup);
+	
 	var f = this.canvas.height / 100;
 	var x = powerup.x*f,
 		y = powerup.y*f,
@@ -437,8 +439,8 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	
 	// shadow
 	this.beginPath();
-	this.arc(x+1, y+1, r+1, 0, 2*Math.PI);
-	this.fillStyle = "rgba(24, 24, 24, 0.08)";
+	this.arc(x+0.06*f, y+0.06*f, r+0.22*f, 0, 2*Math.PI);
+	this.fillStyle = "rgba(24, 24, 24, 0.1)";
 	this.fill();
 	this.closePath();
 	
@@ -448,7 +450,7 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	this.fillStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, "+(powerup.color.l)+"%)";
 	this.fill();
 	this.lineWidth = 1;
-	this.strokeStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, "+(powerup.color.l*0.9)+"%)";
+	this.strokeStyle = "hsl("+powerup.color.h+", "+powerup.color.s+"%, "+(powerup.color.l*0.8)+"%)";
 	this.stroke();
 	this.closePath();
 	

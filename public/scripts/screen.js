@@ -121,6 +121,29 @@ function ini()
 	if (music_volume == 0) document.getElementById("mute_music").className = "muted";
 	if (game_volume == 0) document.getElementById("mute_sound").className = "muted";
 	
+	/* main menu */
+	var main_menu_buttons = document.querySelectorAll("#main_menu li span");
+	for (var i=0; i<main_menu_buttons.length; i++)
+	{
+		main_menu_buttons[i].addEventListener("click", function(e)
+		{
+			var action = this.getAttribute("action");
+			console.log("MENU:"+action);
+			switch (action)
+			{
+				case "lobby_setup":
+					document.getElementById("lobby_setup").className = "";
+					document.getElementById("main_menu").className = "hidden";
+					break;
+				case "stop":
+					socket.emit("stopServer", function()
+					{
+						window.close();
+					});
+					break;
+			}
+		});
+	}
 	
 	/* menu */
 	var menu_buttons = document.querySelectorAll("#menu li span");

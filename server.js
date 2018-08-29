@@ -97,11 +97,16 @@ app.get("/editor", function(req, res)
 
 io.on("connection", function(socket)
 {
+	socket.on("stopServer", function(cb)
+	{
+		cb();
+		process.exit();
+	});
 });
 
 
 // start server
 http.listen(port, function()
 {
-	console.log("Example app running on "+ip.address()+":"+port+"!");
+	console.log("Server running on "+ip.address()+":"+port+"!");
 });
