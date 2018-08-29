@@ -92,7 +92,7 @@ CanvasRenderingContext2D.prototype.drawLevel = function(level)
 	var shapes = level.shapes;
 	var w = (100/tiles.length)*f;
 	var h = (100/tiles.length)*f;
-	var color_range = 22.5;
+	var color_range = 10;
 	
 	this.clear();
 	

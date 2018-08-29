@@ -426,6 +426,9 @@ body[state=running] #lobby_setup {
 	width: 100%;
 	height: 100%;
 	background: #dfedef;
+	background-image: url(/graphics/menu_bg.jpg);
+	background-size: cover;
+	background-position: center;
 }
 body[state=running] #main_menu, #main_menu.hidden {
 	display: none;
