@@ -1,0 +1,19 @@
+{
+	"name": "PARTY-MODE",
+	"droprate": 1,
+	"icon": "lightningbolt",
+	"type": "effect",
+	"animation": "upgrade",
+	"color": {"h": 0, "s": 83, "l": 60},
+	"duration": 8000,
+	"effect": {
+		"self": {
+			"movement_speed": "2.5",
+            "bonus_health": "50",
+            "bullet_speed": "1.5"
+		},
+		"other": {
+            "movement_speed": "0.4"
+        }
+	}
+}
