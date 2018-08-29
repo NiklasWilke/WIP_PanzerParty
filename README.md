@@ -1,8 +1,3 @@
-
-<<<<<<< HEAD
-## Fette Panzer. Fette Party. 
-=======
->>>>>>> rectangular_maps
 ![alt text](./public/graphics/banner.svg)
 
 &nbsp;  
