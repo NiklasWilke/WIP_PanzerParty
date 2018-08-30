@@ -355,18 +355,20 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	// pipe
 	//2. length
 	this.beginPath();
-	this.roundRect((radius*0.3/2)*2, (-radius*0.2/2)*2, radius*0.45*2, radius*0.2*2, radius*0.05*2);
+	this.roundRect((radius*0.3, -radius*0.2, radius*0.45*2, radius*0.2*2, radius*0.05*2));
 	this.fillStyle = "hsl(0,83%, 25%)";
 	this.fill();
 	this.closePath();
 
+	/*
 	// pipe
 	//2. length
 	this.beginPath();
 	this.roundRect((radius*0.3, -radius*0.2, radius*0.45*2, radius*0.2*2, radius*0.05*2));
-	this.fillStyle = "hsl(0,83%, 50%)";
+	this.fillStyle = "hsl(0,83%, 25%)";
 	this.fill();
 	this.closePath();
+	*/
 
 	/*
 	// direction
