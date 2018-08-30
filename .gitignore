@@ -5,3 +5,4 @@ node.exe
 FHDW-Logo.json
 data/maps/FHDW-Logo.json
 lib/bots.js
+lib/Bot.js

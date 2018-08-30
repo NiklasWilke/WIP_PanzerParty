@@ -328,19 +328,29 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.translate(bot.x*f, bot.y*f);
 	this.rotate(bot.angle * Math.PI/180);
 	
-	var w = bot.width*f;
-	var h = bot.height*f;
+	var radius = bot.radius*f;
 	
 	
 	this.beginPath();
 	//this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
-	this.octagon(bot.radius*f, 0, 0);
+	this.octagon(radius, 0, 0);
 	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l+"%)";
 	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.7)+"%)";
 	this.fill();
 	this.stroke();
 	this.closePath();
-	
+
+
+
+
+	// pipe
+	this.beginPath();
+	this.roundRect((radius*0.3/2)*2, (-radius*0.2/2)*2, radius*0.45*2, radius*0.2*2, radius*0.05*2);
+	this.fillStyle = "hsl(0,83%, 50%)";
+	this.fill();
+	this.closePath();
+
+	/*
 	// direction
 	this.beginPath();
 	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.2)+"%)";
@@ -348,7 +358,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.lineTo(bot.radius*f, 0);
 	this.stroke();
 	this.closePath();
-	
+	*/
 	
 	this.rotate(-bot.angle * Math.PI/180);
 	this.translate(-bot.x*f, -bot.y*f);
@@ -377,6 +387,8 @@ CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
 	this.lineWidth = 1;
 }
 
+
+//draw bullet
 CanvasRenderingContext2D.prototype.drawBullet = function(bullet)
 {
 	var f = this.canvas.height / 100;
@@ -476,6 +488,8 @@ var icons = {
 	sniper: img("/powerups/sniper.svg")
 };
 
+
+//powerups
 CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 {
 	console.log("drawPowerup > ", powerup);
