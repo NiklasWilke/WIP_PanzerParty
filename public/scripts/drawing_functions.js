@@ -328,7 +328,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.translate(bot.x*f, bot.y*f);
 	this.rotate(bot.angle * Math.PI/180);
 	
-	var radius = bot.radius*f;
+	var radius = bot.radius*f; //radius 1.3
 	
 	
 	this.beginPath();
@@ -340,12 +340,30 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.stroke();
 	this.closePath();
 
+	this.beginPath();
+	//this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
+	this.octagon((radius/2+0.1), 0, 0);
+	this.fillStyle = "hsl(0,83%, 50%)";
+	this.strokeStyle = "hsl(0,83%, 60%)";
+	this.fill();
+	this.stroke();
+	this.closePath();
+
 
 
 
 	// pipe
+	//2. length
 	this.beginPath();
 	this.roundRect((radius*0.3/2)*2, (-radius*0.2/2)*2, radius*0.45*2, radius*0.2*2, radius*0.05*2);
+	this.fillStyle = "hsl(0,83%, 25%)";
+	this.fill();
+	this.closePath();
+
+	// pipe
+	//2. length
+	this.beginPath();
+	this.roundRect((radius*0.3, -radius*0.2, radius*0.45*2, radius*0.2*2, radius*0.05*2));
 	this.fillStyle = "hsl(0,83%, 50%)";
 	this.fill();
 	this.closePath();
