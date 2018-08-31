@@ -332,60 +332,68 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	
 
 	//this scaling
-	var radius = bot.radius*f; //radius 1.3
-	
+	var r = bot.radius*f; //radius 1.3
 	
 
 	//octagon body
 	this.beginPath();
-	//this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
-	this.octagon(radius, 0, 0);
+	this.octagon(r, 0, 0);
 	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l+"%)";
 	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.7)+"%)";
 	this.fill();
 	this.stroke();
 	this.closePath();
 
-	//inner octagon body
+
+	// pipes
+	for (var i=0; i<8; i++)
+	{
+		this.rotate((360/8 * i) * Math.PI/180);
+		
+		this.beginPath();
+		this.roundRect(r*0.6, -r*0.3/2, r*0.65, r*0.3, r*0.05);
+		this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.6)+"%)";
+		this.fill();
+		this.closePath();
+		
+		this.rotate(-(360/8 * i) * Math.PI/180);
+	}
+	
+	
+	
+	// head
 	this.beginPath();
-	//this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
-	this.octagon((radius/2+0.1), 0, 0);
-	this.fillStyle = "hsl(0,83%, 50%)";
-	this.strokeStyle = "hsl(0,83%, 60%)";
+	this.octagon(r * 0.7, 0, 0);
+	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.7+"%)";
+	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
 	this.fill();
 	this.stroke();
 	this.closePath();
-
-
-
-	/*
-	// pipe
-	//2. length
+	
+	
+	// detail
 	this.beginPath();
-	this.roundRect((radius*0.3, -radius*0.2, radius*0.45*2, radius*0.2*2, radius*0.05*2));
-	this.fillStyle = "hsl(0,50%, 25%)";
+	this.octagon(r * 0.4, 0, 0);
+	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	this.stroke();
+	this.closePath();
+	
+	// detail
+	this.beginPath();
+	this.octagon(r * 0.15, 0, 0);
+	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
 	this.fill();
 	this.closePath();
-	*/
-
-	/*
-	// pipe
-	//2. length
-	this.beginPath();
-	this.roundRect((radius*0.3, -radius*0.2, radius*0.45*2, radius*0.2*2, radius*0.05*2));
-	this.fillStyle = "hsl(0,83%, 25%)";
-	this.fill();
-	this.closePath();
-	*/
-
+	
+	
 	
 	// direction
-	this.beginPath();
-	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.2)+"%)";
-	this.moveTo(0, 0);
-	this.lineTo(bot.radius*f, 0);
-	this.stroke();
-	this.closePath();
+	// this.beginPath();
+	// this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.2)+"%)";
+	// this.moveTo(0, 0);
+	// this.lineTo(bot.radius*f, 0);
+	// this.stroke();
+	// this.closePath();
 	
 	
 	this.rotate(-bot.rotation * Math.PI/180)
