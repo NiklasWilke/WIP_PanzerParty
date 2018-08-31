@@ -338,8 +338,10 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	//octagon body
 	this.beginPath();
 	this.octagon(r, 0, 0);
-	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
-	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.fillStyle = "hsl(0, 70%, 60%)";
+	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	this.strokeStyle = "hsl(0, 70%, 25%)";
 	this.fill();
 	this.stroke();
 	this.closePath();
@@ -351,8 +353,9 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 		this.rotate((360/8 * i) * Math.PI/180);
 		
 		this.beginPath();
-		this.roundRect(r*0.6, -r*0.3/2, r*0.65, r*0.3, r*0.05);
-		this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.6)+"%)";
+		this.roundRect(r*0.6, -r*0.3/2, r*0.6, r*0.3, r*0.05);
+		//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.4)+"%)";
+		this.fillStyle = "hsl(0, 40%, 20%)";
 		this.fill();
 		this.closePath();
 		
@@ -364,8 +367,10 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	// head
 	this.beginPath();
 	this.octagon(r * 0.7, 0, 0);
-	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
-	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.fillStyle = "hsl(0, 40%, 30%)";
+	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.4)+"%)";
+	this.strokeStyle = "hsl(0, 40%, 20%)";
 	this.fill();
 	this.stroke();
 	this.closePath();
@@ -374,14 +379,19 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	// detail
 	this.beginPath();
 	this.octagon(r * 0.4, 0, 0);
-	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.fillStyle = "hsl(0, 70%, 60%)";
+	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	this.strokeStyle = "hsl(0, 40%, 20%)";
+	this.fill();
 	this.stroke();
 	this.closePath();
 	
 	// detail
 	this.beginPath();
 	this.octagon(r * 0.15, 0, 0);
-	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	this.fillStyle = "hsl(0, 40%, 20%)";
 	this.fill();
 	this.closePath();
 	
@@ -398,13 +408,13 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.rotate(-bot.rotation * Math.PI/180);
 	
 	this.beginPath();
-	this.rect(-r*0.8, r*1.4, r*1.6, r*0.25);
+	this.rect(-r*0.8, r*1.5, r*1.6, r*0.25);
 	this.fillStyle = "red";
 	this.fill();
 	this.closePath();
 	
 	this.beginPath();
-	this.rect(-r*0.8, r*1.4, r*1.6 * (bot.health / 500), r*0.25);
+	this.rect(-r*0.8, r*1.5, r*1.6 * (bot.health / 500), r*0.25);
 	this.fillStyle = "green";
 	this.fill();
 	this.closePath();
