@@ -252,6 +252,8 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 	this.translate(tank.x*f, tank.y*f);
 	this.rotate(tank.angle * Math.PI/180);
 	
+
+	//scaling
 	var w = tank.width*f;
 	var h = tank.height*f;
 	
@@ -328,9 +330,13 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.translate(bot.x*f, bot.y*f);
 	this.rotate(bot.angle * Math.PI/180);
 	
+
+	//this scaling
 	var radius = bot.radius*f; //radius 1.3
 	
 	
+
+	//octagon body
 	this.beginPath();
 	//this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
 	this.octagon(radius, 0, 0);
@@ -340,6 +346,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.stroke();
 	this.closePath();
 
+	//inner octagon body
 	this.beginPath();
 	//this.arc(0, 0, bot.radius*f, 0, 2*Math.PI);
 	this.octagon((radius/2+0.1), 0, 0);
@@ -351,14 +358,15 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 
 
 
-
+	/*
 	// pipe
 	//2. length
 	this.beginPath();
 	this.roundRect((radius*0.3, -radius*0.2, radius*0.45*2, radius*0.2*2, radius*0.05*2));
-	this.fillStyle = "hsl(0,83%, 25%)";
+	this.fillStyle = "hsl(0,50%, 25%)";
 	this.fill();
 	this.closePath();
+	*/
 
 	/*
 	// pipe
@@ -370,7 +378,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.closePath();
 	*/
 
-	/*
+	
 	// direction
 	this.beginPath();
 	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.2)+"%)";
@@ -378,9 +386,9 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.lineTo(bot.radius*f, 0);
 	this.stroke();
 	this.closePath();
-	*/
 	
-	this.rotate(-bot.angle * Math.PI/180);
+	
+	this.rotate(-bot.current_rotation * Math.PI/180);
 	this.translate(-bot.x*f, -bot.y*f);
 }
 
