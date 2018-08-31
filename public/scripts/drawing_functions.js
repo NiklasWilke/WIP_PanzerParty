@@ -328,7 +328,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	var f = this.canvas.height / 100;
 	
 	this.translate(bot.x*f, bot.y*f);
-	this.rotate(bot.current_rotation * Math.PI/180);
+	//this.rotate(bot.current_rotation * Math.PI/180);
 	
 
 	//this scaling
@@ -388,7 +388,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	this.closePath();
 	
 	
-	this.rotate(-bot.current_rotation_tick)//* Math.PI/180);
+	this.rotate(-bot.current_rotation_tick * Math.PI/180)
 	this.translate(-bot.x*f, -bot.y*f);
 }
 
@@ -436,6 +436,8 @@ CanvasRenderingContext2D.prototype.drawBullet = function(bullet)
 		this.fill();
 		this.closePath();
 		
+
+
 		// detail
 		this.beginPath();
 		this.rect(-h, -w/2, h*0.3, w);
