@@ -338,8 +338,8 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	//octagon body
 	this.beginPath();
 	this.octagon(r, 0, 0);
-	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l+"%)";
-	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.7)+"%)";
+	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
 	this.fill();
 	this.stroke();
 	this.closePath();
@@ -364,7 +364,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	// head
 	this.beginPath();
 	this.octagon(r * 0.7, 0, 0);
-	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.7+"%)";
+	this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
 	this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
 	this.fill();
 	this.stroke();
