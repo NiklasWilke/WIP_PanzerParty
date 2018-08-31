@@ -395,8 +395,20 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	// this.stroke();
 	// this.closePath();
 	
+	this.rotate(-bot.rotation * Math.PI/180);
 	
-	this.rotate(-bot.rotation * Math.PI/180)
+	this.beginPath();
+	this.rect(-r*0.8, r*1.4, r*1.6, r*0.25);
+	this.fillStyle = "red";
+	this.fill();
+	this.closePath();
+	
+	this.beginPath();
+	this.rect(-r*0.8, r*1.4, r*1.6 * (bot.health / 500), r*0.25);
+	this.fillStyle = "green";
+	this.fill();
+	this.closePath();
+	
 	this.translate(-bot.x*f, -bot.y*f);
 }
 
