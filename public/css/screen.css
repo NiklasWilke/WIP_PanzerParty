@@ -433,6 +433,13 @@ body[state=running] #lobby_setup {
 body[state=running] #main_menu, #main_menu.hidden {
 	display: none;
 }
+#main_menu .background {
+	position: absolute;
+	min-width: 100%;
+	min-height: 100%;
+	top: 0;
+	left: 0;
+}
 #main_menu .logo {
 	position: absolute;
 	width: 148%;
