@@ -43,6 +43,18 @@ CanvasRenderingContext2D.prototype.clear = function()
 }
 
 
+// octagon
+CanvasRenderingContext2D.prototype.octagon = function(size, x, y)
+{
+	var n = 8;
+	this.moveTo (x +  size * Math.cos(0), y +  size *  Math.sin(0));
+	for (var i = 1; i <= n; i += 1) 
+	{
+		this.lineTo(x + size * Math.cos(i * 2 * Math.PI / n), y + size * Math.sin(i * 2 * Math.PI / n));
+	}
+}
+
+
 // rounded rectangles
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius, fill, stroke)
 {
@@ -240,6 +252,8 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 	this.translate(tank.x*f, tank.y*f);
 	this.rotate(tank.angle * Math.PI/180);
 	
+
+	//scaling
 	var w = tank.width*f;
 	var h = tank.height*f;
 	
@@ -307,6 +321,108 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 }
 
 
+// draws bot
+CanvasRenderingContext2D.prototype.drawBot = function(bot)
+{
+	console.log("draw bot > ", bot);
+	var f = this.canvas.height / 100;
+	
+	this.translate(bot.x*f, bot.y*f);
+	this.rotate(bot.rotation * Math.PI/180);
+	
+
+	//this scaling
+	var r = bot.radius*f; //radius 1.3
+	
+
+	//octagon body
+	this.beginPath();
+	this.octagon(r, 0, 0);
+	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.fillStyle = "hsl(0, 70%, 60%)";
+	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	this.strokeStyle = "hsl(0, 70%, 25%)";
+	this.fill();
+	this.stroke();
+	this.closePath();
+
+
+	// pipes
+	for (var i=0; i<8; i++)
+	{
+		this.rotate((360/8 * i) * Math.PI/180);
+		
+		this.beginPath();
+		this.roundRect(r*0.6, -r*0.3/2, r*0.6, r*0.3, r*0.05);
+		//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.4)+"%)";
+		this.fillStyle = "hsl(0, 40%, 20%)";
+		this.fill();
+		this.closePath();
+		
+		this.rotate(-(360/8 * i) * Math.PI/180);
+	}
+	
+	
+	
+	// head
+	this.beginPath();
+	this.octagon(r * 0.7, 0, 0);
+	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.fillStyle = "hsl(0, 40%, 30%)";
+	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.4)+"%)";
+	this.strokeStyle = "hsl(0, 40%, 20%)";
+	this.fill();
+	this.stroke();
+	this.closePath();
+	
+	
+	// detail
+	this.beginPath();
+	this.octagon(r * 0.4, 0, 0);
+	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.fillStyle = "hsl(0, 70%, 60%)";
+	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	this.strokeStyle = "hsl(0, 40%, 20%)";
+	this.fill();
+	this.stroke();
+	this.closePath();
+	
+	// detail
+	this.beginPath();
+	this.octagon(r * 0.15, 0, 0);
+	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	this.fillStyle = "hsl(0, 40%, 20%)";
+	this.fill();
+	this.closePath();
+	
+	
+	
+	// direction
+	// this.beginPath();
+	// this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.2)+"%)";
+	// this.moveTo(0, 0);
+	// this.lineTo(bot.radius*f, 0);
+	// this.stroke();
+	// this.closePath();
+	
+	this.rotate(-bot.rotation * Math.PI/180);
+	
+	this.beginPath();
+	this.rect(-r*0.8, r*1.5, r*1.6, r*0.25);
+	this.fillStyle = "red";
+	this.fill();
+	this.closePath();
+	
+	this.beginPath();
+	this.rect(-r*0.8, r*1.5, r*1.6 * (bot.health / 500), r*0.25);
+	this.fillStyle = "green";
+	this.fill();
+	this.closePath();
+	
+	this.translate(-bot.x*f, -bot.y*f);
+}
+
+
 // draws gravestone
 CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
 {
@@ -329,6 +445,8 @@ CanvasRenderingContext2D.prototype.drawGravestone = function(tank)
 	this.lineWidth = 1;
 }
 
+
+//draw bullet
 CanvasRenderingContext2D.prototype.drawBullet = function(bullet)
 {
 	var f = this.canvas.height / 100;
@@ -348,6 +466,8 @@ CanvasRenderingContext2D.prototype.drawBullet = function(bullet)
 		this.fill();
 		this.closePath();
 		
+
+
 		// detail
 		this.beginPath();
 		this.rect(-h, -w/2, h*0.3, w);
@@ -428,6 +548,8 @@ var icons = {
 	sniper: img("/powerups/sniper.svg")
 };
 
+
+//powerups
 CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 {
 	console.log("drawPowerup > ", powerup);
