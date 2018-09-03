@@ -456,12 +456,12 @@ socket.on("renderMap", function(m)
 	document.getElementById("battleground").style.margin = "2.5vh 0";
 	document.getElementById("battleground").style.color = color_main;
 	
-	document.getElementById("level").style.background = color_background;
+	document.getElementById("level").style.backgroundColor = color_background;
 	
-	document.getElementById("scoreboard").style.background = color_background;
+	document.getElementById("scoreboard").style.backgroundColor = color_background;
 	document.getElementById("scoreboard").style.borderColor = color_border;
 	
-	//document.getElementById("qr").style.background = color_background;
+	//document.getElementById("qr").style.backgroundColor = color_background;
 	document.getElementById("qr").style.borderColor = color_border;
 	
 	document.querySelector("#banner > .main .banner").style.stroke = color_border;
@@ -471,7 +471,7 @@ socket.on("renderMap", function(m)
 	
 	//document.querySelector("h1").style.color = color_border;
 	
-	document.getElementById("game").style.background = color_main;
+	document.getElementById("game").style.backgroundColor = color_main;
 	document.getElementById("game").style.borderColor = color_border;
 	
 	map = m;

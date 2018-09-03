@@ -119,6 +119,10 @@ body:not([state=running]) #ip {
 	height: 100%;
 	width: 100%;
 }
+#battleground #level {
+	background-image: url(/graphics/bg.png);
+	background-size: 1.5vw;
+}
 
 #sidebar {
 	position: relative;

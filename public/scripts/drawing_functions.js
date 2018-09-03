@@ -46,7 +46,7 @@ CanvasRenderingContext2D.prototype.clear = function()
 // octagon
 CanvasRenderingContext2D.prototype.octagon = function(size, x, y)
 {
-	var n = 8;
+	var n = 7;
 	this.moveTo (x +  size * Math.cos(0), y +  size *  Math.sin(0));
 	for (var i = 1; i <= n; i += 1) 
 	{
