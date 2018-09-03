@@ -582,7 +582,13 @@ function playSound(src, volume)
 // sounds
 socket.on("shotFired", function()
 {
-	playSound("/sounds/shoot.wav", 0.6);
+	playSound("/sounds/shoot.wav", 0.4);
+});
+
+//https://audiograb.com/uv8lz7ekg
+socket.on("botRotated", function()
+{
+	playSound("/sounds/rotate.mp3", 0.6);
 });
 socket.on("bulletBounced", function(bullet)
 {
@@ -609,6 +615,7 @@ socket.on("kill", function(killer, victim)
 	
 	lvl_ctx.drawGravestone(victim);
 });
+
 
 
 // kill feed
