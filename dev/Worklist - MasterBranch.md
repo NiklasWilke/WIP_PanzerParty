@@ -9,6 +9,10 @@
     * Killingsprees
     * Terminations (Ende einer Killingspree)
     * Bot Announcement: 3, 2, 1 (fast) PARTY-CRASHER!!!
+* ##### Sound Feedback im Menü
+    * Sound on Buttonclick
+* ##### Weiße Icons, Sichtbarkeit
+    * weiße Icons sind auf dem Hell-blauen Hintergrund schlecht sichtbar
 
 * ##### Extensive Testing
     * Performance-Test:  6 Spieler + 2 Bots
@@ -20,6 +24,9 @@
     * Test Router/Wifi-Hotspot
 
 #### Bug Fixes: (13.09)
+* ##### Initial Music display
+    * Musik soll bei initialem Websiteaufruf abgespielt werden
+    * Musik wird erst abgespielt wenn aus dem Level zurück ins Menü gewechselt wird
 * ##### Maximize Button
     * when maximized, Button sollte minimizen
 * ##### Spawn in useless locations (Tanks, Bots & Powerups)
@@ -28,8 +35,12 @@
     * prevent Zooming-Function
 * ##### Disable Bot Self-Killing
     * Tanks shouldn't hit themselves anymore
-* #### Bullets ignore corner Collision
-    * Bullets should never ignore Walls    
+* ##### Bullets ignore corner Collision
+    * Bullets should never ignore Walls 
+* ##### HP Bar moves into Wall
+* Sound disable on reload
+    * Music dissapears on Pagereload (ingame)
+
 
 #### Potential Extensions: 
 * ##### In-Game Start Pause
