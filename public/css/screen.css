@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Fredoka+One:400");
+
 html {
 	height: 100%;
 	font-size: 1.25vw;
@@ -531,4 +533,32 @@ body[state=running] #main_menu, #main_menu.hidden {
 	background-size: 100% 15%;
 	background-repeat: no-repeat;
 	background-position: bottom;
+}
+
+#text_overlay {
+	overflow: visible;
+	position: fixed;
+	z-index: 2;
+	top: 50%;
+	width: 133vh;
+	text-align: center;
+	font-family: "Fredoka One";
+	font-size: 2.8rem;
+	font-weight: 900;
+	letter-spacing: 0.02em;
+	height: 1em;
+	margin-top: -0.5em;
+}
+#text_overlay text {
+	fill: #f2ff00;
+	stroke-width: 0.01rem;
+}
+#text_overlay text.s1 {
+	fill: rgba(255, 255, 255, 0.9);
+	transform: translate(-0.02em, -0.02em);
+	text-shadow: 0 0 3em rgba(255, 255, 255, 1);
+}
+#text_overlay text.s2 {
+	fill: rgba(0, 0, 0, 0.3);
+	transform: translate(0.025em, 0.025em);
 }

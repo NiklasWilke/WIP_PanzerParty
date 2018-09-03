@@ -302,7 +302,7 @@ socket.on("updateGameState", function(state)
 // update battleground
 socket.on("update", function(data)
 {
-	console.log("update >> ", data);
+	//console.log("update >> ", data);
 	tanks = data.tanks;
 	bots = data.bots;
 	bullets = data.bullets;
@@ -520,6 +520,57 @@ socket.on("powerupActivated", function(tank, powerup)
 		});
 	}
 });
+
+var text_overlay_timout = null;
+function showMessage(message)
+{
+	window.clearInterval(text_overlay_timout);
+	
+	var elem = document.getElementById("text_overlay");
+	if (elem) elem.parentNode.removeChild(elem);
+	
+	// <svg height="30" width="200">
+	// 		<text x="0" y="15" fill="red">I love SVG!</text>
+	// </svg>
+	
+	elem = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	elem.id = "text_overlay";
+	
+	var inner = document.createElementNS("http://www.w3.org/2000/svg", "text");
+	inner.setAttributeNS(null, "class", "main");
+	inner.setAttributeNS(null, "alignment-baseline", "middle");
+	inner.setAttributeNS(null, "y", "0.6em");
+	inner.setAttributeNS(null, "x", "50%");
+	inner.setAttributeNS(null, "text-anchor", "middle");
+	inner.appendChild(document.createTextNode(message));
+	
+	var s1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+	s1.setAttributeNS(null, "class", "s1");
+	s1.setAttributeNS(null, "alignment-baseline", "middle");
+	s1.setAttributeNS(null, "y", "0.6em");
+	s1.setAttributeNS(null, "x", "50%");
+	s1.setAttributeNS(null, "text-anchor", "middle");
+	s1.appendChild(document.createTextNode(message));
+	
+	var s2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+	s2.setAttributeNS(null, "class", "s2");
+	s2.setAttributeNS(null, "alignment-baseline", "middle");
+	s2.setAttributeNS(null, "y", "0.6em");
+	s2.setAttributeNS(null, "x", "50%");
+	s2.setAttributeNS(null, "text-anchor", "middle");
+	s2.appendChild(document.createTextNode(message));
+	
+	
+	elem.appendChild(s1);
+	elem.appendChild(s2);
+	elem.appendChild(inner);
+	
+	document.getElementById("battleground").appendChild(elem);
+	// text_overlay_timout = window.setTimeout(function()
+	// {
+		// elem.parentNode.removeChild(elem);
+	// }, 800);
+}
 
 function playSound(src, volume)
 {
