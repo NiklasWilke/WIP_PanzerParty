@@ -8,12 +8,12 @@
 	"duration": 6000,
 	"effect": {
 		"self": {
-			"movement_speed": 2,
-			"bullet_speed": 2.0,
+			"movement_speed": 1.5,
+			"bullet_speed": 1.0,
 			"damage_resistance": 50
 		},
 		"other": {
-			"movement_speed": 0.4
+			"movement_speed": 0.5
 		}
 	}
 }
