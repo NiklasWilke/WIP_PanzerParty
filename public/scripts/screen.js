@@ -533,9 +533,11 @@ socket.on("shotFired", function()
 {
 	playSound("/sounds/shoot.wav", 0.4);
 });
+
+//https://audiograb.com/uv8lz7ekg
 socket.on("botRotated", function()
 {
-	playSound("/sounds/rotate2.mp3", 0.6);
+	playSound("/sounds/rotate.mp3", 0.6);
 });
 socket.on("bulletBounced", function(bullet)
 {
