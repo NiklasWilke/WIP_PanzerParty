@@ -324,7 +324,7 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 // draws bot
 CanvasRenderingContext2D.prototype.drawBot = function(bot)
 {
-	console.log("draw bot > ", bot);
+	//console.log("draw bot > ", bot);
 	var f = this.canvas.height / 100;
 	
 	this.translate(bot.x*f, bot.y*f);

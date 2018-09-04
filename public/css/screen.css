@@ -30,6 +30,7 @@ body:not([state=running]) #ip {
 	padding: 2%;
 	border: 2px solid #fff;
 	background: #fbfbfb;
+	box-shadow: inset 0.38vh 0.38vh 0 0 rgba(0, 0, 0, 0.08);
 }
 #ip .info {
 	margin-top: 0.2em;
@@ -169,6 +170,7 @@ body:not([state=running]) #ip {
 	min-height: 20vh;
 	padding: 1vh;
 	border: 2px solid #bbb;
+	box-shadow: inset 0.38vh 0.38vh 0 0 rgba(0, 0, 0, 0.08);
 }
 body:not([state=running]) #scoreboard {
 	display: none;
@@ -217,7 +219,7 @@ body:not([state=running]) #scoreboard {
 	left: 0;
 	background: hsl(200, 60%, 92%);
 }
-body[state=running] #lobby_setup {
+body[state=running] #lobby_setup, body[state=ready] #lobby_setup {
 	display: none;
 }
 #lobby_setup .title {
@@ -547,22 +549,38 @@ body[state=running] #main_menu, #main_menu.hidden {
 	width: 133vh;
 	text-align: center;
 	font-family: "Fredoka One";
-	font-size: 2.8rem;
+	font-size: 6rem;
 	font-weight: 900;
 	letter-spacing: 0.02em;
 	height: 1em;
 	margin-top: -0.5em;
 }
 #text_overlay text {
-	fill: #f2ff00;
+	fill: #ffec44;
+	stroke: #d0bf39;
 	stroke-width: 0.01rem;
+	animation-name: text_overlay_animation;
+	animation-duration: 800ms;
+	transform-origin: 50% 50%;
 }
 #text_overlay text.s1 {
-	fill: rgba(255, 255, 255, 0.9);
-	transform: translate(-0.02em, -0.02em);
 	text-shadow: 0 0 3em rgba(255, 255, 255, 1);
 }
 #text_overlay text.s2 {
-	fill: rgba(0, 0, 0, 0.3);
-	transform: translate(0.025em, 0.025em);
+	display: none;
+}
+
+@keyframes text_overlay_animation {
+    0% {
+		opacity: 0;
+		transform: scale(1);
+	}
+    10% {
+		opacity: 1;
+		transform: scale(1);
+	}
+    100% {
+		opacity: 0;
+		transform: scale(1.4);
+	}
 }
