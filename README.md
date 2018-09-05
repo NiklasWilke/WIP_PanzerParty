@@ -23,15 +23,14 @@
 7.Die gewählte Karte nutzen oder durch das klicken auf die angezeigte Karte eine andere Karte auswählen
 
 --AUF VERBINDUNG DER MOBILGERÄTE WARTEN--
-
---Verbundene Spieler/Geräte werden rechts neben der Karte angezeigt--
---Ist kein Spieler zu sehen ist die Lobby noch leer--
+			* Verbundene Spieler/Geräte werden rechts neben der Karte angezeigt--
+			* Ist kein Spieler zu sehen ist die Lobby noch leer--
 11. Auf Start klicken
 12. PARTY! 
 
 ##Mobile Controller (Handy)
 
-AUF CLIENT START WARTEN
+--AUF CLIENT START WARTEN--
 
 6. Mobilgerät mit dem Wlan Hotspot verbinden
 	Name: PanzerParty
@@ -41,5 +40,7 @@ AUF CLIENT START WARTEN
 --AUF CLIENT
 9. Wunschfarbe durch antippen des Panzers auswählen
 10. Beitreten antippen und so der Lobby beitreten
+
 --AUF SPIELSTART WARTEN--
+
 12. PARTY!
