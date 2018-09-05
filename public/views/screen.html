@@ -10,18 +10,19 @@
 		<script src="/scripts/cookies.js"></script>
 		<script src="/scripts/drawing_functions.js"></script>
 		<script src="/scripts/screen.js"></script>
-		
+
 		{{> favicon}}
 	</head>
 	<body>
 		<audio id="music" src="/music/Hep Cats.mp3" autoplay loop></audio>
-		
+
 		<div id="game">
 			<div id="battleground">
 				<canvas id="level"></canvas>
 				<canvas id="powerups"></canvas>
 				<canvas id="objects"></canvas>
 				<canvas id="effects"></canvas>
+				<div id="timer"><span class="inner">00:00</span></div>
 			</div>
 			<div id="sidebar">
 				<ul id="kill_log"></ul>
@@ -177,7 +178,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="main_menu" class="valign">
 			<video class="background" src="/video/bg.mp4" autoplay="autoplay" loop="loop"></video>
 			<ul class="inner">
@@ -188,7 +189,7 @@
 				<li><span action="stop">Beenden</span></li>
 			</ul>
 		</div>
-		
+
 		<div id="lobby_setup" class="hidden">
 			<div class="spacer"></div>
 			<div class="wrapper">
@@ -220,7 +221,7 @@
 			</div>
 			<div id="levels" class="hidden"></div>
 		</div>
-		
+
 		<div id="navbar">
 			<img id="mute_music" src="/icons/music.svg">
 			<img id="mute_sound" src="/icons/sound.svg">

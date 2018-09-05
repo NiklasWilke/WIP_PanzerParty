@@ -333,6 +333,14 @@ socket.on("gameEnded", function(scoreboard)
 	showMessage(scoreboard[0].name+" hat gewonnen!");
 });
 
+// update timer
+socket.on("updateTimer", function(t)
+{
+	var elem = document.querySelector("#timer span");
+	elem.setAttribute("data-secs", t);
+	elem.innerHTML = ("00"+Math.floor(t / 60)).slice(-2) + ":" + ("00"+(t % 60)).slice(-2);
+});
+
 // update battleground
 socket.on("update", function(data)
 {
@@ -482,6 +490,7 @@ socket.on("renderMap", function(m)
 
 	var color_main = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l)+"%)",
 		color_background = "hsl("+map_color.h+", "+map_color.s+"%, "+97+"%)",
+		color_background_darker = "hsl("+map_color.h+", "+map_color.s+"%, "+90+"%)",
 		color_border = "hsl("+map_color.h+", "+map_color.s+"%, "+(map_color.l*0.7)+"%)";
 
 	console.log("renderMap > ", m);
@@ -494,6 +503,10 @@ socket.on("renderMap", function(m)
 
 	document.getElementById("scoreboard").style.background = color_background;
 	document.getElementById("scoreboard").style.borderColor = color_border;
+
+	document.querySelector("#timer span").style.background = color_background;
+	document.querySelector("#timer span").style.borderColor = color_border;
+	document.querySelector("#timer span").style.color = color_border;
 
 	//document.getElementById("qr").style.background = color_background;
 	document.getElementById("qr").style.borderColor = color_border;
@@ -556,7 +569,7 @@ socket.on("powerupActivated", function(tank, powerup)
 });
 
 var text_overlay_timout = null;
-function showMessage(message)
+function showMessage(message, duration)
 {
 	window.clearInterval(text_overlay_timout);
 
@@ -600,10 +613,13 @@ function showMessage(message)
 	elem.appendChild(inner);
 
 	document.getElementById("battleground").appendChild(elem);
-	// text_overlay_timout = window.setTimeout(function()
-	// {
-		// elem.parentNode.removeChild(elem);
-	// }, 800);
+	if (duration)
+	{
+		text_overlay_timout = window.setTimeout(function()
+		{
+			elem.parentNode.removeChild(elem);
+		}, duration);
+	}
 }
 
 function playSound(src, volume)

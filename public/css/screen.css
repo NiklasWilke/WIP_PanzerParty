@@ -125,6 +125,26 @@ body:not([state=running]) #ip {
 	background-size: 1.5vw;*/
 }
 
+
+#timer {
+	position: absolute;
+	z-index: 10;
+	top: -0.5vh;
+	width: 100%;
+	text-align: center;
+	color: #000;
+	font-size: 1.2rem;
+}
+#timer span {
+	display: inline-block;
+	padding-top: 0.1em;
+	margin-top: -0.05em;
+	border: 2px solid #bbb;
+	box-shadow: 0.35vh 0.35vh 0 0 rgba(0, 0, 0, 0.08);
+	width: 3.6em;
+}
+
+
 #sidebar {
 	position: relative;
 	flex-grow: 1;
