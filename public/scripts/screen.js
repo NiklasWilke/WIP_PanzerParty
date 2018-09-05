@@ -146,7 +146,7 @@ function ini()
 		});
 	}
 	
-	/* menu */
+	// menu
 	var menu_buttons = document.querySelectorAll("#menu li span");
 	for (var i=0; i<menu_buttons.length; i++)
 	{
@@ -298,32 +298,6 @@ socket.on("updateGameState", function(state)
 	
 	document.body.setAttribute("state", state);
 });
-socket.on("gameReady", function()
-{
-	var countdown = 3;
-	var timer = window.setInterval(function()
-	{
-		if (countdown == 0)
-		{
-			clearInterval(timer);
-			
-			playSound("/sounds/party_horn.wav", 0.4);
-			showMessage("Party!", 800);
-			
-			socket.emit("startGame");
-		}
-		else
-		{
-			playSound("/sounds/beep.mp3", 0.4);
-			showMessage(countdown--, 800);
-		}
-	}, 1000);
-});
-socket.on("gameStarted", function()
-{
-	console.log("game started");
-	playSound("/sounds/party_horn.wav", 0.4);
-});
 
 // update battleground
 socket.on("update", function(data)
@@ -362,8 +336,6 @@ socket.on("updatePlayers", function(players)
 	
 	var player_list = document.querySelector("#player_list");
 	player_list.innerHTML = "";
-	
-	document.querySelector("#lobby_setup .waiting").className = players.length > 0 ? "waiting hidden" : "waiting";
 	
 	for (var p = 0; p < players.length; p++)
 	{
@@ -420,7 +392,6 @@ socket.on("setLevels", function(levels)
 	var level = levels[0];
 	document.querySelector("#lobby_setup .level").setAttribute("data-id", level.id);
 	document.querySelector("#lobby_setup .level .name").innerHTML = level.name;
-	document.querySelector("#lobby_setup .level .name").style.color = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
 	document.querySelector("#lobby_setup .level .preview").getContext("2d").setSize(500 / level.height * level.width, 500).drawLevel(level);
 	document.querySelector("#lobby_setup .level .preview").style.borderColor = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
 	
@@ -444,7 +415,6 @@ socket.on("setLevels", function(levels)
 			var level = this.level;
 			document.querySelector("#lobby_setup .level").setAttribute("data-id", level.id);
 			document.querySelector("#lobby_setup .level .name").innerHTML = level.name;
-			document.querySelector("#lobby_setup .level .name").style.color = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
 			document.querySelector("#lobby_setup .level .preview").getContext("2d").setSize(500 / level.height * level.width, 500).drawLevel(level);
 			document.querySelector("#lobby_setup .level .preview").style.borderColor = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
 			
@@ -486,12 +456,12 @@ socket.on("renderMap", function(m)
 	document.getElementById("battleground").style.margin = "2.5vh 0";
 	document.getElementById("battleground").style.color = color_main;
 	
-	document.getElementById("level").style.backgroundColor = color_background;
+	document.getElementById("level").style.background = color_background;
 	
-	document.getElementById("scoreboard").style.backgroundColor = color_background;
+	document.getElementById("scoreboard").style.background = color_background;
 	document.getElementById("scoreboard").style.borderColor = color_border;
 	
-	//document.getElementById("qr").style.backgroundColor = color_background;
+	//document.getElementById("qr").style.background = color_background;
 	document.getElementById("qr").style.borderColor = color_border;
 	
 	document.querySelector("#banner > .main .banner").style.stroke = color_border;
@@ -501,7 +471,7 @@ socket.on("renderMap", function(m)
 	
 	//document.querySelector("h1").style.color = color_border;
 	
-	document.getElementById("game").style.backgroundColor = color_main;
+	document.getElementById("game").style.background = color_main;
 	document.getElementById("game").style.borderColor = color_border;
 	
 	map = m;
@@ -552,9 +522,9 @@ socket.on("powerupActivated", function(tank, powerup)
 });
 
 var text_overlay_timout = null;
-function showMessage(message, duration)
+function showMessage(message)
 {
-	window.clearTimeout(text_overlay_timout);
+	window.clearInterval(text_overlay_timout);
 	
 	var elem = document.getElementById("text_overlay");
 	if (elem) elem.parentNode.removeChild(elem);
@@ -596,10 +566,10 @@ function showMessage(message, duration)
 	elem.appendChild(inner);
 	
 	document.getElementById("battleground").appendChild(elem);
-	text_overlay_timout = window.setTimeout(function()
-	{
-		elem.parentNode.removeChild(elem);
-	}, duration);
+	// text_overlay_timout = window.setTimeout(function()
+	// {
+		// elem.parentNode.removeChild(elem);
+	// }, 800);
 }
 
 function playSound(src, volume)
