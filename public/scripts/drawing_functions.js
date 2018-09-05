@@ -328,7 +328,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	var f = this.canvas.height / 100;
 	
 	this.translate(bot.x*f, bot.y*f);
-	this.rotate(bot.rotation * Math.PI/180);
+	this.rotate((bot.rotation + bot.angle) * Math.PI/180);
 	
 
 	//this scaling
@@ -405,7 +405,7 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 	// this.stroke();
 	// this.closePath();
 	
-	this.rotate(-bot.rotation * Math.PI/180);
+	this.rotate(-(bot.rotation + bot.angle) * Math.PI/180);
 	
 	this.beginPath();
 	this.rect(-r*0.8, r*1.5, r*1.6, r*0.25);

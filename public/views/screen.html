@@ -179,7 +179,7 @@
 		</div>
 		
 		<div id="main_menu" class="valign">
-			<video class="background" src="/video/demo.mp4" autoplay="autoplay" loop="loop"></video>
+			<video class="background" src="/video/bg.mp4" autoplay="autoplay" loop="loop"></video>
 			<ul class="inner">
 				<img class="logo" src="/graphics/banner_ns.svg">
 				<li><span action="lobby_setup">Party!</span></li>
@@ -192,7 +192,7 @@
 		<div id="lobby_setup" class="hidden">
 			<div class="spacer"></div>
 			<div class="wrapper">
-				<div class="title"><img src="/graphics/banner.svg"></div>
+				<img class="title" src="/graphics/banner.svg">
 				<div class="flex">
 					<div class="left">
 						<div class="level">
@@ -200,8 +200,11 @@
 							<div class="name"></div>
 						</div>
 					</div>
+					<div class="center"></div>
 					<div class="right">
 						<div id="player_list"></div>
+						<div class="spacer"></div>
+						<div class="waiting">Warte auf Spieler...</div>
 						<div class="spacer"></div>
 						<div class="button_wrapper">
 							<button id="start_game">Start!</button>
@@ -211,6 +214,7 @@
 			</div>
 			<div class="spacer"></div>
 			<div class="conenction_info">
+				<img class="info" src="/graphics/qr_info.svg">
 				<img class="qr" src="/qr">
 				<div class="ip">{{ip}}:{{port}}</div>
 			</div>
