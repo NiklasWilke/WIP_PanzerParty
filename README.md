@@ -11,7 +11,7 @@
 ![alt text](./screenshots/mobile_2mock.png)
 
 ### Anleitung
-##Client
+## Client
 1. Nodejs installieren
 2. **install_package.bat** zum installieren der Node-Modules ausführen
 3. Den hostenden Rechner mit dem Wlan Hotspot verbinden
@@ -28,7 +28,7 @@
 11. Auf Start klicken
 12. PARTY! 
 
-##Mobile Controller (Handy)
+## Mobile Controller (Handy)
 
 --AUF CLIENT START WARTEN--
 
