@@ -299,6 +299,33 @@ socket.on("updateGameState", function(state)
 	document.body.setAttribute("state", state);
 });
 
+-socket.on("gameReady", function()
+{
+	var countdown = 3;
+	var timer = window.setInterval(function()
+	{
+		if (countdown == 0)
+		{
+			clearInterval(timer);
+			
+			playSound("/sounds/party_horn.wav", 0.4);
+			showMessage("Party!", 800);
+			
+			socket.emit("startGame");
+		}
+		else
+		{
+			playSound("/sounds/beep.mp3", 0.4);
+			showMessage(countdown--, 800);
+		}
+	}, 1000);
+});
+socket.on("gameStarted", function()
+{
+	console.log("game started");
+	playSound("/sounds/party_horn.wav", 0.4);
+});
+
 // update battleground
 socket.on("update", function(data)
 {
