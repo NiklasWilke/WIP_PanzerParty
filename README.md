@@ -21,13 +21,18 @@
 5. **http://&lt;*ip-adresse*&gt;localhost:8000** im Browser aufrufen
 6.Zum erstellen einer Lobby auf Party klicken
 7.Die gewählte Karte nutzen oder durch das klicken auf die angezeigte Karte eine andere Karte auswählen
+
 --AUF VERBINDUNG DER MOBILGERÄTE WARTEN--
+
 --Verbundene Spieler/Geräte werden rechts neben der Karte angezeigt--
 --Ist kein Spieler zu sehen ist die Lobby noch leer--
 11. Auf Start klicken
 12. PARTY! 
+
 ##Mobile Controller (Handy)
---AUF CLIENT START WARTEN--
+
+AUF CLIENT START WARTEN
+
 6. Mobilgerät mit dem Wlan Hotspot verbinden
 	Name: PanzerParty
 	Passwort: abc123
