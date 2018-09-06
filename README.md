@@ -54,7 +54,9 @@
 * Nach der eigenen Eliminierung, zählt ein Countdown von 4 Sekunden herunter
 * Nach Ablauf des Countdowns kann auf "Respawn" gedrückt werden um dem Spielfeld erneut beizutreten
 
-## Anleitung
+## Requirements
+
+## Anleitung / Innstallation
 #### Client
 1. Nodejs installieren
 2. **install_package.bat** zum installieren der Node-Modules ausführen
@@ -66,17 +68,17 @@
 6. Zum erstellen einer Lobby auf Party klicken
 7. Die gewählte Karte nutzen oder durch das klicken auf die angezeigte Karte eine andere Karte auswählen
 
---AUF VERBINDUNG DER MOBILGERÄTE WARTEN--
+**--AUF VERBINDUNG DER MOBILGERÄTE WARTEN--**
 
 (8.) Verbundene Spieler/Geräte werden rechts neben der Karte angezeigt
 (8.) Ist kein Spieler zu sehen ist die Lobby noch leer
 
 11. Auf Start klicken
-12. ### PARTY! 
+12. #### PARTY! 
 
 #### Mobile Controller (Handy)
 
---AUF CLIENT START WARTEN--
+**--AUF CLIENT START WARTEN--**
 
 6. Mobilgerät mit dem Wlan Hotspot verbinden
 	**Name:  *PanzerParty***
@@ -86,6 +88,20 @@
 9. Wunschfarbe durch antippen des Panzers auswählen
 10. Beitreten antippen und so der Lobby beitreten
 
---AUF SPIELSTART WARTEN--
+**--AUF SPIELSTART WARTEN--**
 
-12. ### PARTY!
+12. #### PARTY!
+
+
+## Supported auf folgenden Platformen
+**C** = Kompatibel
+**X** = nicht supported
+**NT** = not tested
+| Gerät | Chrome | Edge | Firefox | Internet Explorer| Safari |
+|---|---|---|---|---|---|
+| Smartphone Android | C | NT  | NT  | NT  | X |
+| Smartphone iOS | C  | NT  | NT  | C | NT |
+|   Desktop Windows| C  | C  | X  | X | NT |
+
+## Known Bugs
+* Zoomfehler in Google Chrome
