@@ -1,0 +1,10 @@
+{
+	"name": "Repatur-Kit",
+	"droprate": 1,
+	"icon": "wrench",
+	"type": "heal",
+	"animation": "upgrade",
+	"color": {"h": 89, "s": 100, "l": 50},
+    "duration": 1,	
+    "heal" : true
+}

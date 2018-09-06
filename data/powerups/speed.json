@@ -1,17 +1,9 @@
 {
-	"name": "Partymode",
+	"name": "Repatur-Kit",
 	"droprate": 1,
 	"icon": "lightningbolt",
-	"type": "upgrade",
+	"type": "heal",
 	"animation": "upgrade",
 	"color": {"h": 46, "s": 100, "l": 50},
-	"duration": 8000,
-	"effect": {
-		"self": {
-			"movement_speed": 2.5,
-			"bullet_speed": 2.0,
-			"bonus_health": 50
-		},
-		"other": {}
-	}
+	"duration": 1	
 }

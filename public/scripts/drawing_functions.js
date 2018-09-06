@@ -539,6 +539,7 @@ function img(src)
 }
 
 var icons = {
+	wrench: img("/powerups/wrench.svg"),
 	shotgun: img("/powerups/shotgun.svg"),
 	lightningbolt: img("/powerups/lightningbolt.svg"),
 	bullet: img("/powerups/bullet.svg"),
