@@ -24,9 +24,6 @@
     * Test Router/Wifi-Hotspot
 
 #### Bug Fixes: (13.09)
-* ##### Initial Music display
-    * Musik soll bei initialem Websiteaufruf abgespielt werden
-    * Musik wird erst abgespielt wenn aus dem Level zurück ins Menü gewechselt wird
 * ##### Maximize Button
     * when maximized, Button sollte minimizen
 * ##### Spawn in useless locations (Tanks, Bots & Powerups)
@@ -40,6 +37,8 @@
 * ##### HP Bar moves into Wall
 * Sound disable on reload
     * Music dissapears on Pagereload (ingame)
+* Map selection border dont fit
+    * Border doesnt quite fit the maps 
 
 
 #### Potential Extensions: 
@@ -58,6 +57,9 @@
         * Wall-Blocks that have a gun and shoot at a tanks position every x seconds 
         * maybe calculate the closest tank
         * doesnt matter if it hits the wall often
+    * Police Bot
+        * Color
+        * Taser
 
 * ##### Bot Spawn Timer Box
     * display overall countdown (3min) until the bots spawn in a Box
