@@ -2,7 +2,5 @@ node_modules
 cmd.bat
 package-lock.json
 node.exe
-FHDW-Logo.json
-data/maps/FHDW-Logo.json
 lib/bots.js
 lib/Bot.js
