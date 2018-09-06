@@ -47,6 +47,9 @@ body:not([state=running]) #ip {
 	border: 2px solid #eee;
 	display: flex;
 }
+body:not([state]) #game {
+	display: none;
+}
 
 #banner {
 	position: relative;
@@ -589,8 +592,12 @@ body:not([state=stopped]):not([state=not_started]) #main_menu, #main_menu.hidden
 	stroke: #d0bf39;
 	stroke-width: 0.01rem;
 	animation-name: text_overlay_animation;
+  animation-fill-mode: forwards;
 	animation-duration: 800ms;
 	transform-origin: 50% 50%;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-perspective: 1000;
 }
 #text_overlay text.s1 {
 	text-shadow: 0 0 3em rgba(255, 255, 255, 1);
@@ -602,14 +609,14 @@ body:not([state=stopped]):not([state=not_started]) #main_menu, #main_menu.hidden
 @keyframes text_overlay_animation {
     0% {
 		opacity: 0;
-		transform: scale(1);
+		transform: translate3d(0,0,0) scale(1);
 	}
     10% {
 		opacity: 1;
-		transform: scale(1);
+		transform: translate3d(0,0,0) scale(1);
 	}
     100% {
 		opacity: 0;
-		transform: scale(1.4);
+		transform: translate3d(0,0,0) scale(1.4);
 	}
 }

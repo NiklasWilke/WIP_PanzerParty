@@ -434,6 +434,7 @@ socket.on("setLevels", function(levels)
 	var level = levels[0];
 	document.querySelector("#lobby_setup .level").setAttribute("data-id", level.id);
 	document.querySelector("#lobby_setup .level .name").innerHTML = level.name;
+	document.querySelector("#lobby_setup .level .name").style.color = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
 	document.querySelector("#lobby_setup .level .preview").getContext("2d").setSize(500 / level.height * level.width, 500).drawLevel(level);
 	document.querySelector("#lobby_setup .level .preview").style.borderColor = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
 
@@ -457,6 +458,7 @@ socket.on("setLevels", function(levels)
 			var level = this.level;
 			document.querySelector("#lobby_setup .level").setAttribute("data-id", level.id);
 			document.querySelector("#lobby_setup .level .name").innerHTML = level.name;
+			document.querySelector("#lobby_setup .level .name").style.color = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
 			document.querySelector("#lobby_setup .level .preview").getContext("2d").setSize(500 / level.height * level.width, 500).drawLevel(level);
 			document.querySelector("#lobby_setup .level .preview").style.borderColor = "hsl("+level.color.h+", "+level.color.s+"%, "+(level.color.l*0.7)+"%)";
 
