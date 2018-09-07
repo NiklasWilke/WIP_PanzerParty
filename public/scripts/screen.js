@@ -715,8 +715,11 @@ var powerup_color = {
 	l: 55
 };
 
+var time = Date.now();
 function update()
 {
+  time = Date.now();
+
 	for (var b in beacons)
 	{
 		if (beacons[b].r < beacons[b].max_r)

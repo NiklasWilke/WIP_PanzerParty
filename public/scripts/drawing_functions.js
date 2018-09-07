@@ -256,6 +256,7 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 	//scaling
 	var w = tank.width*f;
 	var h = tank.height*f;
+	var shot_animation = tank.last_shot && time ? 1 - Math.abs((Math.min(200, time - tank.last_shot) % 200) / 200 - 0.5) * 2 : 0;
 
 	// body
 	this.beginPath();
@@ -286,16 +287,15 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 
 	// pipe
 	this.beginPath();
-	this.roundRect(h*0.3/2, -w*0.2/2, h*0.45, w*0.2, w*0.05);
+	this.roundRect(h*0.3/2 - h*0.07*shot_animation, -w*0.2/2, h*0.45, w*0.2, w*0.05);
 	this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.7)+"%)";
 	this.fill();
 	this.closePath();
 
 
-
 	// head
 	this.beginPath();
-	this.roundRect(-h*0.38, -w*0.7/2, h*0.6, w*0.7, w*0.15);
+	this.roundRect(-h*0.38 - h*0.05*shot_animation, -w*0.7/2, h*0.6, w*0.7, w*0.15);
 	this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.75)+"%)";
 	this.fill();
 	this.closePath();
