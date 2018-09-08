@@ -41,6 +41,13 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
+// render record view
+app.get("/record", function(req, res)
+{
+	var data = {ip: ip.address(), port: port};
+	res.render("record.html", data);
+});
+
 // render field view
 app.get("/screen", function(req, res)
 {
