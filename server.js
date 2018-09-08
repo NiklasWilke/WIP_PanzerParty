@@ -15,7 +15,7 @@ const crypto = require("crypto");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mustacheExpress = require("mustache-express");
-const qr = require("qr-image");  
+const qr = require("qr-image");
 const ip = require("ip");
 const port = 8000;
 
@@ -41,6 +41,13 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
+// render record view
+app.get("/record", function(req, res)
+{
+	var data = {ip: ip.address(), port: port};
+	res.render("record.html", data);
+});
+
 // render field view
 app.get("/screen", function(req, res)
 {
@@ -52,7 +59,7 @@ app.get("/screen", function(req, res)
 app.get("/control", function(req, res)
 {
 	var colors = game.getAvailableColors();
-	
+
 	var data = {ip: ip.address(), port: port, available_colors: colors};
 	res.render("control.html", data);
 });
@@ -69,7 +76,7 @@ app.get("/qr", function(req, res)
 app.get("/", function(req, res)
 {
 	//var data = {ip: ip.address(), port: port};
-	
+
 	if (isMobile(req))
 	{
 		res.redirect("/control");

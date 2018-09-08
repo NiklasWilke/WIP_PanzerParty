@@ -49,45 +49,38 @@ document.addEventListener("DOMContentLoaded", function()
 	var respawn_button = document.getElementById("respawn");
 	var join_button = document.getElementById("join");
 	var name_input = document.querySelector("#login .name")
-	
+
 	name_input.value = Cookies.get("name");
 	name_input.addEventListener("keyup", function(e)
 	{
 		if (e.which == 13) join_button.focus();
 	});
-	
-	
-	document.body.addEventListener("click", function(e)
+
+
+	/*document.body.addEventListener("click", function(e)
 	{
 		var elem = document.body;
 		elem.setAttribute("fullscreen", true);
 		if (elem.requestFullscreen) {
 			elem.requestFullscreen();
-		} else if (elem.mozRequestFullScreen) { /* Firefox */
+		} else if (elem.mozRequestFullScreen) { // Firefox
 			elem.mozRequestFullScreen();
-		} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+		} else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
 			elem.webkitRequestFullscreen();
-		} else if (elem.msRequestFullscreen) { /* IE/Edge */
+		} else if (elem.msRequestFullscreen) { // IE/Edge
 			elem.msRequestFullscreen();
 		}
-		
-		// weird fullscreen/vh fix
-		// document.getElementById("sidebar").style.paddingRight = "0";
-		// setTimeout(function()
-		// {
-			// document.getElementById("sidebar").style.paddingRight = "1.9vh";
-		// }, 100);
-	});
-	
-	
+	});*/
+
+
 	join_button.addEventListener("click", function(e)
 	{
 		name = name_input.value;
 		color = tank.color;
-		
+
 		if (name == "") return false;
 		Cookies.set("name", name, Infinity, "/"); // (key, val, end, path, domain, secure)
-		
+
 		socket.emit("join", name, color, function(res)
 		{
 			if (res.error)
@@ -100,25 +93,25 @@ document.addEventListener("DOMContentLoaded", function()
 			}
 		});
 	});
-	
+
 	socket.on("reconnect", function()
 	{
 		console.log("reconnected");
 		if (name && color) socket.emit("join", name, color, iniScreen);
 		document.body.removeAttribute("offline");
 	});
-	
+
 	socket.on("connect_timeout", function()
 	{
 		console.log("connect_timeout");
 	});
-	
+
 	socket.on("disconnect", function()
 	{
 		console.log("disconnect");
 		document.body.setAttribute("offline", true);
 	});
-	
+
 	var iniScreen = function(tank)
 	{
 		document.body.className = "ready";
@@ -130,48 +123,48 @@ document.addEventListener("DOMContentLoaded", function()
 		fire_button.setAttribute("count", 6);
 
 		powerup_button.style.backgroundColor = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.8)+"%)";
-		
+
 		document.querySelector("#powerup svg").style.stroke = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
 	};
-	
-	
-	
+
+
+
 	var joystickMovement = function(e)
 	{
 		e.preventDefault();
-		
+
 		var touches = Array.from(e.touches).filter(function(t)
 		{
 			return t.target.id != "fire";
 		});
-		
+
 		if (touches.length == 0) return false;
-		
+
 		var touch = touches[0];
 		var x = (touch.pageX - this.offsetLeft) / this.offsetWidth *2-1;
 		var y = (touch.pageY - this.offsetTop) / this.offsetHeight *2-1;
 		var angle = toDegrees(Math.atan2(y, x));
 		var speed = Math.min(Math.hypot(y, x), 1);
-		
+
 		joystick_button.style.top = (20 + Math.sin(toRadians(angle)) * speed * 16) + "vh";
 		joystick_button.style.left = (20 + Math.cos(toRadians(angle)) * speed * 16) + "vh";
-		
+
 		socket.emit("move", angle, speed);
-		
+
 		return false;
 	}
-	
+
 	joystick.addEventListener("touchstart", joystickMovement);
 	joystick.addEventListener("touchmove", joystickMovement);
 	joystick.addEventListener("touchend", function(e)
 	{
 		joystick_button.style.top = "20vh";
 		joystick_button.style.left = "20vh";
-		
+
 		socket.emit("move", null, null);
 	});
-	
-	
+
+
 	powerup_button.addEventListener("touchstart", function(e)
 	{
 		if (!this.disabled)
@@ -180,8 +173,8 @@ document.addEventListener("DOMContentLoaded", function()
 			if (navigator.vibrate) navigator.vibrate([10]);
 		}
 	});
-	
-	
+
+
 	fire_button.addEventListener("touchstart", function(e)
 	{
 		if (parseInt(this.getAttribute("count")) > 0)
@@ -190,19 +183,19 @@ document.addEventListener("DOMContentLoaded", function()
 			if (navigator.vibrate) navigator.vibrate([10]);
 		}
 	});
-	
-	
+
+
 	respawn_button.addEventListener("touchstart", function(e)
 	{
 		if (this.disabled) return false;
-		
+
 		var elem = document.getElementById("dead");
 		elem.className = "";
 		socket.emit("respawn");
 		updateHP(100);
 	});
-	
-	
+
+
 	/* draw tank */
 	var tank = {};
 	tank.x = 50;
@@ -213,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function()
 	tank.speed = 1;
 	tank.health = 100;
 	tank.color = {h: 0, s: 0, l: 100};
-	
+
 	window.setInterval(function()
 	{
 		var tank_preview = document.getElementById("tank_preview").getContext("2d");
@@ -221,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function()
 		tank_preview.drawTank(tank);
 		tank.angle = (tank.angle + 0.8) % 360;
 	}, 1000/60);
-	
+
 	// tank color selection
 	document.getElementById("tank_preview").addEventListener("click", function(e)
 	{
@@ -238,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function()
 			document.querySelector("#login #select_color").className = "hidden";
 		});
 	}
-	
+
 	/* socket events */
 	socket.on("ping", function(callback)
 	{
@@ -248,23 +241,23 @@ document.addEventListener("DOMContentLoaded", function()
 	{
 		document.getElementById("ping").innerHTML = latency+"ms";
 	});
-	
+
 	socket.on("updateAvailableColors", function(colors)
 	{
 		console.log("colors > ", colors);
 		var wrapper = document.querySelector("#select_color .wrapper");
 		wrapper.innerHTML = "";
-		
+
 		if (tank.color.l == 100)
 		{
 			var available = colors.filter(function(c){return !c.taken;});
 			tank.color = available[Math.floor(Math.random()*available.length)];
 		}
-		
+
 		for (var c in colors)
 		{
 			var color = colors[c];
-			
+
 			var elem = document.createElement("button");
 			elem.className = "color";
 			elem.disabled = color.taken;
@@ -276,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function()
 				tank.color = {h: tmp[0], s: tmp[1], l: tmp[2]};
 				document.querySelector("#login #select_color").className = "hidden";
 			});
-			
+
 			wrapper.appendChild(elem);
 		}
 	});
@@ -285,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function()
 	socket.on("updateGameState", function(state)
 	{
 		console.log("updateGameState > ", state);
-		
+
 		document.body.setAttribute("state", state);
 	});
 
@@ -298,17 +291,17 @@ document.addEventListener("DOMContentLoaded", function()
 	socket.on("updatePowerup", function(powerup)
 	{
 		console.log("updatePowerup > ", powerup);
-		
+
 		var circle = document.querySelector("#powerup svg #bar");
 		var r = circle.getAttributeNS(null, "r");
 		var c = Math.PI*(r*2);
-		
+
 		if (powerup)
 		{
 			powerup_button.disabled = false;
 			powerup_button.setAttribute("name", powerup.name);
 			powerup_button.style.backgroundImage = "url(/powerups/"+powerup.icon+".svg)";
-			
+
 			var val = powerup.duration / powerup.total_duration * 100;
 			if (val < 0) { val = 0;}
 			if (val > 100) { val = 100;}
@@ -321,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function()
 			powerup_button.disabled = true;
 			powerup_button.removeAttribute("name");
 			powerup_button.style.backgroundImage = "none";
-			
+
 			var pct = ((100-0)/100)*c * -1;
 			circle.style.strokeDashoffset = pct;
 		}
@@ -338,16 +331,16 @@ document.addEventListener("DOMContentLoaded", function()
 	{
 		updateHP(0);
 		var msg = killer ? "<b style='color:"+killer.color.string+"'>"+killer.player.name+"</b> hat dich zerstört!" : "Du hast dich selber zerstört.";
-		
+
 		var s = 3;
 		respawn_button.disabled = true;
 		respawn_button.innerHTML = "Respawn in "+s+"s";
-		
+
 		var elem = document.getElementById("dead");
 		elem.getElementsByClassName("message")[0].innerHTML = msg;
 		elem.className = "visible";
 		if (navigator.vibrate) navigator.vibrate([600]);
-		
+
 		var interval = window.setInterval(function()
 		{
 			if (--s > 0)

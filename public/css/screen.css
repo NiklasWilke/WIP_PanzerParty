@@ -22,9 +22,6 @@ body {
 	text-align: center;
 	color: #fff;
 }
-body:not([state=running]) #ip {
-	color: #222;
-}
 #ip #qr {
 	width: 100%;
 	padding: 2%;
