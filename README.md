@@ -12,7 +12,7 @@
 &nbsp;  
 
 ![alt text](./media/screenshots/mobile_1mock.png)
-![alt text](./media/screenshots/mobile_2mock.png)
+![alt text](./media/screenshots/mobile_2_mock.png)
 
 
 
