@@ -39,6 +39,21 @@ function updateHP(hp)
 	}
 }
 
+
+function requestFullscreen(elem)
+{
+	elem.setAttribute("fullscreen", true);
+	if (elem.requestFullscreen) {
+		elem.requestFullscreen();
+	} else if (elem.mozRequestFullScreen) { /* Firefox */
+		elem.mozRequestFullScreen();
+	} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+		elem.webkitRequestFullscreen();
+	} else if (elem.msRequestFullscreen) { /* IE/Edge */
+		elem.msRequestFullscreen();
+	}
+}
+
 var name, color;
 document.addEventListener("DOMContentLoaded", function()
 {
@@ -57,20 +72,11 @@ document.addEventListener("DOMContentLoaded", function()
 	});
 
 
-	/*document.body.addEventListener("click", function(e)
+	document.body.addEventListener("click", function(e)
 	{
 		var elem = document.body;
-		elem.setAttribute("fullscreen", true);
-		if (elem.requestFullscreen) {
-			elem.requestFullscreen();
-		} else if (elem.mozRequestFullScreen) { // Firefox
-			elem.mozRequestFullScreen();
-		} else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
-			elem.webkitRequestFullscreen();
-		} else if (elem.msRequestFullscreen) { // IE/Edge
-			elem.msRequestFullscreen();
-		}
-	});*/
+		requestFullscreen(elem);
+	});
 
 
 	join_button.addEventListener("click", function(e)
@@ -240,6 +246,12 @@ document.addEventListener("DOMContentLoaded", function()
 	socket.on("updatePing", function(latency)
 	{
 		document.getElementById("ping").innerHTML = latency+"ms";
+	});
+
+	socket.on("gameStarted", function()
+	{
+		updateHP(100);
+		document.getElementById("dead").className = "hidden";
 	});
 
 	socket.on("updateAvailableColors", function(colors)

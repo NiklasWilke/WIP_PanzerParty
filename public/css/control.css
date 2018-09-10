@@ -40,7 +40,7 @@ body {
 	text-align: center;
 }
 #dead .inner .message {
-	
+
 }
 #dead .inner .respawn_wrapper {
     position: absolute;
@@ -192,7 +192,7 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	
+
 	/*transition: stroke-dashoffset 100ms ease;*/
 	stroke-width: 0.8vh;
 }
@@ -256,7 +256,7 @@ body {
 	width: 100%;
 	height: 100%;
 	background: #fff;
-	
+
 	font-size: 5vh;
 }
 #waiting .logo {
@@ -271,7 +271,7 @@ body {
 #waiting .inner {
 	text-align: center;
 }
-body[state=running] #waiting {
+body[state=running] #waiting, body[state=ready] #waiting {
 	display: none;
 }
 
@@ -284,7 +284,7 @@ body[state=running] #waiting {
 	width: 100%;
 	height: 100%;
 	background: #fff;
-	
+
 	font-size: 5vh;
 }
 #offline .logo {
@@ -326,12 +326,12 @@ body[state=running] #ping {
 	width: 100%;
 	height: 100%;
 	background: #fff;
-	
+
 	/* background-image: url("/graphics/tank.svg"); */
 	/* background-size: auto 35%; */
 	/* background-position: 8% bottom; */
 	/* background-repeat: no-repeat; */
-	
+
 	font-size: 7vh;
 }
 body.ready #login {
@@ -404,7 +404,7 @@ body.ready #login {
 	font-weight: bold;
 	background: transparent;
 	color: #0dab76;
-	
+
     /* animation: button_animation 5s; */
     /* -moz-animation: button_animation 5s infinite; /* Firefox */ */
     /* -webkit-animation: button_animation 5s infinite; /* Safari and Chrome */ */

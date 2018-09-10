@@ -114,6 +114,25 @@ var color = getRandomColor();
 
 console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
 
+document.fullscreenEnabled = document.fullscreenEnabled || document.mozFullScreenEnabled || document.documentElement.webkitRequestFullScreen;
+
+function toggleFullscreen(elem)
+{
+  if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)
+  {
+    requestFullscreen(elem);
+  }
+  else
+  {
+    if (document.cancelFullScreen) {
+        document.cancelFullScreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen();
+    }
+  }
+}
 
 function requestFullscreen(elem)
 {
@@ -220,8 +239,7 @@ function ini()
 	document.getElementById("fullscreen").addEventListener("click", function(e)
 	{
 		var elem = document.body;
-		elem.setAttribute("fullscreen", true);
-		requestFullscreen(elem);
+		toggleFullscreen(elem);
 
 		// weird fullscreen/vh fix
 		document.getElementById("sidebar").style.paddingRight = "0";
@@ -317,7 +335,10 @@ socket.on("updateGameState", function(state)
 			playSound("/sounds/party_horn.wav", 0.4);
 			showMessage("Party!", 800);
 
-			socket.emit("startGame");
+      window.setTimeout(function()
+      {
+			     socket.emit("startGame");
+      }, 820);
 		}
 		else
 		{
