@@ -59,6 +59,9 @@
 * Nach der eigenen Eliminierung, zählt ein Countdown von 3 Sekunden herunter
 * Nach Ablauf des Countdowns kann auf "Respawn" gedrückt werden um dem Spielfeld erneut beizutreten
 
+##Powerups
+![alt text](./media/screenshots/powerups.png)
+
 ## Requirements
 + **Node.JS**
 + sowohl Spieler als auch Host müssen sich im selbem Netzwerk befinden
@@ -87,7 +90,7 @@
 
 
 ## Supported auf folgenden Platformen
-![alt text](./media/Browser support.png)
+![alt text](./media/runson.png)
 ## Known Bugs
 * Nach Überschreibung einer bereits existierenden Map muss der Server neu gestartete werden um die an der an der Map vorgenommenen Änderungen zu übernehmen
 
