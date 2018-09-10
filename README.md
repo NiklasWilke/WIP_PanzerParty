@@ -33,7 +33,11 @@
     * Der Spieler der zuerst 20 Kills erzielt hat, gewinnt das Spiel
 
 ## Steuerung
+<<<<<<< HEAD
 ![alt text](./media/screenshots/mobile_2mock_beschriftet.png)
+=======
+![alt text](./screenshots/mobile_2_mock_beschriftet.png)
+>>>>>>> 0352c12be482a67b183ac1b2dd6bccf29c2bbeb7
 ##### Bewegung des Panzers:
 * Die Richtung und "Intensität" des Joysticks bestimmt die Richtung und die Geschwindigkeit der Bewegung
 ##### Schüsse Abfeuern:
@@ -104,22 +108,37 @@
 ## Used Content
 #### Icons
 https://www.flaticon.com/free-icon/tombstone_91445 designed by **Freepik** from Flaticon.
+
 https://www.flaticon.com/free-icon/skull-and-bones_91416 designed by **Freepik** from Flaticon.
+
 https://www.flaticon.com/free-icon/smartphone-call_15874 designed by **Freepik** from Flaticon.
+
 https://www.flaticon.com/free-icon/missile-weapon-silhouette-side-view_30995 designed by **Freepik** from Flaticon.
+
 https://www.flaticon.com/free-icon/speaker_149140 designed by **Smashicons** from Flaticon.
+
 https://www.flaticon.com/free-icon/music-player_149103 designed by **Smashicons** from Flaticon.
+
 https://www.flaticon.com/free-icon/settings_149294 designed by **Smashicons** from Flaticon.
+
 https://www.flaticon.com/free-icon/expand_134195 designed by **Smashicons** from Flaticon.
+
 https://www.flaticon.com/free-icon/target_118753 designed by **Lucy G** from Flaticon.
+
 https://www.flaticon.com/free-icon/bounce_637822 designed by **Those Icons** from Flaticon.
+
 https://www.flaticon.com/free-icon/flash_252851 designed by **Smashicons** from Flaticon.
+
 https://www.flaticon.com/free-icon/bullet_225817 designed by **Smashicons** from Flaticon.
+
 https://www.flaticon.com/free-icon/snail_577522 designed by **Freepik** from Flaticon.
+
 https://www.flaticon.com/free-icon/spanner-wrench_2056 designed by **Freepik** from Flaticon.
+
 
 #### Music
 "Cattails" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License
+
 "Wheelwagon" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License
 
 #### Gamesounds
