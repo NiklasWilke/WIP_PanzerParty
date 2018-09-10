@@ -1,6 +1,10 @@
 ﻿![alt text](./public/graphics/banner.svg)
 
-&nbsp;  
+&nbsp;
+##### Panzer Party ist ein local Network multiplayer PvP-Spiel mit Steuerung über das Smartphone. Die Spieler
+##### steuern ihren Panzer auf kleinen Maps und versuchen sich gegenseitig mit abprallenden Kugeln zu treffen. 
+##### Die vielen verschiedenen Powerups, Maps und Bots machen das Spielen abwechslungsreich und spannend.
+##### Ein Muss für jede Party!
 &nbsp;  
 
 ![alt text](./media/screenshots/screen_1.png)
@@ -22,24 +26,26 @@
     * Panzer besitzen 100 Lebenspunkte (**2x Herzen * 50 Lebenspunkte**)
     und müssen demnach 2 mal getroffen werden um zerstört zu werden
 ##### Bots
-    * 1 Bot spawned jede volle Minute (1:00, 2:00, 3:00)
+    * Der erste Bot spawned bei Minute 1
+    * Ist ein Bot besiegt, spawnt eine Minute später ein neuer
     * Bots besitzen 500 Lebenspunkte
     * von Bots abgefeuerte Kugeln prallen nicht von Wänden ab
-    * Bots despawnen wenn:
 ##### Spielziel & Ende
     * Das Zerstören eines anderen Panzers fügt dem Spieler der die Kugel abgefeuerte
     hat einen "Kill" (K im Scoreboard) hinzu
-    * Das Zerstören eines Bots erzielt 5 Kills
+    * Das Zerstören eines Bots erzielt 3 Kills
     * Der Spieler der zuerst 20 Kills erzielt hat, gewinnt das Spiel
 
 ## Steuerung
-![alt text](./media/screenshots/mobile_2mock_beschriftet.png)
+![alt text](./screenshots/mobile_2mock_beschriftet.png)
 ##### Bewegung des Panzers:
 * Die Richtung und "Intensität" des Joysticks bestimmt die Richtung und die Geschwindigkeit der Bewegung
 ##### Schüsse Abfeuern:
 * Durch drücken des Schuss-Buttons wird ein Schuss in die Richtung der momentanen Ausrichtung des Panzers abgefeuert
-* Pro Spieler können sich nur 6 Kugeln gleichzeitig auf dem Spielfeld befinden und ein Feuern weiterer Kugeln ist in diesem Fall nicht möglich bis eine Kugel vom Spielfeld verschwindet
+* Jeder Spieler kann nur 6 von sich abgefeuerte Kugeln auf dem Spielfeld besitzen und ein Feuern weiterer Kugeln ist in diesem Fall (für diesen Spieler) nicht möglich bis eine Kugel vom Spielfeld verschwindet
 ##### Aktivieren von "Powerups"
+* Es kann zu jeder Zeit nur ein Powerup den Powerup-Slot belegen
+    * ist der Powerupslot befüllt können keine weiteren Powerups eingesammelt werden 
 * Durch einmaliges drücken des Powerup-Buttons wird das zuvor eingesammelte Powerup aktiviert
 * Je nach Typ des Powerups variiert der weitere Einsatz:
     * Waffen-Modifikator: 
@@ -49,94 +55,63 @@
         * ein farbiger Effekt legt sich über die Karte und beeinträchtigt die Attribute der anderen Panzer
     * Attributsverbesserung
         *  modifiziert sofort die eigenen Attribute (Bewegungsgeschwindigkeit, Kugelgeschwindigkeit, etc)
-        *  die Umrandung des Buttons zeigt die verbleibende Dauer des Effekts an
 ##### Wiederbeleben nach Eliminierung
-* Nach der eigenen Eliminierung, zählt ein Countdown von 4 Sekunden herunter
+* Nach der eigenen Eliminierung, zählt ein Countdown von 3 Sekunden herunter
 * Nach Ablauf des Countdowns kann auf "Respawn" gedrückt werden um dem Spielfeld erneut beizutreten
 
-
-## Powerup-Wiki
-![alt text](./media/screenshots/Powerups.png)
-
 ## Requirements
++ **Node.JS**
++ sowohl Spieler als auch Host müssen sich im selbem Netzwerk befinden
+    + Netzwerk muss PeerToPeer-Verbindungen (Client to Client) unterstützen   
++ **16:9 Format** 
++ **Smartphone** (mit aktuellem unterstütztem Browser)
+## Installation
+1. `Node.JS` installieren
+2. `install_package.bat` zum installieren der Node-Modules ausführen
 
-## Anleitung / Innstallation
-#### Client
-1. Nodejs installieren
-2. **install_package.bat** zum installieren der Node-Modules ausführen
-3. Den hostenden Rechner mit dem Wlan Hotspot verbinden
-	**Name:  *PanzerParty***
-	**Passwort:  *abc123***
-4. **run.bat** ausführen um den Node.js Server zu starten
-5. **http://localhost:8000** im Browser aufrufen
-6. Zum erstellen einer Lobby auf Party klicken
-7. Die gewählte Karte nutzen oder durch das klicken auf die angezeigte Karte eine andere Karte auswählen
+## Anleitung - Spiel Start  (Desktop)
+1. `run.bat` ausführen um den `Node.JS` Server zu starten
+2. **http://localhost:8000** im Browser aufrufen
+3. Zum erstellen einer Lobby auf ***Spiel starten*** klicken
+4. Die gewählte Karte nutzen oder durch das klicken auf die angezeigte Karte das Auswahlmenü aufrufen und eine andere Karte auswählen
+5. Nach Beitritt der Spieler,  ***Start*** drücken um das Spiel zu starten
 
-**--AUF VERBINDUNG DER MOBILGERÄTE WARTEN--**
+## Anleitung - Lobby Beitritt   (Smartphone)
+1. Nach Beitritt in das gemeinsame Netzwerk  entweder:
+    * durch das Scannen des QR-Codes
+    * oder die IP-Adresse unterhalb des QR-Codes manuell in die Adresszeile eingetippen um
+   dem Server bei zutreten
+2. Namen eingeben und Farbe (durch antippen des Panzers) auswählen (bereits durch andere Spieler ausgewählte Farben sind nicht verfügbar)
+3. ***Beitreten*** antippen um der Lobby beizutreten
 
-(8.) Verbundene Spieler/Geräte werden rechts neben der Karte angezeigt
-(8.) Ist kein Spieler zu sehen ist die Lobby noch leer
-
-11. Auf Start klicken
-12. #### PARTY! 
-
-#### Mobile Controller (Handy)
-
-**--AUF CLIENT START WARTEN--**
-
-6. Mobilgerät mit dem Wlan Hotspot verbinden
-	**Name:  *PanzerParty***
-	**Passwort:  *abc123***
-7. Bei Möglichkeit den QR-Code mit dem Handy einscannen (oder die angezeigte IP-Adresse manuell eintippen)
-8. Name in das Eingabefeld eingeben
-9. Wunschfarbe durch antippen des Panzers auswählen
-10. Beitreten antippen und so der Lobby beitreten
-
-**--AUF SPIELSTART WARTEN--**
-
-12. #### PARTY!
 
 
 ## Supported auf folgenden Platformen
-
+![alt text](./media/Browser support.png)
 ## Known Bugs
-* Zoomfehler in Google Chrome
+* Nach Überschreibung einer bereits existierenden Map muss der Server neu gestartete werden um die an der an der Map vorgenommenen Änderungen zu übernehmen
 
 ## Used Content
 #### Icons
 https://www.flaticon.com/free-icon/tombstone_91445 designed by **Freepik** from Flaticon.
-
 https://www.flaticon.com/free-icon/skull-and-bones_91416 designed by **Freepik** from Flaticon.
-
 https://www.flaticon.com/free-icon/smartphone-call_15874 designed by **Freepik** from Flaticon.
-
 https://www.flaticon.com/free-icon/missile-weapon-silhouette-side-view_30995 designed by **Freepik** from Flaticon.
-
 https://www.flaticon.com/free-icon/speaker_149140 designed by **Smashicons** from Flaticon.
-
 https://www.flaticon.com/free-icon/music-player_149103 designed by **Smashicons** from Flaticon.
-
 https://www.flaticon.com/free-icon/settings_149294 designed by **Smashicons** from Flaticon.
-
 https://www.flaticon.com/free-icon/expand_134195 designed by **Smashicons** from Flaticon.
-
 https://www.flaticon.com/free-icon/target_118753 designed by **Lucy G** from Flaticon.
-
 https://www.flaticon.com/free-icon/bounce_637822 designed by **Those Icons** from Flaticon.
-
 https://www.flaticon.com/free-icon/flash_252851 designed by **Smashicons** from Flaticon.
-
 https://www.flaticon.com/free-icon/bullet_225817 designed by **Smashicons** from Flaticon.
-
 https://www.flaticon.com/free-icon/snail_577522 designed by **Freepik** from Flaticon.
-
 https://www.flaticon.com/free-icon/spanner-wrench_2056 designed by **Freepik** from Flaticon.
 
 #### Music
 "Cattails" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License
 "Wheelwagon" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License
 
-#### Gamesounds
 https://freesound.org/people/ThompsonMan/sounds/107341/ Licensed under Creative Commons: By Attribution 3.0 License
 https://freesound.org/people/InspectorJ/sounds/345558/ Licensed under Creative Commons: By Attribution 3.0 License
 https://freesound.org/people/audiosmedia/sounds/170583/ Licensed under Creative Commons: By Attribution 3.0 License
