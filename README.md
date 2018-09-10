@@ -34,7 +34,7 @@
 
 ## Steuerung
 &nbsp;  
-![alt text](./media/screenshots/mobile_2beschriftet.png)
+![alt text](./media/screenshots/mobile_2_beschriftet.png)
 ##### Bewegung des Panzers:
 * Die Richtung und "Intensität" des Joysticks bestimmt die Richtung und die Geschwindigkeit der Bewegung
 ##### Schüsse Abfeuern:
@@ -95,7 +95,7 @@
 
 
 ## Supported auf folgenden Platformen
-![alt text](./media/Browser support.png)
+![alt text](./media/runson.png)
 
 ## Known Bugs
 * Zoomfehler in Google Chrome
