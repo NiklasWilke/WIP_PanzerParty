@@ -95,7 +95,7 @@
 
 
 ## Supported auf folgenden Platformen
-![alt text](./media/runson.png)
+![alt text](./media/screenshots/runson.png)
 
 ## Known Bugs
 * Zoomfehler in Google Chrome
