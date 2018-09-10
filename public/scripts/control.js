@@ -339,6 +339,11 @@ document.addEventListener("DOMContentLoaded", function()
 		updateHP(hp);
 	});
 
+	socket.on("updateHealth", function(hp)
+	{
+		updateHP(hp);
+	});
+
 	socket.on("death", function(killer)
 	{
 		updateHP(0);

@@ -5,6 +5,6 @@
 	"type": "heal",
 	"animation": "upgrade",
 	"color": {"h": 89, "s": 100, "l": 50},
-    "duration": 1,	
-    "heal" : true
+  "duration": 1,
+  "heal": true
 }

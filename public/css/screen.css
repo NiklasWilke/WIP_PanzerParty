@@ -578,7 +578,7 @@ body:not([state=stopped]):not([state=not_started]) #main_menu, #main_menu.hidden
 	width: 133vh;
 	text-align: center;
 	font-family: "Fredoka One";
-	font-size: 6rem;
+	font-size: 4rem;
 	font-weight: 900;
 	letter-spacing: 0.02em;
 	height: 1em;
@@ -589,7 +589,6 @@ body:not([state=stopped]):not([state=not_started]) #main_menu, #main_menu.hidden
 	stroke: #d0bf39;
 	stroke-width: 0.01rem;
 	animation-name: text_overlay_animation;
-  animation-fill-mode: forwards;
 	animation-duration: 800ms;
 	transform-origin: 50% 50%;
 	backface-visibility: hidden;

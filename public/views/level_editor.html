@@ -7,11 +7,12 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/scripts/drawing_functions.js"></script>
 		<script src="/scripts/level_editor.js"></script>
-		
+
 		{{> favicon}}
 	</head>
 	<body>
 		<div class="sidebar left valign">
+			<a href="/screen">Zurück</a>
 			<div id="toolbox">
 				<div class="tool active" name="wall"><span>Wall</span></div>
 				<div class="tool" name="powerup"><span>Powerup</span></div>
@@ -24,8 +25,8 @@
 			<div id="levels"></div>
 			<div class="spacer"></div>
 			<div id="actions">
-				<input type="hidden" id="width" value="70"> 
-				<input type="hidden" id="height" value="50"> 
+				<input type="hidden" id="width" value="70">
+				<input type="hidden" id="height" value="50">
 				<button id="clear">clear</button>
 				<button id="save">Level speichern!</button>
 			</div>

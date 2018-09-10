@@ -19,6 +19,8 @@ function getRandomColor()
 	};
 }
 
+var render_particles = true;
+
 class Particle
 {
 	constructor(x, y, dir, range, color)
@@ -51,6 +53,12 @@ class Explosion
 {
 	constructor(x, y, size, n, color)
 	{
+    if (!render_particles)
+    {
+      this.done = true;
+      return null;
+    }
+
 		this.x = x;
 		this.y = y;
 		this.r = 0;
@@ -211,6 +219,7 @@ function ini()
 	{
 		var id = document.querySelector("#lobby_setup .level").getAttribute("data-id");
 		socket.emit("selectLevel", id);
+    requestFullscreen(document.body);
 	});
 
 	var menu_icon = document.getElementById("menu_icon");
@@ -398,13 +407,16 @@ socket.on("updateScoreboard", function(players)
 	}
 });
 
-// update scoreboard
+// update player list
 socket.on("updatePlayers", function(players)
 {
 	//console.log("updatePlayers > ", players);
 
 	var player_list = document.querySelector("#player_list");
 	player_list.innerHTML = "";
+
+  if (players.length > 0) document.querySelector(".waiting").style.display = "none";
+  else document.querySelector(".waiting").style.display = "block";
 
 	for (var p = 0; p < players.length; p++)
 	{
@@ -673,14 +685,14 @@ socket.on("bulletBounced", function(bullet)
 {
 	playSound("/sounds/bounce.wav", 0.05);
 
-	var expl = new Explosion(bullet.x, bullet.y, 1, 10, bullet.color);
+	var expl = new Explosion(bullet.x, bullet.y, 1, 6, bullet.color);
 	explosions.push(expl);
 });
 socket.on("bulletDespawned", function(bullet)
 {
 	playSound("/sounds/bounce.wav", 0.3);
 
-	var expl = new Explosion(bullet.x, bullet.y, 2, 10, bullet.color);
+	var expl = new Explosion(bullet.x, bullet.y, 1.6, 8, bullet.color);
 	explosions.push(expl);
 });
 socket.on("kill", function(killer, victim)
@@ -689,7 +701,7 @@ socket.on("kill", function(killer, victim)
 
 	console.log(killer, victim);
 
-	var expl = new Explosion(victim.x, victim.y, 4, 24, victim.color);
+	var expl = new Explosion(victim.x, victim.y, 4, 20, victim.color);
 	explosions.push(expl);
 
 	lvl_ctx.drawGravestone(victim);
