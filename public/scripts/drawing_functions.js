@@ -531,16 +531,16 @@ CanvasRenderingContext2D.prototype.drawPowerup = function(powerup)
 	switch (powerup.type)
 	{
 		case "weapon":
-			powerup.color = {"h": 46, "s": 100, "l": 50};
+			powerup.color = {"h": 45, "s": 100, "l": 42};
 			break;
 		case "effect":
 			powerup.color = {"h": 0, "s": 83, "l": 60};
 			break;
 		case "upgrade":
-			powerup.color = {"h": 0, "s": 33, "l": 30};
+			powerup.color = {"h": 100, "s": 65, "l": 40};
 			break;
 		default:
-			powerup.color = {"h": 100, "s": 65, "l": 50};
+			powerup.color = {"h": 250, "s": 65, "l": 50};
 			break;
 
 
