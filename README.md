@@ -1,18 +1,14 @@
 ﻿![alt text](./public/graphics/banner.svg)
 
 &nbsp;  
-##### Panzer Party ist ein local Network multiplayer PvP-Spiel mit Steuerung über das Smartphone. Die Spieler
-##### steuern ihren Panzer auf kleinen Maps und versuchen sich gegenseitig mit abprallenden Kugeln zu treffen. 
-##### Die vielen verschiedenen Powerups, Maps und Bots machen das Spielen abwechslungsreich und spannend.
-##### Ein Muss für jede Party!
 &nbsp;  
 
-![alt text](./media/screenshots/screen_1.png)
+![alt text](./screenshots/screen_1.png)
 
 &nbsp;  
 
-![alt text](./media/screenshots/mobile_1mock.png)
-![alt text](./media/screenshots/mobile_2mock.png)
+![alt text](./screenshots/mobile_1mock.png)
+![alt text](./screenshots/mobile_2mock.png)
 
 
 
@@ -37,8 +33,7 @@
     * Der Spieler der zuerst 20 Kills erzielt hat, gewinnt das Spiel
 
 ## Steuerung
-&nbsp;  
-![alt text](./media/screenshots/mobile_2_beschriftet.png)
+![alt text](./screenshots/mobile_2mock_beschriftet.png)
 ##### Bewegung des Panzers:
 * Die Richtung und "Intensität" des Joysticks bestimmt die Richtung und die Geschwindigkeit der Bewegung
 ##### Schüsse Abfeuern:
@@ -58,6 +53,9 @@
 ##### Wiederbeleben nach Eliminierung
 * Nach der eigenen Eliminierung, zählt ein Countdown von 4 Sekunden herunter
 * Nach Ablauf des Countdowns kann auf "Respawn" gedrückt werden um dem Spielfeld erneut beizutreten
+
+##Powerup-Wiki
+![alt text](./screenshots/Powerups.png)
 
 ## Requirements
 
@@ -99,7 +97,34 @@
 
 
 ## Supported auf folgenden Platformen
-![alt text](./media/screenshots/runson.png)
 
 ## Known Bugs
 * Zoomfehler in Google Chrome
+
+## Used Content
+#### Icons
+https://www.flaticon.com/free-icon/tombstone_91445 designed by **Freepik** from Flaticon.
+https://www.flaticon.com/free-icon/skull-and-bones_91416 designed by **Freepik** from Flaticon.
+https://www.flaticon.com/free-icon/smartphone-call_15874 designed by **Freepik** from Flaticon.
+https://www.flaticon.com/free-icon/missile-weapon-silhouette-side-view_30995 designed by **Freepik** from Flaticon.
+https://www.flaticon.com/free-icon/speaker_149140 designed by **Smashicons** from Flaticon.
+https://www.flaticon.com/free-icon/music-player_149103 designed by **Smashicons** from Flaticon.
+https://www.flaticon.com/free-icon/settings_149294 designed by **Smashicons** from Flaticon.
+https://www.flaticon.com/free-icon/expand_134195 designed by **Smashicons** from Flaticon.
+https://www.flaticon.com/free-icon/target_118753 designed by **Lucy G** from Flaticon.
+https://www.flaticon.com/free-icon/bounce_637822 designed by **Those Icons** from Flaticon.
+https://www.flaticon.com/free-icon/flash_252851 designed by **Smashicons** from Flaticon.
+https://www.flaticon.com/free-icon/bullet_225817 designed by **Smashicons** from Flaticon.
+https://www.flaticon.com/free-icon/snail_577522 designed by **Freepik** from Flaticon.
+https://www.flaticon.com/free-icon/spanner-wrench_2056 designed by **Freepik** from Flaticon.
+
+#### Music
+"Cattails" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License
+"Wheelwagon" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License
+
+#### Gamesounds
+https://freesound.org/people/ThompsonMan/sounds/107341/ Licensed under Creative Commons: By Attribution 3.0 License
+https://freesound.org/people/InspectorJ/sounds/345558/ Licensed under Creative Commons: By Attribution 3.0 License
+https://freesound.org/people/audiosmedia/sounds/170583/ Licensed under Creative Commons: By Attribution 3.0 License
+https://freesound.org/people/CrazyFrog249/sounds/161628/ Licensed under Creative Commons: By Attribution 3.0 License
+https://freesound.org/people/schademans/sounds/13283/ Licensed under Creative Commons: By Attribution 3.0 License
