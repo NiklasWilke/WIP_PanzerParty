@@ -54,9 +54,8 @@
 * Nach der eigenen Eliminierung, zählt ein Countdown von 4 Sekunden herunter
 * Nach Ablauf des Countdowns kann auf "Respawn" gedrückt werden um dem Spielfeld erneut beizutreten
 
-TEST
 
-##Powerup-Wiki
+## Powerup-Wiki
 ![alt text](./media/screenshots/Powerups.png)
 
 ## Requirements
