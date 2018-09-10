@@ -1,6 +1,10 @@
 ﻿![alt text](./public/graphics/banner.svg)
 
 &nbsp;  
+##### Panzer Party ist ein local Network multiplayer PvP-Spiel mit Steuerung über das Smartphone. Die Spieler
+##### steuern ihren Panzer auf kleinen Maps und versuchen sich gegenseitig mit abprallenden Kugeln zu treffen. 
+##### Die vielen verschiedenen Powerups, Maps und Bots machen das Spielen abwechslungsreich und spannend.
+##### Ein Muss für jede Party!
 &nbsp;  
 
 ![alt text](./media/screenshots/screen_1.png)
