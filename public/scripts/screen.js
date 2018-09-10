@@ -115,6 +115,20 @@ var color = getRandomColor();
 console.log("Color: hsl("+color.h+", "+color.s+"%, "+color.l+"%)");
 
 
+function requestFullscreen(elem)
+{
+	elem.setAttribute("fullscreen", true);
+	if (elem.requestFullscreen) {
+		elem.requestFullscreen();
+	} else if (elem.mozRequestFullScreen) { /* Firefox */
+		elem.mozRequestFullScreen();
+	} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+		elem.webkitRequestFullscreen();
+	} else if (elem.msRequestFullscreen) { /* IE/Edge */
+		elem.msRequestFullscreen();
+	}
+}
+
 function ini()
 {
 	document.getElementById("music").volume = music_volume;
@@ -207,15 +221,7 @@ function ini()
 	{
 		var elem = document.body;
 		elem.setAttribute("fullscreen", true);
-		if (elem.requestFullscreen) {
-			elem.requestFullscreen();
-		} else if (elem.mozRequestFullScreen) { /* Firefox */
-			elem.mozRequestFullScreen();
-		} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-			elem.webkitRequestFullscreen();
-		} else if (elem.msRequestFullscreen) { /* IE/Edge */
-			elem.msRequestFullscreen();
-		}
+		requestFullscreen(elem);
 
 		// weird fullscreen/vh fix
 		document.getElementById("sidebar").style.paddingRight = "0";
