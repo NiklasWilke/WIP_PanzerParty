@@ -1,9 +1,16 @@
 {
-	"name": "Repatur-Kit",
+	"name": "Turbo",
 	"droprate": 1,
 	"icon": "lightningbolt",
-	"type": "heal",
+	"type": "upgrade",
 	"animation": "upgrade",
 	"color": {"h": 46, "s": 100, "l": 50},
-	"duration": 1	
+	"duration": 3000,
+	"effect": {
+		"self": {
+			"movement_speed": 1.4,
+			"bullet_speed": 1.2
+		},
+		"other": null
+	}
 }

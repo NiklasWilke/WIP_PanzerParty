@@ -44,9 +44,8 @@ CanvasRenderingContext2D.prototype.clear = function()
 
 
 // octagon
-CanvasRenderingContext2D.prototype.octagon = function(size, x, y)
+CanvasRenderingContext2D.prototype.polygon = function(n, size, x, y)
 {
-	var n = 7;
 	this.moveTo (x +  size * Math.cos(0), y +  size *  Math.sin(0));
 	for (var i = 1; i <= n; i += 1)
 	{
@@ -263,8 +262,6 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 	this.roundRect(-h/2, -w/2, h, w, w*0.15);
 	this.fillStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*1)+"%)";
 	this.fill();
-	//this.strokeStyle = "hsl("+tank.color.h+", "+tank.color.s+"%, "+(tank.color.l*0.9)+"%)";
-	//this.stroke();
 	this.closePath();
 
 
@@ -309,13 +306,6 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 	this.fill();
 	this.closePath();
 
-	// hitbox
-	// this.beginPath();
-	// this.arc(0, 0, tank.hitbox_r*f, 0, 2*Math.PI);
-	// this.fillStyle = "rgba(0, 0, 0, 0.3)";
-	// this.fill();
-	// this.closePath();
-
 	this.rotate(-tank.angle * Math.PI/180);
 	this.translate(-tank.x*f, -tank.y*f);
 }
@@ -324,23 +314,16 @@ CanvasRenderingContext2D.prototype.drawTank = function(tank)
 // draws bot
 CanvasRenderingContext2D.prototype.drawBot = function(bot)
 {
-	//console.log("draw bot > ", bot);
-	var f = this.canvas.height / 100;
+	var f = this.canvas.height / 100; // scaling factor
+	var r = bot.radius*f;
 
 	this.translate(bot.x*f, bot.y*f);
 	this.rotate((bot.rotation) * Math.PI/180);
 
-
-	//this scaling
-	var r = bot.radius*f; //radius 1.3
-
-
 	//octagon body
 	this.beginPath();
-	this.octagon(r, 0, 0);
-	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.polygon(bot.pipe_count, r, 0, 0);
 	this.fillStyle = "hsl(0, 70%, 60%)";
-	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
 	this.strokeStyle = "hsl(0, 70%, 25%)";
 	this.fill();
 	this.stroke();
@@ -348,28 +331,24 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 
 
 	// pipes
-	for (var i=0; i<8; i++)
+	for (var i=0; i<bot.pipe_count; i++)
 	{
-		this.rotate((360/8 * i) * Math.PI/180);
+		this.rotate((360/bot.pipe_count * i) * Math.PI/180);
 
 		this.beginPath();
-		this.roundRect(r*0.6, -r*0.3/2, r*0.6, r*0.3, r*0.05);
-		//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.4)+"%)";
+		this.roundRect(r*0.6, -r*0.3/2,r*0.6, r*0.3, r*0.05);
 		this.fillStyle = "hsl(0, 40%, 20%)";
 		this.fill();
 		this.closePath();
 
-		this.rotate(-(360/8 * i) * Math.PI/180);
+		this.rotate(-(360/bot.pipe_count * i) * Math.PI/180);
 	}
-
 
 
 	// head
 	this.beginPath();
-	this.octagon(r * 0.7, 0, 0);
-	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.polygon(bot.pipe_count, r * 0.7, 0, 0);
 	this.fillStyle = "hsl(0, 40%, 30%)";
-	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.4)+"%)";
 	this.strokeStyle = "hsl(0, 40%, 20%)";
 	this.fill();
 	this.stroke();
@@ -378,10 +357,8 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 
 	// detail
 	this.beginPath();
-	this.octagon(r * 0.4, 0, 0);
-	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+bot.color.l*0.9+"%)";
+	this.polygon(bot.pipe_count, r * 0.4, 0, 0);
 	this.fillStyle = "hsl(0, 70%, 60%)";
-	//this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
 	this.strokeStyle = "hsl(0, 40%, 20%)";
 	this.fill();
 	this.stroke();
@@ -389,24 +366,14 @@ CanvasRenderingContext2D.prototype.drawBot = function(bot)
 
 	// detail
 	this.beginPath();
-	this.octagon(r * 0.15, 0, 0);
-	//this.fillStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.5)+"%)";
+	this.polygon(bot.pipe_count, r * 0.15, 0, 0);
 	this.fillStyle = "hsl(0, 40%, 20%)";
 	this.fill();
 	this.closePath();
 
-
-
-	// direction
-	// this.beginPath();
-	// this.strokeStyle = "hsl("+bot.color.h+", "+bot.color.s+"%, "+(bot.color.l*0.2)+"%)";
-	// this.moveTo(0, 0);
-	// this.lineTo(bot.radius*f, 0);
-	// this.stroke();
-	// this.closePath();
-
 	this.rotate(-(bot.rotation) * Math.PI/180);
 
+	// health-bar
 	this.beginPath();
 	this.rect(-r*0.8, r*1.5, r*1.6, r*0.25);
 	this.fillStyle = "red";
