@@ -95,14 +95,7 @@
 
 
 ## Supported auf folgenden Platformen
-**C** = Kompatibel
-**X** = nicht supported
-**NT** = not tested
-| Gerät | Chrome | Edge | Firefox | Internet Explorer| Safari |
-|---|---|---|---|---|---|
-| Smartphone Android | C | NT  | NT  | NT  | X |
-| Smartphone iOS | C  | NT  | NT  | C | NT |
-|   Desktop Windows| C  | C  | X  | X | NT |
+![alt text](./media/Browser support.png)
 
 ## Known Bugs
 * Zoomfehler in Google Chrome
