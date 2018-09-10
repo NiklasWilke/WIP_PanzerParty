@@ -95,6 +95,12 @@ app.get("/datenschutz", function(req, res)
 	res.render("privacy.html", data);
 });
 
+app.get("/impressum", function(req, res)
+{
+	var data = {};
+	res.render("impressum.html", data);
+});
+
 // render editor view
 app.get("/editor", function(req, res)
 {
