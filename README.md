@@ -12,7 +12,7 @@
 &nbsp;  
 
 ![alt text](./media/screenshots/mobile_1mock.png)
-![alt text](./media/screenshots/mobile_2_mock.png)
+![alt text](./media/screenshots/mobile_2mock.png)
 
 
 
@@ -37,7 +37,7 @@
     * Der Spieler der zuerst 20 Kills erzielt hat, gewinnt das Spiel
 
 ## Steuerung
-![alt text](./media/screenshots/mobile_2mock_beschriftet.png)
+![alt text](./media/screenshots/mobile_2_mock_beschriftet.png)
 ##### Bewegung des Panzers:
 * Die Richtung und "Intensität" des Joysticks bestimmt die Richtung und die Geschwindigkeit der Bewegung
 ##### Schüsse Abfeuern:
