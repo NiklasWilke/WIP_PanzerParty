@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function()
 	var join_button = document.getElementById("join");
 	var name_input = document.querySelector("#login .name")
 
-	name_input.value = Cookies.get("name");
+	//name_input.value = Cookies.get("name");
 	name_input.addEventListener("keyup", function(e)
 	{
 		if (e.which == 13) join_button.focus();
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function()
 	tank.angle = 0;
 	tank.speed = 1;
 	tank.health = 100;
-	tank.color = {h: 0, s: 0, l: 100};
+	tank.color = {h: 36, s: 99, l: 70};
 
 	window.setInterval(function()
 	{
