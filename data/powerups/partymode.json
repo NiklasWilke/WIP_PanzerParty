@@ -1,6 +1,6 @@
 {
 	"name": "Partymode",
-	"droprate": 0.5,
+	"droprate": 0,
 	"icon": "lightningbolt",
 	"type": "upgrade",
 	"animation": "emp",
