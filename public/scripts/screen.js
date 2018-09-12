@@ -1,3 +1,4 @@
+//@max was wird hier geshuffled ?
 function shuffle(arr)
 {
     for (let i = arr.length - 1; i > 0; i--)
@@ -9,6 +10,7 @@ function shuffle(arr)
 }
 
 
+//@max wird das noch genutzt ?
 // generates random color
 function getRandomColor()
 {
@@ -19,6 +21,8 @@ function getRandomColor()
 	};
 }
 
+
+//@max schaltet render_particles ein und aus ? (dev-tool ?)
 var render_particles = true;
 
 class Particle
@@ -29,26 +33,35 @@ class Particle
 		this.y = y;
 		this.angle = dir;
 		this.speed = 0.08 + Math.random() * 0.04;
+		//@max this r = radius? => size ?
 		this.r = (Math.random() * (range/4*0.5) + (range/4*0.6)) / 2;
 		this.dist = 0;
+		//@max warum max distance ? bei particles
 		this.max_dist = range;
 		this.color = color;
+		//@max erhöht transparenz durch l ?
 		this.color.l += Math.round(5 - Math.random() * 10);
 		this.opacity = 1;
-
+		
+		//@max cos(radians(angle) ?? was ist das Ergebniss davon ?
 		this.x += Math.cos(toRadians(this.angle)) * 0.05;
 		this.y += Math.sin(toRadians(this.angle)) * 0.05;
 	}
 
+
+	//@max updated nur die particles ?
 	update()
 	{
 		this.x += Math.cos(toRadians(this.angle)) * this.speed;
 		this.y += Math.sin(toRadians(this.angle)) * this.speed;
+		//@max weil es sich jeden tick um den speed weiterbewegt ?
 		this.dist += this.speed;
+		//@max warum opacity ?
 		this.opacity = Math.min(1, 2 - (this.dist / this.max_dist * 2));
 	}
 }
 
+//@max Bulletexplosion oder Tankexplosion ?
 class Explosion
 {
 	constructor(x, y, size, n, color)
@@ -88,13 +101,24 @@ class Explosion
 	}
 }
 
-
+//@max constructor von socket.io => erstellung eines socket objects ?
 var socket = io();
 
 var music_volume = Cookies.has("music_volume") ? Cookies.get("music_volume") : 0.4,
 	game_volume = Cookies.has("game_volume") ? Cookies.get("game_volume") : 1;
 
-//canvas
+//initialisierung aller verschiedenen canvases
+/*@max
+  canvas = ?
+  ctx = canvas_ctx
+  lvl_canvas = Spielfeld ?
+  lvl_ctx = auch Spielfeld canvas ?
+  powerups_canvas = powerup canvas ?
+  powerups_ctx = auch powerup canvas ?
+  f = Faktor ? 
+*/
+
+// canvas
 var canvas,
 	ctx,
 	lvl_canvas,
@@ -132,6 +156,7 @@ function toggleFullscreen(elem)
   }
   else
   {
+	//@max was genau wird hier auf true geprüft ? 
     if (document.cancelFullScreen) {
         document.cancelFullScreen();
     } else if (document.mozCancelFullScreen) {
