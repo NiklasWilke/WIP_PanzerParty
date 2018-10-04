@@ -1,6 +1,6 @@
 {
 	"name": "Turbo",
-	"droprate": 1,
+	"droprate": 1.5,
 	"icon": "lightningbolt",
 	"type": "upgrade",
 	"animation": "upgrade",
@@ -11,6 +11,6 @@
 			"movement_speed": 1.4,
 			"bullet_speed": 1.2
 		},
-		"other": null
+		"other": {}
 	}
 }
